@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349332183949",
+    "project_id": "yandemofcm",
+    "storage_bucket": "yandemofcm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349332183949:android:5f07882e9b65f027f13bc4",
+        "android_client_info": {
+          "package_name": "com.example.yan_demo_fcm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvRqwZJjvsirvSePveesgmI2uv7nnags0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
