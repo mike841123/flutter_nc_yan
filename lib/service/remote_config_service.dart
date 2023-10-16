@@ -6,7 +6,7 @@ import 'package:flutter_easylogger/flutter_logger.dart';
 
 /// 遠端配置服務
 class RemoteConfigService {
-  final int timeout = 300; // 請求超時設定三十秒
+  final int timeout = 30; // 請求超時設定三十秒
   final StreamController<dynamic> _fetchingError = StreamController<dynamic>.broadcast();
 
   Stream<dynamic> get fetchingErrorStream => _fetchingError.stream;
