@@ -3,13 +3,21 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
-import 'package:yan_demo_fcm/src/config/routes.dart';
 import 'package:yan_demo_fcm/service/messaging_service.dart';
 import 'package:yan_demo_fcm/service/remote_config_service.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:yan_demo_fcm/src/config/app_color.dart';
+import 'package:yan_demo_fcm/src/config/app_config.dart';
+import 'package:yan_demo_fcm/src/config/routes.dart';
+import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
+import 'driven/service/state_service.dart';
+import 'driven/util/custom_class.dart';
+import 'driven/util/widget_util.dart';
 import 'firebase_options.dart';
 import 'get_it_service_locator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized(); // 需確保與 firebase 綁定時已初始化 WidgetsBinding
@@ -34,89 +42,121 @@ class MyApp extends StatelessWidget {
     FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
   }
 
+  /// 主畫面
+  Widget getPageView(BuildContext context, Widget widget) {
+    return widget;
+  }
+
+  /// 導航欄組件
+  Widget getBottomBar(BuildContext context) {
+    List<BarItem> items = [
+      BarItem(assetName: "assets/images/img_home.svg", label: "首頁"),
+      BarItem(assetName: "assets/images/img_home.svg", label: "行情"),
+      BarItem(assetName: "assets/images/img_home.svg", label: "交易"),
+      BarItem(assetName: "assets/images/img_home.svg", label: "法幣"),
+      BarItem(assetName: "assets/images/img_home.svg", label: "我的"),
+    ];
+    return BlocBuilder<RoutesCubit, RoutesState>(
+      buildWhen: (previous, current) => previous.currentPage != current.currentPage || previous.currentIndex != current.currentIndex,
+      builder: (context, state) {
+        List<BottomNavigationBarItem> finalItems = [];
+        for (int i = 0; i < items.length; i++) {
+          finalItems.add(BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              items[i].assetName,
+              color: state.currentIndex == i ? AppColor.color7 : AppColor.color8,
+              fit: BoxFit.fill,
+            ),
+            label: items[i].label,
+          ));
+        }
+        return state.currentPage == Routes.login || !state.isShowBottombar // 登入頁不顯示導航欄及非根目錄不顯示導航欄
+            ? empty()
+            : BottomNavigationBar(
+                items: finalItems,
+                currentIndex: state.currentIndex,
+                iconSize: 30.r,
+                selectedFontSize: 14.sp,
+                unselectedFontSize: 14.sp,
+                selectedItemColor: AppColor.color7,
+                unselectedItemColor: AppColor.color8,
+                type: BottomNavigationBarType.fixed,
+                onTap: (index) {
+                  if (state.currentIndex != index) {
+                    switch (index) {
+                      case 0:
+                        BlocProvider.of<RoutesCubit>(context).changePage(Routes.home);
+                        break;
+                      case 1:
+                        BlocProvider.of<RoutesCubit>(context).changePage(Routes.market);
+                        break;
+                      case 2:
+                        BlocProvider.of<RoutesCubit>(context).changePage(Routes.transaction);
+                        break;
+                      case 3:
+                        BlocProvider.of<RoutesCubit>(context).changePage(Routes.otc);
+                        break;
+                      case 4:
+                        BlocProvider.of<RoutesCubit>(context).changePage(Routes.member);
+                        break;
+                    }
+                  }
+                },
+              );
+      },
+    );
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FirebaseRemoteConfig>(
       future: getIt<RemoteConfigService>().setRemoteConfig(init: runAppAfterInit),
       builder: (BuildContext context, AsyncSnapshot<FirebaseRemoteConfig> snapshot) {
-        return MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          routes: Routes.pages,
-          home: const VideoApp(),
-        );
+        return ScreenUtilInit(
+            designSize: const Size(390, 844),
+            minTextAdapt: true,
+            builder: (BuildContext context, Widget? widget) {
+              return MaterialApp(
+                navigatorKey: getIt<StateService>().navigatorKey,
+                debugShowCheckedModeBanner: false,
+                title: "ncex",
+                theme: ThemeData(
+                  primarySwatch: Colors.grey,
+                  fontFamily: 'Inter',
+                ),
+                builder: (BuildContext context, Widget? widget) {
+                  return MultiBlocProvider(
+                    providers: [
+                      /// 此處通過 BlocProvider 創建全局的 Cubit
+                      BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
+                      // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
+                    ],
+                    child: Scaffold(
+                      key: getIt<StateService>().scaffoldKey,
+                      resizeToAvoidBottomInset: true,
+                      backgroundColor: Color(0xffeeeee3),
+                      body: Stack(
+                        children: [
+                          getPageView(context, widget!), // 畫面
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                routes: Routes.pages,
+                initialRoute: Routes.home,
+                onUnknownRoute: (RouteSettings setting) {
+                  Logger.e("onUnknownRoute ${setting.name}"); // 訪問路由表不存在路由時，若存在token，導回首頁，否則導回登入頁
+                  return MaterialPageRoute<void>(
+                    settings: RouteSettings(name: Routes.home),
+                    builder: Routes.pages[Routes.home]!,
+                  );
+                },
+                navigatorObservers: [AppConfig.routeObserver],
+              );
+            });
       },
     );
-  }
-}
-
-class VideoApp extends StatefulWidget {
-  const VideoApp({super.key});
-
-  @override
-  _VideoAppState createState() => _VideoAppState();
-}
-
-class _VideoAppState extends State<VideoApp> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.networkUrl(Uri.parse('https://bot-slider.mxkjtw.com/video/%E5%AE%8F%E5%88%A9%E7%8E%AF%E7%90%83.mp4'))
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Video Demo',
-      home: Scaffold(
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              top: 100,
-              child: Container(
-                width: 100,
-                height: 100,
-                color: Colors.red,
-              ),
-            ),
-            Center(
-              child: _controller.value.isInitialized
-                  ? AspectRatio(
-                      aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
-                    )
-                  : Container(),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              _controller.value.isPlaying ? _controller.pause() : _controller.play();
-            });
-          },
-          child: Icon(
-            _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
   }
 }
