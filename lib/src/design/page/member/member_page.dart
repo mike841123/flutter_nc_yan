@@ -463,7 +463,7 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
       children: [
         Image.asset(
           imgPath,
-          width: 22.r,
+          width: 23.r,
           height: 22.r,
           fit: BoxFit.fill,
         ),
