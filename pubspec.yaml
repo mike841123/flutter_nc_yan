@@ -35,16 +35,6 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
   firebase_core: ^1.24.0
   firebase_messaging: ^12.0.3
@@ -52,10 +42,8 @@ dev_dependencies:
   # firebase 版本更新依賴異常解決擴充
   firebase_core_platform_interface: 4.5.1
   firebase_remote_config: ^2.0.20
-
   firebase_analytics: ^9.3.8
   firebase_crashlytics: ^2.9.0
-
   flutter_easylogger: ^2.3.3
   # 解藕的設計模式封裝
   get_it: ^7.6.4
@@ -73,6 +61,28 @@ dev_dependencies:
   # 支援svg副檔名圖片套件
   flutter_svg: ^1.1.6
   k_chart: ^0.7.1
+  # HttpClient 類封裝
+  json_annotation: any
+  # Networking
+  dio: any
+  retrofit: any
+  flutter_smart_dialog: ^4.9.6
+  # 權限處理器封裝
+  permission_handler: ^10.4.5
+  # 上傳圖片封裝
+  image_picker: ^0.8.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  json_serializable: ^6.3.1
+  retrofit_generator: any
+  build_runner: any
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
 
 
 # For information on the generic Dart part of this file, see the

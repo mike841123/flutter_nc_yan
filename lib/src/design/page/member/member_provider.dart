@@ -10,7 +10,7 @@ class MemberProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MemberCubit(),
+      create: (_) => MemberCubit()..init(),
       child: Builder(
         builder: (context) {
           return const MemberPage();

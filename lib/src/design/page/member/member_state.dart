@@ -2,17 +2,31 @@ part of 'member_cubit.dart';
 
 class MemberState extends Equatable {
   const MemberState({
-    this.text,
+    this.securitySettingResponse,
+    this.promotionResponse,
+    this.uploadImageResponse,
   });
 
-  final String? text;
+  final SecuritySettingResponse? securitySettingResponse;
+  final PromotionResponse? promotionResponse;
+  final UploadImageResponse? uploadImageResponse;
 
   MemberState copyWith({
-    String? text,
+    SecuritySettingResponse? securitySettingResponse,
+    PromotionResponse? promotionResponse,
+    UploadImageResponse? uploadImageResponse,
   }) {
-    return MemberState(text: text ?? this.text);
+    return MemberState(
+      securitySettingResponse: securitySettingResponse ?? this.securitySettingResponse,
+      promotionResponse: promotionResponse ?? this.promotionResponse,
+      uploadImageResponse: uploadImageResponse ?? this.uploadImageResponse,
+    );
   }
 
   @override
-  List<Object> get props => [text ?? ""];
+  List<Object> get props => [
+        securitySettingResponse ?? SecuritySettingResponse(),
+        promotionResponse ?? PromotionResponse(),
+        uploadImageResponse ?? UploadImageResponse(),
+      ];
 }

@@ -2,6 +2,7 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:yan_demo_fcm/driven/service/state_service.dart';
+import 'package:yan_demo_fcm/service/api_service.dart';
 import 'package:yan_demo_fcm/service/messaging_service.dart';
 import 'package:yan_demo_fcm/service/remote_config_service.dart';
 
@@ -14,4 +15,5 @@ Future<void> initializeService() async {
   getIt.registerSingleton(MessagingService());
   getIt.registerSingleton(RemoteConfigService());
   getIt.registerSingleton(StateService());
+  getIt.registerSingleton(ApiService());
 }

@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 
+import '../get_it_service_locator.dart';
+import 'api_service.dart';
+
 
 /// 遠端配置服務
 class RemoteConfigService {
@@ -35,7 +38,7 @@ class RemoteConfigService {
 
   /// 協定域名事件
   void schemeDomainEvent(FirebaseRemoteConfig config) {
-    print(config.getString("domain")); // 獲取設定 api 應用協定
+    getIt<ApiService>().initDio(); // 設定請求封裝 dio 配置
   }
 
 }

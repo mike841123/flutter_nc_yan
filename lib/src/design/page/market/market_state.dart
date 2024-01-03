@@ -2,17 +2,26 @@ part of 'market_cubit.dart';
 
 class MarketState extends Equatable {
   const MarketState({
-    this.text,
+    this.securitySettingResponse,
+    this.promotionResponse,
   });
 
-  final String? text;
+  final SecuritySettingResponse? securitySettingResponse;
+  final PromotionResponse? promotionResponse;
 
   MarketState copyWith({
-    String? text,
+    SecuritySettingResponse? securitySettingResponse,
+    PromotionResponse? promotionResponse,
   }) {
-    return MarketState(text: text ?? this.text);
+    return MarketState(
+      securitySettingResponse: securitySettingResponse ?? this.securitySettingResponse,
+      promotionResponse: promotionResponse ?? this.promotionResponse,
+    );
   }
 
   @override
-  List<Object> get props => [text ?? ""];
+  List<Object> get props => [
+        securitySettingResponse ?? SecuritySettingResponse(),
+        promotionResponse ?? PromotionResponse(),
+      ];
 }

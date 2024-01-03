@@ -19,7 +19,7 @@ class RoutesCubit extends Cubit<RoutesState> {
   void changePage(String name, {Object? arguments}) {
     bool isRoots = Routes.roots.contains(name); // 是否為根目錄
     if (isRoots) {
-      getIt<StateService>().navigatorState.pushReplacementNamed(name, arguments: arguments);
+      getIt<StateService>().navigatorState.pushNamedAndRemoveUntil(name, (route) => false, arguments: arguments);
     } else {
       getIt<StateService>().navigatorState.pushNamed(name, arguments: arguments);
     }
@@ -93,7 +93,6 @@ class RoutesCubit extends Cubit<RoutesState> {
   /// [backHome] 是否回到首頁
   ///
   void changeLobbyPageWithInt(int page) {
-    print("haha"+page.toString());
     emit(state.copyWith(currentIndex: page));
   }
 }

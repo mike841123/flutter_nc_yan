@@ -3,6 +3,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yan_demo_fcm/service/messaging_service.dart';
 import 'package:yan_demo_fcm/service/remote_config_service.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +26,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding); // 為了第一幀繪製完成不被移除將，widgetsBinding 委派給 Splash 套件的函式
   await initializeService(); // 初始化 getIt 並實例服務
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  AppConfig.sharedPreferences = await SharedPreferences.getInstance(); // 初始化共存器並指到靜態變數
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   runApp(const MyApp());
@@ -125,25 +127,30 @@ class MyApp extends StatelessWidget {
                   primarySwatch: Colors.grey,
                   fontFamily: 'Inter',
                 ),
-                builder: (BuildContext context, Widget? widget) {
+                builder: FlutterSmartDialog.init(builder: (BuildContext context, Widget? widget) {
                   return MultiBlocProvider(
                     providers: [
                       /// 此處通過 BlocProvider 創建全局的 Cubit
                       BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
                       // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                     ],
-                    child: Scaffold(
-                      key: getIt<StateService>().scaffoldKey,
-                      resizeToAvoidBottomInset: true,
-                      backgroundColor: Color(0xffeeeee3),
-                      body: Stack(
-                        children: [
-                          getPageView(context, widget!), // 畫面
-                        ],
+                    child: GestureDetector(
+                      onTap: () {
+                        hideKeyboard(context);
+                      },
+                      child: Scaffold(
+                        key: getIt<StateService>().scaffoldKey,
+                        resizeToAvoidBottomInset: true,
+                        backgroundColor: Color(0xff2e2e2e),
+                        body: Stack(
+                          children: [
+                            getPageView(context, widget!), // 畫面
+                          ],
+                        ),
                       ),
                     ),
                   );
-                },
+                }),
                 routes: Routes.pages,
                 initialRoute: Routes.home,
                 onUnknownRoute: (RouteSettings setting) {
@@ -158,5 +165,13 @@ class MyApp extends StatelessWidget {
             });
       },
     );
+  }
+
+  /// 全域關閉鍵盤邏輯
+  void hideKeyboard(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
   }
 }

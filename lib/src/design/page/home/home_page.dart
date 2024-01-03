@@ -58,7 +58,7 @@ class _HomePageState extends CurrentPageState<HomePage> {
                         fit: BoxFit.fill,
                         width: 390.w,
                         height: 310.h,
-                        loadingBuilder: loadingBuilder(size: 60.r, strokeWidth: 6.w),
+                        // loadingBuilder: loadingBuilder(size: 60.r, strokeWidth: 6.w),
                         errorBuilder: (BuildContext context, Object child, StackTrace? stackTrace) {
                           return Center(
                             child: SvgPicture.asset(
