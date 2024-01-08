@@ -5,6 +5,8 @@ import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_response.dart';
 import 'package:yan_demo_fcm/domain/response/login_page_response/login_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/security_setting_response.dart';
@@ -37,11 +39,19 @@ abstract class OwApi {
 
   /// 上傳圖片
   @POST("/uc/upload/oss/image")
-  Future<HttpResponse<UploadS3ImageResponse>> uploadImg(@Header("X-Auth-Token") String token, @Part() File file,
-      {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<UploadS3ImageResponse>> uploadImg(@Header("X-Auth-Token") String token, @Part() File file, {@CancelRequest() CancelToken? cancelToken});
 
   /// 修改大頭貼
   @POST("/uc/approve/change/avatar?url={url}")
-  Future<HttpResponse<NormalResponse>> changeAvatar(@Header("X-Auth-Token") String token, @Path() String url,
+  Future<HttpResponse<NormalResponse>> changeAvatar(@Header("X-Auth-Token") String token, @Path() String url, {@CancelRequest() CancelToken? cancelToken});
+
+  /// 首頁輪播圖
+  @POST("/uc/ancillary/system/advertise")
+  Future<HttpResponse<AdvertiseResponse>> getAdvertise(@Header("X-Auth-Token") String token, @Part() int? sysAdvertiseLocation, @Part() String? lang,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  /// 首頁公告
+  @POST("/uc/announcement/page")
+  Future<HttpResponse<AnnouncementResponse>> getAnnouncement(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() String? lang,
       {@CancelRequest() CancelToken? cancelToken});
 }

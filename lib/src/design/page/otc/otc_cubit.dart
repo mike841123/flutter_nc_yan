@@ -7,4 +7,9 @@ part 'otc_state.dart';
 
 class OtcCubit extends Cubit<OtcState> {
   OtcCubit() : super(const OtcState());
+
+  void init() {
+    print("1212131313");
+  }
+
 }

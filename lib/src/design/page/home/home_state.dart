@@ -2,17 +2,26 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
-    this.text,
+    this.advertiseResponse,
+    this.announcementResponse,
   });
 
-  final String? text;
+  final AdvertiseResponse? advertiseResponse;
+  final AnnouncementResponse? announcementResponse;
 
   HomeState copyWith({
-    String? text,
+    AdvertiseResponse? advertiseResponse,
+    AnnouncementResponse? announcementResponse,
   }) {
-    return HomeState(text: text ?? this.text);
+    return HomeState(
+      advertiseResponse: advertiseResponse ?? this.advertiseResponse,
+      announcementResponse: announcementResponse ?? this.announcementResponse,
+    );
   }
 
   @override
-  List<Object> get props => [text ?? ""];
+  List<Object> get props => [
+        advertiseResponse ?? AdvertiseResponse(),
+        announcementResponse ?? AnnouncementResponse(),
+      ];
 }

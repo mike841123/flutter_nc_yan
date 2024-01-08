@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
+import 'package:yan_demo_fcm/src/design/page/home/home_cubit.dart';
 
+import '../../../../domain/response/home_page_response/announcement_response.dart';
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../../../driven/util/widget_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../config/app_color.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,13 +19,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends CurrentPageState<HomePage> {
-  List<String> img = [
-    "https://mxkjtw-dev-java-sg.s3-ap-southeast-1.amazonaws.com/20d0f6c8-5748-4666-9604-24c4f45367c1.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231109T062159Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3599&X-Amz-Credential=AKIATFT42FS44SIGSUFJ%2F20231109%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Signature=f45f34eeb8e6b7b51e3cefb924b226a337a21c2c868093764241a10bed66a771",
-    "https://mxkjtw-dev-java-sg.s3-ap-southeast-1.amazonaws.com/20c9cf08-4e8e-4d18-9016-0696672d9bab.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231109T062159Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIATFT42FS44SIGSUFJ%2F20231109%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Signature=6e692873ef27a45b77410ec179998eb492d5458b4846bf533cb8da9f60906a54",
-    "https://mxkjtw-dev-java-sg.s3-ap-southeast-1.amazonaws.com/b5ac2303-7828-4297-a73b-ea2745d1fa91.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231109T062159Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIATFT42FS44SIGSUFJ%2F20231109%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Signature=c97f9222206e8e2ba887334bb67bd9520633fa9b3b94861669a03401cf181273",
-    "https://mxkjtw-dev-java-sg.s3-ap-southeast-1.amazonaws.com/cadf3e77-5372-4bf9-9905-37deb40c5b60.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20231109T062159Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIATFT42FS44SIGSUFJ%2F20231109%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Signature=09ee1400eb63e784959090120e7902388b7ddfd632666bebf0cb7feb9b64535e"
-  ];
-
   List<MarketSymbolData> dataUpAndDown = [
     MarketSymbolData(symbol: "BTC/USDT", close: 36563.560000, chg: 0.0376, volume: 1321.755000),
     MarketSymbolData(symbol: "ETH/USDT", close: 36563.560000, chg: 0.0376, volume: 1321.755000),
@@ -40,39 +36,44 @@ class _HomePageState extends CurrentPageState<HomePage> {
             child: Column(
               children: [
                 addVerticalSpace(10.h),
-                CarouselSlider(
-                  options: CarouselOptions(
-                    height: 180.h,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: false,
-                    autoPlay: true,
-                    autoPlayInterval: const Duration(seconds: 7),
-                    onPageChanged: (index, reason) {
-                      // BlocProvider.of<HomeCubit>(context).updateCarouselCurrentPage(index);
-                    },
-                  ),
-                  items: img.map(
-                        (item) {
-                      return Image.network(
-                        item,
-                        fit: BoxFit.fill,
-                        width: 390.w,
-                        height: 310.h,
-                        // loadingBuilder: loadingBuilder(size: 60.r, strokeWidth: 6.w),
-                        errorBuilder: (BuildContext context, Object child, StackTrace? stackTrace) {
-                          return Center(
-                            child: SvgPicture.asset(
-                              "assets/images/img_network_error.svg",
-                              width: 100.r,
-                              height: 100.r,
-                              color: AppColor.color3,
-                              fit: BoxFit.fill,
+                BlocBuilder<HomeCubit, HomeState>(
+                  buildWhen: (previous, current) => previous.advertiseResponse != current.advertiseResponse,
+                  builder: (context, state) {
+                    List<AdvertiseItem> list = state.advertiseResponse?.data ?? [];
+                    return list.isEmpty
+                        ? empty()
+                        : CarouselSlider(
+                            options: CarouselOptions(
+                              height: 180.h,
+                              viewportFraction: 1,
+                              enableInfiniteScroll: false,
+                              autoPlay: true,
+                              autoPlayInterval: const Duration(seconds: 3),
                             ),
+                            items: list.map(
+                              (item) {
+                                return Image.network(
+                                  item.url,
+                                  fit: BoxFit.fill,
+                                  width: 390.w,
+                                  height: 310.h,
+                                  loadingBuilder: loadingBuilder(56.r),
+                                  errorBuilder: (BuildContext context, Object child, StackTrace? stackTrace) {
+                                    return Center(
+                                      child: SvgPicture.asset(
+                                        "assets/images/img_network_error.svg",
+                                        width: 100.r,
+                                        height: 100.r,
+                                        color: AppColor.color3,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ).toList(),
                           );
-                        },
-                      );
-                    },
-                  ).toList(),
+                  },
                 ),
                 addVerticalSpace(10.h),
                 Row(
@@ -87,19 +88,46 @@ class _HomePageState extends CurrentPageState<HomePage> {
                           fit: BoxFit.fill,
                         ),
                         addHorizontalSpace(4.w),
-                        SizedBox(
-                          width: 200.w,
-                          child: Text(
-                            "NCEX(奶茶交易所) 將於9月25日正式上線，謝謝大家",
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Color(0xff1a1a1a),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Inter",
-                              fontSize: 12.sp,
-                            ),
-                          ),
-                        )
+                        BlocBuilder<HomeCubit, HomeState>(
+                          buildWhen: (previous, current) => previous.announcementResponse != current.announcementResponse,
+                          builder: (context, state) {
+                            AnnouncementResult result = state.announcementResponse?.data ?? AnnouncementResult();
+                            return SizedBox(
+                              height: 20.h,
+                              width: 250.w,
+                              child: CarouselSlider(
+                                options: CarouselOptions(
+                                  scrollDirection: Axis.vertical,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 4),
+                                ),
+                                items: result.content.map(
+                                      (item) {
+                                    return InkWell(
+                                      onTap: () {
+                                        // BlocProvider.of<RoutesCubit>(context).changePage(
+                                        //   Routes.newsContent,
+                                        //   arguments: NewsContentArguments(NewsType.news, item.newsId!),
+                                        // );
+                                      },
+                                      child: Text(
+                                        item.title,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          height: 1.1.h,
+                                          color: Color(0xff1a1a1a),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Inter",
+                                          fontSize: 12.sp,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     Text(

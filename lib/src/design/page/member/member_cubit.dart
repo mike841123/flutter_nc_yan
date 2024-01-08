@@ -17,6 +17,7 @@ class MemberCubit extends Cubit<MemberState> {
   MemberCubit() : super(const MemberState());
 
   void init() {
+    print("123");
     if (AppConfig.token.isNotEmpty) {
       getSecuritySetting();
       getPromotion();

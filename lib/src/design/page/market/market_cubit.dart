@@ -11,4 +11,7 @@ part 'market_state.dart';
 class MarketCubit extends Cubit<MarketState> {
   MarketCubit() : super(const MarketState());
 
+  void init() {
+    print("123");
+  }
 }

@@ -250,6 +250,109 @@ class _OwApi implements OwApi {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<AdvertiseResponse>> getAdvertise(
+    String token,
+    int? sysAdvertiseLocation,
+    String? lang, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (sysAdvertiseLocation != null) {
+      _data.fields.add(MapEntry(
+        'sysAdvertiseLocation',
+        sysAdvertiseLocation.toString(),
+      ));
+    }
+    if (lang != null) {
+      _data.fields.add(MapEntry(
+        'lang',
+        lang,
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<AdvertiseResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/ancillary/system/advertise',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AdvertiseResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<AnnouncementResponse>> getAnnouncement(
+    String token,
+    int? pageNo,
+    int? pageSize,
+    String? lang, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (pageNo != null) {
+      _data.fields.add(MapEntry(
+        'pageNo',
+        pageNo.toString(),
+      ));
+    }
+    if (pageSize != null) {
+      _data.fields.add(MapEntry(
+        'pageSize',
+        pageSize.toString(),
+      ));
+    }
+    if (lang != null) {
+      _data.fields.add(MapEntry(
+        'lang',
+        lang,
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<AnnouncementResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/announcement/page',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AnnouncementResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

@@ -1,11 +1,11 @@
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/response/api_special_response.dart';
-
+import 'package:yan_demo_fcm/src/config/routes.dart';
+import '../../../../get_it_service_locator.dart';
 import '../../domain/response/api_response.dart';
+import '../../src/config/app_config.dart';
+import '../../src/design/model/routes_cubit/routes_cubit.dart';
 import '../service/state_service.dart';
 
 /// 金錢格式轉換擴充功能
@@ -94,12 +94,10 @@ extension RegisterComplete<T> on T {
         }
       } else {
         switch (response.code) {
-          case 403:
-            // 403 為 token 過期
-            // AppConfig.token = "";
-            // BlocProvider.of<UserCubit>(getIt<StateService>().scaffoldContext).clean();
-            // BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.login);
-            // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.warning, response.msg);
+          case 4000:
+            // 4000 為 token 過期
+            AppConfig.token = "";
+            BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.login);
             break;
           case 2000:
             // 2000 為 api /insure/getSymbolRealTime 成功時返回的 code
@@ -133,9 +131,9 @@ extension RegisterSpecialComplete<T> on T {
         switch (response.code) {
           case 403:
           // 403 為 token 過期
-          // AppConfig.token = "";
+          AppConfig.token = "";
           // BlocProvider.of<UserCubit>(getIt<StateService>().scaffoldContext).clean();
-          // BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.login);
+          BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.login);
           // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.warning, response.msg);
             break;
           case 2000:

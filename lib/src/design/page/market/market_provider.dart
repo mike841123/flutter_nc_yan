@@ -10,7 +10,7 @@ class MarketProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MarketCubit(),
+      create: (_) => MarketCubit()..init(),
       child: Builder(
         builder: (context) {
           return const MarketPage();

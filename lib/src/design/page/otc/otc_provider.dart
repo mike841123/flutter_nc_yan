@@ -10,7 +10,7 @@ class OtcProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => OtcCubit(),
+      create: (_) => OtcCubit()..init(),
       child: Builder(
         builder: (context) {
           return const OtcPage();

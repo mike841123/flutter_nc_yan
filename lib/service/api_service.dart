@@ -7,6 +7,8 @@ import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 
 import '../domain/ow_api.dart';
+import '../domain/response/home_page_response/advertise_response.dart';
+import '../domain/response/home_page_response/announcement_response.dart';
 import '../domain/response/login_page_response/login_response.dart';
 import '../domain/response/member_page_response/promotion_response.dart';
 import '../domain/response/member_page_response/security_setting_response.dart';
@@ -129,7 +131,7 @@ class ApiService {
 
   /// 上傳圖片
   Future<UploadS3ImageResponse> uploadImg(File file) async {
-    final HttpResponse<UploadS3ImageResponse> response = await OwApi(dio).uploadImg(AppConfig.token,file)
+    final HttpResponse<UploadS3ImageResponse> response = await OwApi(dio).uploadImg(AppConfig.token, file)
       ..registerComplete();
     return response.data;
   }
@@ -137,6 +139,20 @@ class ApiService {
   /// 修改大頭貼
   Future<NormalResponse> changeAvatar(String url) async {
     final HttpResponse<NormalResponse> response = await OwApi(dio).changeAvatar(AppConfig.token, url)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  /// 首頁輪播圖
+  Future<AdvertiseResponse> getAdvertise(int sysAdvertiseLocation, String lang) async {
+    final HttpResponse<AdvertiseResponse> response = await OwApi(dio).getAdvertise(AppConfig.token, sysAdvertiseLocation, lang)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  /// 首頁公告
+  Future<AnnouncementResponse> getAnnouncement(int pageNo, int pageSize, String? lang) async {
+    final HttpResponse<AnnouncementResponse> response = await OwApi(dio).getAnnouncement(AppConfig.token, pageNo, pageSize, lang)
       ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
