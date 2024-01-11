@@ -4,9 +4,13 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
+import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
+import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 
 import '../domain/ow_api.dart';
+import '../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import '../domain/response/home_page_response/advertise_response.dart';
 import '../domain/response/home_page_response/announcement_response.dart';
 import '../domain/response/login_page_response/login_response.dart';
@@ -19,6 +23,7 @@ import '../driven/service/state_service.dart';
 import '../get_it_service_locator.dart';
 import '../src/config/app_config.dart';
 import '../src/design/model/routes_cubit/routes_cubit.dart';
+import 'package:dio/src/headers.dart' as dioheaders;
 
 /// Api 的服務
 /// 存放 Fetch Api 方法及 Api 相關函式
@@ -30,8 +35,10 @@ class ApiService {
 
   initDio() {
     // 請求設定
+    dio.options.contentType = dioheaders.Headers.jsonContentType;
     dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.baseUrl = "${AppConfig.scheme}://${AppConfig.domain}";
+    print(dio.options.baseUrl);
     // 測試環境繞過證書驗證
     // if (AppConfig.isTestEnv) {
     //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
@@ -153,6 +160,27 @@ class ApiService {
   /// 首頁公告
   Future<AnnouncementResponse> getAnnouncement(int pageNo, int pageSize, String? lang) async {
     final HttpResponse<AnnouncementResponse> response = await OwApi(dio).getAnnouncement(AppConfig.token, pageNo, pageSize, lang)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  /// 取得發佈廣告
+  Future<OtcAdvertiseResponse> getOtcAdvertise(int pageNo, int pageSize) async {
+    final HttpResponse<OtcAdvertiseResponse> response = await OwApi(dio).getOtcAdvertise(AppConfig.token, pageNo, pageSize)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  /// 取得資產流水
+  Future<AssetFlowResponse> getAsset(AssetFlowRequest request) async {
+    final HttpResponse<AssetFlowResponse> response = await OwApi(dio)
+        .getAsset(AppConfig.token, request.pageNo, request.pageSize, request.startTime, request.endTime, request.memberId, request.symbol, request.type)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<WithdrawCoinResponse> getWithdrawCoin() async {
+    final HttpResponse<WithdrawCoinResponse> response = await OwApi(dio).getWithdrawCoin(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
     return response.data;
   }

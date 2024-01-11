@@ -21,14 +21,52 @@ class _OtcPageState extends CurrentPageState<OtcPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image to base64 Encoding'),
+        title: Text('demo'),
         backgroundColor: Colors.redAccent,
       ),
       body: SingleChildScrollView(
-        child: Column(
+        child: Row(
           children: [
-            Container(
-              color: Colors.yellow,
+            Center(
+              child: Column(
+                children: [
+                  Container(
+                    height: 50,
+                    constraints: BoxConstraints(
+                      minWidth: 50,
+                    ),
+                    color: Colors.yellow,
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('TEST'),
+                    )),
+                  ),
+addVerticalSpace(30),
+                  Container(
+                    height: 50,
+                    constraints: BoxConstraints(
+                      minWidth: 50,
+                    ),
+                    color: Colors.yellow,
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('TEST121212121212'),
+                    )),
+                  ),
+                  addVerticalSpace(30),
+                  Container(
+                    height: 50,
+                    constraints: BoxConstraints(
+                      minWidth: 50,
+                    ),
+                    color: Colors.yellow,
+                    child: Center(child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('T'),
+                    )),
+                  ),
+                ],
+              ),
             )
           ],
         ),

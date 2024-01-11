@@ -8,8 +8,10 @@ import 'package:yan_demo_fcm/src/config/app_config.dart';
 import '../../../../domain/response/member_page_response/promotion_response.dart';
 import '../../../../domain/response/member_page_response/security_setting_response.dart';
 import '../../../../domain/response/public_response/upload_s3_image_response.dart';
+import '../../../../driven/service/state_service.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
+import '../../model/routes_cubit/routes_cubit.dart';
 
 part 'member_state.dart';
 
@@ -17,7 +19,6 @@ class MemberCubit extends Cubit<MemberState> {
   MemberCubit() : super(const MemberState());
 
   void init() {
-    print("123");
     if (AppConfig.token.isNotEmpty) {
       getSecuritySetting();
       getPromotion();
@@ -50,5 +51,9 @@ class MemberCubit extends Cubit<MemberState> {
       uploadImageResponse: uploadImageResponse,
     ));
     return uploadImageResponse.code == 0 ? uploadImageResponse.data ?? "" : "";
+  }
+
+  void gotoPage(String route) {
+    BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(route);
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -13,6 +15,9 @@ import 'package:yan_demo_fcm/src/config/app_color.dart';
 import 'package:yan_demo_fcm/src/config/app_config.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
 import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
+import 'package:yan_demo_fcm/src/design/model/socket_cubit/socket_cubit.dart';
+import 'package:yan_demo_fcm/src/design/page/home/home_page.dart';
+import 'package:yan_demo_fcm/src/design/page/login/login_page.dart';
 import 'driven/service/state_service.dart';
 import 'driven/util/custom_class.dart';
 import 'driven/util/widget_util.dart';
@@ -132,6 +137,7 @@ class MyApp extends StatelessWidget {
                     providers: [
                       /// 此處通過 BlocProvider 創建全局的 Cubit
                       BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
+                      BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
                       // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                     ],
                     child: GestureDetector(
@@ -141,7 +147,7 @@ class MyApp extends StatelessWidget {
                       child: Scaffold(
                         key: getIt<StateService>().scaffoldKey,
                         resizeToAvoidBottomInset: true,
-                        backgroundColor: Color(0xff2e2e2e),
+                        backgroundColor: Color(0xff000000),
                         body: Stack(
                           children: [
                             getPageView(context, widget!), // 畫面
@@ -152,12 +158,12 @@ class MyApp extends StatelessWidget {
                   );
                 }),
                 routes: Routes.pages,
-                initialRoute: Routes.home,
+                initialRoute: AppConfig.token.isEmpty ? Routes.login : Routes.home,
                 onUnknownRoute: (RouteSettings setting) {
                   Logger.e("onUnknownRoute ${setting.name}"); // 訪問路由表不存在路由時，若存在token，導回首頁，否則導回登入頁
                   return MaterialPageRoute<void>(
-                    settings: RouteSettings(name: Routes.home),
-                    builder: Routes.pages[Routes.home]!,
+                    settings: RouteSettings(name: AppConfig.token.isEmpty ? Routes.login : Routes.home),
+                    builder: (BuildContext context) => AppConfig.token.isEmpty ? const LoginPage() : const HomePage(),
                   );
                 },
                 navigatorObservers: [AppConfig.routeObserver],

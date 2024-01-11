@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/response/api_special_response.dart';
@@ -64,18 +65,18 @@ extension FormatNumber<T> on T {
 //   /// 1000000 => 1,000,000
 //   String currencyFormat() => NumberFormat('#,###').format(this);
 // }
-//
-// /// 精準數值格式轉換擴充功能
-// extension DecimalEx<T> on T {
-//   /// 由數值轉為精準數值格式再轉換成字串
-//   /// 1000.00 => 1000
-//   /// 100.980 => 100.98
-//   String toPrecisionString({bool empty = false}) =>
-//       empty ? (Decimal.parse(toString()).toString() == "0" ? "" : Decimal.parse(toString()).toString()) : Decimal.parse(toString()).toString();
-//
-//   /// 轉成精準數值簡寫
-//   Decimal d() => Decimal.parse(toString());
-// }
+
+/// 精準數值格式轉換擴充功能
+extension DecimalEx<T> on T {
+  /// 由數值轉為精準數值格式再轉換成字串
+  /// 1000.00 => 1000
+  /// 100.980 => 100.98
+  String toPrecisionString({bool empty = false}) =>
+      empty ? (Decimal.parse(toString()).toString() == "0" ? "" : Decimal.parse(toString()).toString()) : Decimal.parse(toString()).toString();
+
+  /// 轉成精準數值簡寫
+  Decimal d() => Decimal.parse(toString());
+}
 
 /// API 結束後調用函式
 /// [replaceFunc] 取代默認的彈窗函式

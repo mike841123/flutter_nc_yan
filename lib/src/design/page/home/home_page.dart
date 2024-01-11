@@ -19,6 +19,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends CurrentPageState<HomePage> {
+  @override
+  void initState() {
+    print("123");
+    BlocProvider.of<HomeCubit>(context).init();
+    super.initState();
+  }
   List<MarketSymbolData> dataUpAndDown = [
     MarketSymbolData(symbol: "BTC/USDT", close: 36563.560000, chg: 0.0376, volume: 1321.755000),
     MarketSymbolData(symbol: "ETH/USDT", close: 36563.560000, chg: 0.0376, volume: 1321.755000),

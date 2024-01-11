@@ -187,10 +187,10 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              iconTextItem("assets/images/img_my_assets.png", "我的資產"),
-                              iconTextItem("assets/images/img_my_flow.png", "資產流水"),
-                              iconTextItem("assets/images/img_payment_setting.png", "收款設置"),
-                              iconTextItem("assets/images/img_my_fund_pwd.png", "資金密碼"),
+                              iconTextItem("assets/images/img_my_assets.png", "我的資產",Routes.assetFlow),
+                              iconTextItem("assets/images/img_my_flow.png", "資產流水",Routes.assetFlow),
+                              iconTextItem("assets/images/img_payment_setting.png", "收款設置",Routes.assetFlow),
+                              iconTextItem("assets/images/img_my_fund_pwd.png", "資金密碼",Routes.assetFlow),
                             ],
                           )
                         ],
@@ -288,33 +288,38 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
                             ),
                             child: Row(
                               children: [
-                                Container(
-                                  height: 44.h,
-                                  width: 120.w,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xffE9E9F1),
-                                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/img_my_order.png",
-                                        width: 30.r,
-                                        height: 30.r,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      addHorizontalSpace(6.w),
-                                      Text(
-                                        "我的廣告",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Color(0xff000000),
-                                          fontSize: 16.sp,
+                                InkWell(
+                                  onTap: () {
+                                    BlocProvider.of<RoutesCubit>(context).changePage(Routes.myAdvertisement);
+                                  },
+                                  child: Container(
+                                    height: 44.h,
+                                    width: 120.w,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xffE9E9F1),
+                                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/img_my_order.png",
+                                          width: 30.r,
+                                          height: 30.r,
+                                          fit: BoxFit.fill,
                                         ),
-                                      ),
-                                    ],
+                                        addHorizontalSpace(6.w),
+                                        Text(
+                                          "我的廣告",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 16.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 addHorizontalSpace(50.w),
@@ -458,24 +463,29 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
     );
   }
 
-  Widget iconTextItem(String imgPath, String title) {
-    return Column(
-      children: [
-        Image.asset(
-          imgPath,
-          width: 23.r,
-          height: 22.r,
-          fit: BoxFit.fill,
-        ),
-        addVerticalSpace(10.h),
-        Text(
-          title,
-          style: TextStyle(
-            color: Color(0xff6b6b6b),
-            fontSize: 12.sp,
+  Widget iconTextItem(String imgPath, String title,String route) {
+    return InkWell(
+      onTap: (){
+        BlocProvider.of<MemberCubit>(context).gotoPage(route);
+      },
+      child: Column(
+        children: [
+          Image.asset(
+            imgPath,
+            width: 23.r,
+            height: 22.r,
+            fit: BoxFit.fill,
           ),
-        ),
-      ],
+          addVerticalSpace(10.h),
+          Text(
+            title,
+            style: TextStyle(
+              color: Color(0xff6b6b6b),
+              fontSize: 12.sp,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

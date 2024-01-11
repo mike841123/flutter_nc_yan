@@ -353,6 +353,171 @@ class _OwApi implements OwApi {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<OtcAdvertiseResponse>> getOtcAdvertise(
+    String token,
+    int? pageNo,
+    int? pageSize, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (pageNo != null) {
+      _data.fields.add(MapEntry(
+        'pageNo',
+        pageNo.toString(),
+      ));
+    }
+    if (pageSize != null) {
+      _data.fields.add(MapEntry(
+        'pageSize',
+        pageSize.toString(),
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<OtcAdvertiseResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/advertise/all',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OtcAdvertiseResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<AssetFlowResponse>> getAsset(
+    String token,
+    int? pageNo,
+    int? pageSize,
+    String? startTime,
+    String? endTime,
+    int? memberId,
+    String? symbol,
+    int? type, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (pageNo != null) {
+      _data.fields.add(MapEntry(
+        'pageNo',
+        pageNo.toString(),
+      ));
+    }
+    if (pageSize != null) {
+      _data.fields.add(MapEntry(
+        'pageSize',
+        pageSize.toString(),
+      ));
+    }
+    if (startTime != null) {
+      _data.fields.add(MapEntry(
+        'startTime',
+        startTime,
+      ));
+    }
+    if (endTime != null) {
+      _data.fields.add(MapEntry(
+        'endTime',
+        endTime,
+      ));
+    }
+    if (memberId != null) {
+      _data.fields.add(MapEntry(
+        'memberId',
+        memberId.toString(),
+      ));
+    }
+    if (symbol != null) {
+      _data.fields.add(MapEntry(
+        'symbol',
+        symbol,
+      ));
+    }
+    if (type != null) {
+      _data.fields.add(MapEntry(
+        'type',
+        type.toString(),
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<AssetFlowResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/asset/transaction/all',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AssetFlowResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<WithdrawCoinResponse>> getWithdrawCoin(
+    String token, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<WithdrawCoinResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/withdraw/support/coin/info',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = WithdrawCoinResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

@@ -2,17 +2,17 @@ part of 'otc_cubit.dart';
 
 class OtcState extends Equatable {
   const OtcState({
-    this.text,
+    this.otcAdvertiseResponse,
   });
 
-  final String? text;
+  final OtcAdvertiseResponse? otcAdvertiseResponse;
 
   OtcState copyWith({
-    String? text,
+    OtcAdvertiseResponse? otcAdvertiseResponse,
   }) {
-    return OtcState(text: text ?? this.text);
+    return OtcState(otcAdvertiseResponse: otcAdvertiseResponse ?? this.otcAdvertiseResponse);
   }
 
   @override
-  List<Object> get props => [text ?? ""];
+  List<Object> get props => [otcAdvertiseResponse ?? OtcAdvertiseResponse()];
 }

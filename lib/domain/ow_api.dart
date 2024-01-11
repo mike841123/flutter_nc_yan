@@ -5,14 +5,19 @@ import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
+import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
+import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_response.dart';
 import 'package:yan_demo_fcm/domain/response/login_page_response/login_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/security_setting_response.dart';
+import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_s3_image_response.dart';
+
+import '../src/config/app_config.dart';
 
 part 'ow_api.g.dart';
 
@@ -52,6 +57,22 @@ abstract class OwApi {
 
   /// 首頁公告
   @POST("/uc/announcement/page")
-  Future<HttpResponse<AnnouncementResponse>> getAnnouncement(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() String? lang,
+  Future<HttpResponse<AnnouncementResponse>> getAnnouncement(
+      @Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() String? lang,
       {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得發佈廣告
+  @POST("/otc/advertise/all")
+  Future<HttpResponse<OtcAdvertiseResponse>> getOtcAdvertise(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得資產流水
+  @POST("/uc/asset/transaction/all")
+  Future<HttpResponse<AssetFlowResponse>> getAsset(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() String? startTime,
+      @Part() String? endTime, @Part() int? memberId, @Part() String? symbol, @Part() int? type,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得提幣幣種資訊
+  @POST("/uc/withdraw/support/coin/info")
+  Future<HttpResponse<WithdrawCoinResponse>> getWithdrawCoin(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 }

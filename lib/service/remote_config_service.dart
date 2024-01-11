@@ -4,6 +4,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
 
 import '../get_it_service_locator.dart';
+import '../src/config/app_config.dart';
 import 'api_service.dart';
 
 
@@ -38,6 +39,8 @@ class RemoteConfigService {
 
   /// 協定域名事件
   void schemeDomainEvent(FirebaseRemoteConfig config) {
+    AppConfig.scheme = "https";
+    AppConfig.domain = "java-front-qa.ncpro.io"; // 獲取設定 api 域名
     getIt<ApiService>().initDio(); // 設定請求封裝 dio 配置
   }
 

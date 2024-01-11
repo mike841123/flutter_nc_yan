@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../driven/util/custom_class.dart';
 import '../../../config/app_color.dart';
@@ -7,6 +8,7 @@ import '../../model/routes_cubit/routes_cubit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../model/socket_cubit/socket_cubit.dart';
 import '../home/home_provider.dart';
 import '../market/market_provider.dart';
 import '../member/member_provider.dart';
@@ -28,6 +30,12 @@ class _LobbyPageState extends State<Lobby> {
     LobbyItem(title: "法幣", widget: const OtcProvider()),
     LobbyItem(title: "我的", widget: const MemberProvider()),
   ];
+
+  @override
+  void initState() {
+    BlocProvider.of<SocketCubit>(context).init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
