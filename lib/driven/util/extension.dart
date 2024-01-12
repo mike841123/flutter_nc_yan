@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/response/api_special_response.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
@@ -76,6 +77,24 @@ extension DecimalEx<T> on T {
 
   /// 轉成精準數值簡寫
   Decimal d() => Decimal.parse(toString());
+}
+
+/// int 擴充功能
+extension IntEx on int {
+  /// 整數類型轉成字串並且[count]為字串長度，原先整數長度不足，則在字串前面補 0
+  String padZero(int count) => toString().padLeft(count, '0');
+
+  /// 時間戳轉換成時間格式字串
+  String millisecondsToTimeString() => DateTime.fromMillisecondsSinceEpoch(this).timeToString();
+}
+
+/// DateTime 擴充功能
+extension DateFormatExtension on DateTime {
+  /// 日期類型轉換字串格式的時間
+  String timeToString() => DateFormat('yyyy-MM-dd kk:mm:ss').format(this);
+
+  /// 當前 DateTime 當天的第一個時間戳
+  int dayStartMillisecondsSinceEpoch() => DateTime(year, month, day).millisecondsSinceEpoch;
 }
 
 /// API 結束後調用函式

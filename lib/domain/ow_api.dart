@@ -9,10 +9,12 @@ import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/symbol_response.dart';
 import 'package:yan_demo_fcm/domain/response/login_page_response/login_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/security_setting_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_s3_image_response.dart';
@@ -75,4 +77,12 @@ abstract class OwApi {
   /// 取得提幣幣種資訊
   @POST("/uc/withdraw/support/coin/info")
   Future<HttpResponse<WithdrawCoinResponse>> getWithdrawCoin(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得所有幣漲幅
+  @POST("/market/symbol-thumb-trend")
+  Future<HttpResponse<List<SymbolResponse>>> getMarketSymbolList(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得所有資產
+  @POST("/uc/asset/wallet/")
+  Future<HttpResponse<AssetWalletResponse>> getBalance(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 }

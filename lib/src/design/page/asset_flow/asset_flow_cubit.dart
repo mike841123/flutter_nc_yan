@@ -48,4 +48,11 @@ class AssetFlowCubit extends Cubit<AssetFlowState> {
       withdrawCoinResponse: response,
     ));
   }
+
+  void getSy() async {
+    WithdrawCoinResponse response = await getIt<ApiService>().getWithdrawCoin();
+    emit(state.copyWith(
+      withdrawCoinResponse: response,
+    ));
+  }
 }

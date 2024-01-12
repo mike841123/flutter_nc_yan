@@ -7,6 +7,7 @@ import '../../../../domain/request/asset_flow_page_request/asset_flow_request.da
 import '../../../../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../../../driven/util/widget_util.dart';
+import '../../component/date_widget.dart';
 import '../../model/routes_cubit/routes_cubit.dart';
 import 'asset_flow_cubit.dart';
 
@@ -21,6 +22,8 @@ class _AssetFlowPageState extends CurrentPageState<AssetFlowPage> with SingleTic
   final _scrollController = ScrollController();
   WithdrawCoinItem? selectedCoin;
   OpTypeLabel? selectedOpType;
+  TextEditingController firstDate = TextEditingController();
+  TextEditingController lastDate = TextEditingController();
 
   @override
   void initState() {
@@ -95,6 +98,8 @@ class _AssetFlowPageState extends CurrentPageState<AssetFlowPage> with SingleTic
                               pageSize: 10,
                               symbol: selectedCoin == null ? null : selectedCoin!.unit,
                               type: selectedOpType == null ? null : selectedOpType!.label.type,
+                              startTime: firstDate.text.isEmpty ? null : firstDate.text,
+                              endTime: lastDate.text.isEmpty ? null : lastDate.text,
                             ),
                             isInit: false);
                         //加载时显示loading
@@ -369,14 +374,55 @@ class _AssetFlowPageState extends CurrentPageState<AssetFlowPage> with SingleTic
                             ),
                           ],
                         ),
+                        addVerticalSpace(8.h),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("起始時間",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "HelveticaNeue",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 13.sp),
+                                textAlign: TextAlign.center),
+                            addVerticalSpace(8.h),
+                            DateWidget(
+                              firstDate,
+                              key: UniqueKey(),
+                              height: 34.h,
+                              width: 370.w,
+                              borderWidth: 0,
+                              bgColor: Colors.white,
+                              borderRadius: 4,
+                            ),
+                            addVerticalSpace(6.h),
+                            DateWidget(
+                              lastDate,
+                              key: UniqueKey(),
+                              height: 34.h,
+                              width: 370.w,
+                              borderWidth: 0,
+                              bgColor: Colors.white,
+                              borderRadius: 4,
+                            ),
+                          ],
+                        ),
                         addVerticalSpace(26.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             InkWell(
                               onTap: () {
-                                func(AssetFlowRequest(pageNo: 1, pageSize: 10));
-                                BlocProvider.of<RoutesCubit>(context).pop();
+                                state(() {
+                                  selectedCoin = null; // 重置下拉
+                                  selectedOpType = null;
+                                  firstDate.clear();
+                                  lastDate.clear();
+                                });
+
+                                // func(AssetFlowRequest(pageNo: 1, pageSize: 10));
+                                // BlocProvider.of<RoutesCubit>(context).pop();
                               },
                               child: Container(
                                 width: 166.w,
@@ -408,6 +454,8 @@ class _AssetFlowPageState extends CurrentPageState<AssetFlowPage> with SingleTic
                                     pageSize: 10,
                                     symbol: selectedCoin == null ? null : selectedCoin!.unit,
                                     type: selectedOpType == null ? null : selectedOpType!.label.type,
+                                    startTime: firstDate.text.isEmpty ? null : firstDate.text,
+                                    endTime: lastDate.text.isEmpty ? null : lastDate.text,
                                   ),
                                 );
                                 BlocProvider.of<RoutesCubit>(context).pop();

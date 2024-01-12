@@ -7,12 +7,14 @@ import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 
 import '../domain/ow_api.dart';
 import '../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import '../domain/response/home_page_response/advertise_response.dart';
 import '../domain/response/home_page_response/announcement_response.dart';
+import '../domain/response/home_page_response/symbol_response.dart';
 import '../domain/response/login_page_response/login_response.dart';
 import '../domain/response/member_page_response/promotion_response.dart';
 import '../domain/response/member_page_response/security_setting_response.dart';
@@ -38,7 +40,6 @@ class ApiService {
     dio.options.contentType = dioheaders.Headers.jsonContentType;
     dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.baseUrl = "${AppConfig.scheme}://${AppConfig.domain}";
-    print(dio.options.baseUrl);
     // 測試環境繞過證書驗證
     // if (AppConfig.isTestEnv) {
     //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
@@ -182,6 +183,16 @@ class ApiService {
   Future<WithdrawCoinResponse> getWithdrawCoin() async {
     final HttpResponse<WithdrawCoinResponse> response = await OwApi(dio).getWithdrawCoin(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<List<SymbolResponse>> getMarketSymbolList() async {
+    final HttpResponse<List<SymbolResponse>> response = await OwApi(dio).getMarketSymbolList(AppConfig.token);
+    return response.data;
+  }
+
+  Future<AssetWalletResponse> getBalance() async {
+    final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getBalance(AppConfig.token);
     return response.data;
   }
 

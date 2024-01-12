@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../domain/response/home_page_response/advertise_response.dart';
 import '../../../../domain/response/home_page_response/announcement_response.dart';
+import '../../../../domain/response/home_page_response/symbol_response.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
 
@@ -14,6 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
   void init() {
     getAdvertise();
     getAnnouncement();
+    getMarketSymbolList();
   }
 
   /// 首頁輪播圖
@@ -26,5 +28,10 @@ class HomeCubit extends Cubit<HomeState> {
   void getAnnouncement() async {
     AnnouncementResponse response = await getIt<ApiService>().getAnnouncement(1, 6, "CN");
     emit(state.copyWith(announcementResponse: response));
+  }
+
+  void getMarketSymbolList() async {
+    List<SymbolResponse> response = await getIt<ApiService>().getMarketSymbolList();
+    emit(state.copyWith(symbolList: response));
   }
 }

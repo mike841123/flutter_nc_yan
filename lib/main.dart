@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -16,6 +14,7 @@ import 'package:yan_demo_fcm/src/config/app_config.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
 import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/socket_cubit/socket_cubit.dart';
+import 'package:yan_demo_fcm/src/design/model/user_cubit/user_cubit.dart';
 import 'package:yan_demo_fcm/src/design/page/home/home_page.dart';
 import 'package:yan_demo_fcm/src/design/page/login/login_page.dart';
 import 'driven/service/state_service.dart';
@@ -138,6 +137,7 @@ class MyApp extends StatelessWidget {
                       /// 此處通過 BlocProvider 創建全局的 Cubit
                       BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
                       BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
+                      BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
                       // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                     ],
                     child: GestureDetector(

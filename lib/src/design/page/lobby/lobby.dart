@@ -52,7 +52,7 @@ class _LobbyPageState extends State<Lobby> {
             //   title: listBody[state.currentIndex].title,
             // ),
             body: SafeArea(child: listBody[state.currentIndex].widget),
-            backgroundColor: Color(0xffE7E7EC),
+            backgroundColor: Colors.black,
             bottomNavigationBar: _bottomNavigationBar(),
             extendBody: true,
           ),
