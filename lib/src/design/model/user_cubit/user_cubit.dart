@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
+import 'package:yan_demo_fcm/driven/util/extension.dart';
 
+import '../../../../domain/response/member_page_response/security_setting_response.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
 import '../../../config/app_color.dart';
@@ -17,8 +19,7 @@ class UserCubit extends Cubit<UserState> {
   /// 初始化刷新使用者資料
   void init() async {
     getBalance();
-    // UserInfoResponse response = await getIt<ApiService>().getUserInfo();
-    // emit(state.copyWith(data: response.data as UserInfoResult));
+    updateUserData();
   }
 
   void getBalance() async {
@@ -32,6 +33,19 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  void updateUserData() async {
+    SecuritySettingResponse response = await getIt<ApiService>().getUserInfo();
+    emit(state.copyWith(userData: response.data as SecuritySettingResult));
+  }
+
+  /// 獲取使用者資料
+  SecuritySettingResult? getUser() {
+    return state.userData;
+  }
+
   /// 清除資料
-  void clean() => emit(const UserState(balance: 0));
+  void clean() => emit(UserState(
+        balance: 0,
+        userData: SecuritySettingResult(),
+      ));
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yan_demo_fcm/src/design/page/asset_flow/asset_flow_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/my_advertisement/my_advertisement_provider.dart';
+import '../design/page/chat_content_page/chat_content_provider.dart';
 import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
+import '../design/page/money_management/money_management_provider.dart';
 
 class Routes {
   static String home = '/home',
@@ -12,7 +14,9 @@ class Routes {
       otc = '/otc',
       member = '/member',
       myAdvertisement = '/myAdvertisement',
-      assetFlow = '/assetFlow';
+      assetFlow = '/assetFlow',
+      chatContent = '/chatContent',
+      moneyManagement = '/moneyManagement';
 
   static List<String> roots = [
     Routes.login,
@@ -28,5 +32,7 @@ class Routes {
     Routes.login: (BuildContext context) => const LoginProvider(),
     Routes.myAdvertisement: (BuildContext context) => const MyAdvertisementProvider(),
     Routes.assetFlow: (BuildContext context) => const AssetFlowProvider(),
+    Routes.chatContent: (BuildContext context) => const ChatContentProvider(),
+    Routes.moneyManagement: (BuildContext context) => const MoneyManagementProvider(),
   };
 }

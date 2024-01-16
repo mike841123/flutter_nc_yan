@@ -5,7 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
+import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
+import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
@@ -192,7 +194,18 @@ class ApiService {
   }
 
   Future<AssetWalletResponse> getBalance() async {
-    final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getBalance(AppConfig.token);
+    final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getBalance(AppConfig.token)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<HistoryMsgResponse> getHistoryMessage(String? orderId,int? Page) async {
+    final HttpResponse<HistoryMsgResponse> response = await OwApi(dio).getHistoryMessage(AppConfig.token,orderId,Page);
+    return response.data;
+  }
+
+  Future<ApiResponse> getInvestedRate() async {
+    final HttpResponse<ApiResponse> response = await OwApi(dio).getInvestedRate(AppConfig.token);
     return response.data;
   }
 

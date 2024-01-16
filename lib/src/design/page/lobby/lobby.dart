@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/socket_cubit/socket_cubit.dart';
+import '../../model/user_cubit/user_cubit.dart';
 import '../home/home_provider.dart';
 import '../market/market_provider.dart';
 import '../member/member_provider.dart';
@@ -33,6 +34,7 @@ class _LobbyPageState extends State<Lobby> {
 
   @override
   void initState() {
+    BlocProvider.of<UserCubit>(context).init();
     BlocProvider.of<SocketCubit>(context).init();
     super.initState();
   }
@@ -51,10 +53,9 @@ class _LobbyPageState extends State<Lobby> {
             // appBar: CustomAppBar(
             //   title: listBody[state.currentIndex].title,
             // ),
-            body: SafeArea(child: listBody[state.currentIndex].widget),
+            body: listBody[state.currentIndex].widget,
             backgroundColor: Colors.black,
             bottomNavigationBar: _bottomNavigationBar(),
-            extendBody: true,
           ),
         );
       },

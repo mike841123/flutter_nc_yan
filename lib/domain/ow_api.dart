@@ -7,6 +7,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/withdraw_coin_response.dart';
+import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/symbol_response.dart';
@@ -23,7 +24,7 @@ import '../src/config/app_config.dart';
 
 part 'ow_api.g.dart';
 
-@RestApi()
+@RestApi(baseUrl: "")
 abstract class OwApi {
   factory OwApi(Dio dio) = _OwApi;
 
@@ -83,6 +84,13 @@ abstract class OwApi {
   Future<HttpResponse<List<SymbolResponse>>> getMarketSymbolList(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 
   /// 取得所有資產
-  @POST("/uc/asset/wallet/")
+  @POST("/uc/asset/wallet")
   Future<HttpResponse<AssetWalletResponse>> getBalance(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  /// 取得所有資產
+  @POST("/chat/getHistoryMessage")
+  Future<HttpResponse<HistoryMsgResponse>> getHistoryMessage(@Header("X-Auth-Token") String token, @Part() String? orderId, @Part() int? Page, {@CancelRequest() CancelToken? cancelToken});
+
+  @GET("/uc/invested/getRate")
+  Future<HttpResponse<ApiResponse>> getInvestedRate(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 }

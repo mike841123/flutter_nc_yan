@@ -12,6 +12,8 @@ import '../../../../driven/util/widget_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../config/app_color.dart';
+import '../../../config/routes.dart';
+import '../../model/routes_cubit/routes_cubit.dart';
 import '../../model/user_cubit/user_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,19 +33,50 @@ class _HomePageState extends CurrentPageState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const Advisement(),
-          addVerticalSpace(10.h),
-          const MyAsset(),
-          addVerticalSpace(1.w),
-          const HelpAndNewsArea(),
-          addVerticalSpace(10.h),
-          const Symbol(),
-          addVerticalSpace(10.h),
-          const UpAndDown(),
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        elevation: 0,
+        leadingWidth: 120.w,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 20.w),
+          child: SvgPicture.asset(
+            "assets/images/img_chat.svg",
+            fit: BoxFit.contain,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.w),
+            child: InkWell(
+              onTap: (){
+                BlocProvider.of<RoutesCubit>(context).changePage(Routes.chatContent);
+              },
+              child: SvgPicture.asset(
+                "assets/images/img_icon.svg",
+                fit: BoxFit.contain,
+                width: 20.r,
+                height: 20.r,
+              ),
+            ),
+          ),
         ],
+        backgroundColor: const Color(0xff2e2e2e),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Advisement(),
+            addVerticalSpace(10.h),
+            const MyAsset(),
+            addVerticalSpace(1.w),
+            const HelpAndNewsArea(),
+            addVerticalSpace(10.h),
+            const Symbol(),
+            addVerticalSpace(10.h),
+            const UpAndDown(),
+          ],
+        ),
       ),
     );
   }
@@ -280,7 +313,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "幫助",
                       style: TextStyle(
-                        color: Color(0xff1a1a1a),
+                        color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 16.sp,
@@ -290,7 +323,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "問題/指南/資料",
                       style: TextStyle(
-                        color: Color(0xff6b6b6b),
+                        color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 12.sp,
@@ -324,7 +357,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "幫助",
                       style: TextStyle(
-                        color: Color(0xff1a1a1a),
+                        color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 16.sp,
@@ -334,7 +367,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "問題/指南/資料",
                       style: TextStyle(
-                        color: Color(0xff6b6b6b),
+                        color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 12.sp,

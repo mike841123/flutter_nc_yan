@@ -3,42 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:yan_demo_fcm/driven/util/widget_util.dart';
 import '../../../../driven/abstract/current_page_state.dart';
-import '../../../../driven/util/widget_util.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flutter_svg/svg.dart';
-import '../../../config/app_color.dart';
-import 'package:k_chart/chart_style.dart';
 import 'package:k_chart/chart_translations.dart';
 import 'package:k_chart/depth_chart.dart';
-import 'package:k_chart/entity/candle_entity.dart';
-import 'package:k_chart/entity/cci_entity.dart';
-import 'package:k_chart/entity/depth_entity.dart';
 import 'package:k_chart/entity/index.dart';
-import 'package:k_chart/entity/info_window_entity.dart';
-import 'package:k_chart/entity/k_entity.dart';
-import 'package:k_chart/entity/k_line_entity.dart';
-import 'package:k_chart/entity/kdj_entity.dart';
-import 'package:k_chart/entity/macd_entity.dart';
-import 'package:k_chart/entity/rsi_entity.dart';
-import 'package:k_chart/entity/rw_entity.dart';
-import 'package:k_chart/entity/volume_entity.dart';
-import 'package:k_chart/extension/map_ext.dart';
-import 'package:k_chart/extension/num_ext.dart';
-import 'package:k_chart/flutter_k_chart.dart';
 import 'package:k_chart/k_chart_widget.dart';
-import 'package:k_chart/renderer/base_chart_painter.dart';
-import 'package:k_chart/renderer/base_chart_renderer.dart';
-import 'package:k_chart/renderer/chart_painter.dart';
 import 'package:k_chart/renderer/index.dart';
-import 'package:k_chart/renderer/main_renderer.dart';
-import 'package:k_chart/renderer/secondary_renderer.dart';
-import 'package:k_chart/renderer/vol_renderer.dart';
 import 'package:k_chart/utils/data_util.dart';
-import 'package:k_chart/utils/date_format_util.dart';
 import 'package:k_chart/utils/index.dart';
-import 'package:k_chart/utils/number_util.dart';
 
 class MarketPage extends StatefulWidget {
   const MarketPage({super.key});
@@ -69,7 +42,6 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
   @override
   void initState() {
     super.initState();
-    getData('1day');
     rootBundle.loadString('assets/depth.json').then((result) {
       final parseJson = json.decode(result);
       final tick = parseJson['tick'] as Map<String, dynamic>;
@@ -105,54 +77,230 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: <Widget>[
-        Stack(children: <Widget>[
-          Container(
-            height: 450,
-            width: double.infinity,
-            child: KChartWidget(
-              datas,
-              chartStyle,
-              chartColors,
-              isLine: isLine,
-              onSecondaryTap: () {
-                print('Secondary Tap');
-              },
-              isTrendLine: _isTrendLine,
-              mainState: _mainState,
-              volHidden: _volHidden,
-              secondaryState: _secondaryState,
-              fixedLength: 2,
-              timeFormat: TimeFormat.YEAR_MONTH_DAY,
-              translations: kChartTranslations,
-              showNowPrice: _showNowPrice,
-              //`isChinese` is Deprecated, Use `translations` instead.
-              isChinese: isChinese,
-              hideGrid: _hideGrid,
-              isTapShowInfoDialog: false,
-              verticalTextAlignment: _verticalTextAlignment,
-              maDayList: [1, 100, 1000],
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text("ETH/USDT",
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontFamily: "HelveticaNeue",
+              fontStyle: FontStyle.normal,
+              fontSize: 17.sp,
             ),
-          ),
-          if (showLoading) Container(width: double.infinity, height: 450, alignment: Alignment.center, child: const CircularProgressIndicator()),
-        ]),
-        buildButtons(),
-        if (_bids != null && _asks != null)
-          Container(
-            height: 230,
-            width: double.infinity,
-            child: DepthChart(_bids!, _asks!, chartColors),
-          )
-      ],
+            textAlign: TextAlign.center),
+        elevation: 0,
+        backgroundColor: const Color(0xff2e2e2e),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 90.h,
+              width: double.infinity,
+              color: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15.w, top: 16.h, bottom: 16.h),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("36954.61",
+                            style: TextStyle(
+                                color: Colors.red, fontWeight: FontWeight.w700, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 21.sp),
+                            textAlign: TextAlign.left),
+                        addVerticalSpace(14.h),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: "HelveticaNeue",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 14.sp),
+                                text: "≈269768.65 CNY",
+                              ),
+                              const TextSpan(text: " "),
+                              TextSpan(
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 13.sp,
+                                  fontFamily: 'HelveticaNeue',
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                text: "-0.56%",
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120.w,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 10.w, top: 10.h, bottom: 10.h),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("高",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left),
+                              addHorizontalSpace(20.w),
+                              Text("37388",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left)
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("低",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left),
+                              addHorizontalSpace(20.w),
+                              Text("37388",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left)
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("24H量",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left),
+                              addHorizontalSpace(20.w),
+                              Text("37388",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "HelveticaNeue",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 12.sp),
+                                  textAlign: TextAlign.left)
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 390.w,
+              height: 38.h,
+              padding: EdgeInsets.symmetric(horizontal: 10.w),
+              decoration: const BoxDecoration(color: Color(0xff2e2e2e)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  tabBarBtn("分时", false),
+                  tabBarBtn("1分钟", true),
+                  tabBarBtn("5分钟", false),
+                  tabBarBtn("1小时", false),
+                  tabBarBtn("1天", false),
+                  tabBarBtn("更多", false),
+                  InkWell(
+                    onTap: () {
+
+                    },
+                    child: tabBarBtn("指標", false),
+                  ),
+                ],
+              ),
+            ),
+            Stack(
+              children: [
+                SizedBox(
+                  height: 320.h,
+                  width: double.infinity,
+                  child: KChartWidget(
+                    datas,
+                    chartStyle,
+                    chartColors,
+                    isLine: isLine,
+                    onSecondaryTap: () {
+                      print('Secondary Tap');
+                    },
+                    isTrendLine: _isTrendLine,
+                    mainState: _mainState,
+                    volHidden: _volHidden,
+                    secondaryState: _secondaryState,
+                    fixedLength: 2,
+                    timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                    translations: kChartTranslations,
+                    showNowPrice: _showNowPrice,
+                    //`isChinese` is Deprecated, Use `translations` instead.
+                    isChinese: isChinese,
+                    hideGrid: _hideGrid,
+                    isTapShowInfoDialog: false,
+                    verticalTextAlignment: _verticalTextAlignment,
+                    maDayList: [1, 100, 1000, 10000],
+                  ),
+                ),
+                // Positioned(
+                //   child: Container(
+                //     width: 390.w,
+                //     height: 20.h,
+                //     color: Colors.white,
+                //   ),
+                // )
+              ],
+            ),
+            if (showLoading) Container(width: double.infinity, height: 450, alignment: Alignment.center, child: const CircularProgressIndicator()),
+            buildButtons(),
+            if (_bids != null && _asks != null)
+              Container(
+                height: 230,
+                width: double.infinity,
+                child: DepthChart(_bids!, _asks!, chartColors),
+              )
+          ],
+        ),
+      ),
     );
   }
 
   Widget buildButtons() {
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
-      children: <Widget>[
+      children: [
         button("Time Mode", onPressed: () => isLine = true),
         button("K Line Mode", onPressed: () => isLine = false),
         button("TrendLine", onPressed: () => _isTrendLine = !_isTrendLine),
@@ -194,6 +342,36 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
                     _verticalTextAlignment = VerticalTextAlignment.right;
                   }
                 })),
+      ],
+    );
+  }
+
+  Widget tabBarBtn(String title, bool isSelected) {
+    return Stack(
+      children: [
+        Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: const Color(0xff808080),
+              fontWeight: FontWeight.w400,
+              fontFamily: "HelveticaNeue",
+              fontStyle: FontStyle.normal,
+              fontSize: 14.sp,
+            ),
+          ),
+        ),
+        isSelected
+            ? Positioned(
+                bottom: 0,
+                child: Container(
+                    width: 33,
+                    height: 2,
+                    decoration: const BoxDecoration(
+                      color: Color(0xff00cfbe),
+                    )),
+              )
+            : empty()
       ],
     );
   }

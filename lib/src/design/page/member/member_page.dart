@@ -358,7 +358,136 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
                         ],
                       ),
                     ),
-                    addVerticalSpace(16.h),
+                    addVerticalSpace(8.h),
+                    Container(
+                      width: 390.w,
+                      height: 120.h,
+                      color: Colors.white,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.h, left: 16.w, right: 16.w),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          width: 3.w,
+                                          height: 14.h,
+                                          color: const Color(0xff1199fa),
+                                        ),
+                                        addHorizontalSpace(4.w),
+                                        Text(
+                                          "理財管理",
+                                          style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 14.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    BlocProvider.of<RoutesCubit>(context).changePage(Routes.moneyManagement);
+                                  },
+                                  child: Text(
+                                      "前往申購",
+                                      style: TextStyle(
+                                          color:  const Color(0xff00cfbe),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "HelveticaNeue",
+                                          fontStyle:  FontStyle.normal,
+                                          fontSize: 12.sp
+                                      ),
+                                      textAlign: TextAlign.left
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          addVerticalSpace(20.h),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: 20.w,
+                            ),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    BlocProvider.of<RoutesCubit>(context).changePage(Routes.myAdvertisement);
+                                  },
+                                  child: Container(
+                                    height: 44.h,
+                                    width: 120.w,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xffE9E9F1),
+                                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/img_my_order.png",
+                                          width: 30.r,
+                                          height: 30.r,
+                                          fit: BoxFit.fill,
+                                        ),
+                                        addHorizontalSpace(6.w),
+                                        Text(
+                                          "歷史紀錄",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 16.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                addHorizontalSpace(50.w),
+                                Container(
+                                  height: 44.h,
+                                  width: 120.w,
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xffE9E9F1),
+                                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        "assets/images/img_my_order.png",
+                                        width: 30.r,
+                                        height: 30.r,
+                                        fit: BoxFit.fill,
+                                      ),
+                                      addHorizontalSpace(6.w),
+                                      Text(
+                                        "利息明細",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Color(0xff000000),
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    addVerticalSpace(10.h),
                     Stack(
                       children: [
                         Container(
