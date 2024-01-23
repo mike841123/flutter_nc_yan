@@ -16,6 +16,8 @@ import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_resp
 import 'package:yan_demo_fcm/domain/response/member_page_response/security_setting_response.dart';
 import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/advertise_unit_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_coin_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
@@ -103,4 +105,12 @@ abstract class OwApi {
   /// 贖回
   @POST("/uc/invested/redeem/{id}")
   Future<HttpResponse<NormalResponse>> investedRedeem(@Header("X-Auth-Token") String token, @Path() int? id, @Part() int? status, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/coin/all")
+  Future<HttpResponse<OtcCoinResponse>> getOtcCoin(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/advertise/page-by-unit")
+  Future<HttpResponse<AdvertiseUnitResponse>> getAdvertiseUnit(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() int? advertiseType,
+      @Part() String? unit,
+      {@CancelRequest() CancelToken? cancelToken});
 }

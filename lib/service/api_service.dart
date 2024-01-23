@@ -16,6 +16,7 @@ import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/service/remote_config_service.dart';
 
 import '../domain/ow_api.dart';
+import '../domain/request/otc_page_request/asset_flow_request.dart';
 import '../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import '../domain/response/home_page_response/advertise_response.dart';
 import '../domain/response/home_page_response/announcement_response.dart';
@@ -23,6 +24,8 @@ import '../domain/response/home_page_response/symbol_response.dart';
 import '../domain/response/login_page_response/login_response.dart';
 import '../domain/response/member_page_response/promotion_response.dart';
 import '../domain/response/member_page_response/security_setting_response.dart';
+import '../domain/response/otc_page_response/advertise_unit_response.dart';
+import '../domain/response/otc_page_response/otc_coin_response.dart';
 import '../domain/response/public_response/normal_response.dart';
 import '../domain/response/public_response/upload_image_response.dart';
 import '../domain/response/public_response/upload_s3_image_response.dart';
@@ -221,6 +224,19 @@ class ApiService {
   Future<NormalResponse> investedRedeem(int id, int status) async {
     final HttpResponse<NormalResponse> response = await OwApi(dio).investedRedeem(AppConfig.token, id, status)
       ..registerComplete();
+    return response.data;
+  }
+
+  Future<OtcCoinResponse> getOtcCoin() async {
+    final HttpResponse<OtcCoinResponse> response = await OwApi(dio).getOtcCoin(AppConfig.token)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<AdvertiseUnitResponse> getAdvertiseUnit(AdvertiseUnitRequest request) async {
+    final HttpResponse<AdvertiseUnitResponse> response =
+        await OwApi(dio).getAdvertiseUnit(AppConfig.token, request.pageNo, request.pageSize, request.advertiseType, request.unit)
+          ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 

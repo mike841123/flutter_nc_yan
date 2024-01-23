@@ -9,10 +9,9 @@ part of 'ow_api.dart';
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
 class _OwApi implements OwApi {
-  _OwApi(
-    this._dio, {
-    this.baseUrl,
-  });
+  _OwApi(this._dio, {this.baseUrl}) {
+    baseUrl ??= "${AppConfig.scheme}://${AppConfig.domain}";
+  }
 
   final Dio _dio;
 
@@ -749,6 +748,102 @@ class _OwApi implements OwApi {
               baseUrl,
             ))));
     final value = NormalResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<OtcCoinResponse>> getOtcCoin(
+    String token, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<OtcCoinResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/coin/all',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OtcCoinResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<AdvertiseUnitResponse>> getAdvertiseUnit(
+    String token,
+    int? pageNo,
+    int? pageSize,
+    int? advertiseType,
+    String? unit, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (pageNo != null) {
+      _data.fields.add(MapEntry(
+        'pageNo',
+        pageNo.toString(),
+      ));
+    }
+    if (pageSize != null) {
+      _data.fields.add(MapEntry(
+        'pageSize',
+        pageSize.toString(),
+      ));
+    }
+    if (advertiseType != null) {
+      _data.fields.add(MapEntry(
+        'advertiseType',
+        advertiseType.toString(),
+      ));
+    }
+    if (unit != null) {
+      _data.fields.add(MapEntry(
+        'unit',
+        unit,
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<AdvertiseUnitResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/advertise/page-by-unit',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = AdvertiseUnitResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

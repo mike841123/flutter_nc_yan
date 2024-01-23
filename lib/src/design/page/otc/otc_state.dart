@@ -2,17 +2,48 @@ part of 'otc_cubit.dart';
 
 class OtcState extends Equatable {
   const OtcState({
-    this.otcAdvertiseResponse,
+    this.otcCoinResponse,
+    this.advertiseUnitList = const [],
+    this.total = 0,
+    this.page = 1,
+    this.status = OtcStatus.initial,
+    this.advertiseType = 1,
   });
 
-  final OtcAdvertiseResponse? otcAdvertiseResponse;
+  final OtcCoinResponse? otcCoinResponse;
+  final List<Context>? advertiseUnitList;
+  final int page;
+  final int total;
+  final OtcStatus status;
+  final int advertiseType;
 
   OtcState copyWith({
-    OtcAdvertiseResponse? otcAdvertiseResponse,
+    OtcCoinResponse? otcCoinResponse,
+    int? page,
+    int? total,
+    OtcStatus? status,
+    List<Context>? advertiseUnitList,
+    int? advertiseType,
   }) {
-    return OtcState(otcAdvertiseResponse: otcAdvertiseResponse ?? this.otcAdvertiseResponse);
+    return OtcState(
+      otcCoinResponse: otcCoinResponse ?? this.otcCoinResponse,
+      advertiseUnitList: advertiseUnitList ?? this.advertiseUnitList,
+      page: page ?? this.page,
+      total: total ?? this.total,
+      status: status ?? this.status,
+      advertiseType: advertiseType ?? this.advertiseType,
+    );
   }
 
   @override
-  List<Object> get props => [otcAdvertiseResponse ?? OtcAdvertiseResponse()];
+  List<Object> get props => [
+        otcCoinResponse ?? OtcCoinResponse(),
+        advertiseUnitList ?? [],
+        page,
+        total,
+        status,
+        advertiseType,
+      ];
 }
+
+enum OtcStatus { initial, success, failure }

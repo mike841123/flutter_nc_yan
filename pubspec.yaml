@@ -77,6 +77,8 @@ dependencies:
   decimal: ^2.3.3
   # 多語系及字串及語法擴充
   intl: ^0.18.1
+  # switch btn
+  toggle_switch: ^2.1.0
 
 
 dev_dependencies:
