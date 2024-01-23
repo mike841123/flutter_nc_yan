@@ -5,6 +5,7 @@ import '../design/page/chat_content_page/chat_content_provider.dart';
 import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
 import '../design/page/money_management/money_management_provider.dart';
+import '../design/page/money_management_record/money_management_record_provider.dart';
 
 class Routes {
   static String home = '/home',
@@ -16,7 +17,8 @@ class Routes {
       myAdvertisement = '/myAdvertisement',
       assetFlow = '/assetFlow',
       chatContent = '/chatContent',
-      moneyManagement = '/moneyManagement';
+      moneyManagement = '/moneyManagement',
+      moneyManagementRecord = '/moneyManagementRecord';
 
   static List<String> roots = [
     Routes.login,
@@ -34,5 +36,6 @@ class Routes {
     Routes.assetFlow: (BuildContext context) => const AssetFlowProvider(),
     Routes.chatContent: (BuildContext context) => const ChatContentProvider(),
     Routes.moneyManagement: (BuildContext context) => const MoneyManagementProvider(),
+    Routes.moneyManagementRecord: (BuildContext context) => const MoneyManagementRecordProvider(),
   };
 }

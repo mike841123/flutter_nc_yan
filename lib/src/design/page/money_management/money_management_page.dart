@@ -1,13 +1,12 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/src/design/page/money_management/money_management_cubit.dart';
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../../../driven/util/widget_util.dart';
 import '../../../config/app_color.dart';
+import '../../../config/routes.dart';
 import '../../model/routes_cubit/routes_cubit.dart';
 
 class MoneyManagementPage extends StatefulWidget {
@@ -36,7 +35,9 @@ class _MoneyManagementPageState extends CurrentPageState<MoneyManagementPage> {
               Icons.pets,
               color: Colors.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              BlocProvider.of<RoutesCubit>(context).changePage(Routes.moneyManagementRecord);
+            },
           )
         ],
         leading: IconButton(
@@ -163,7 +164,7 @@ class _MoneyManagementPageState extends CurrentPageState<MoneyManagementPage> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Text(
-                                        (state.investedRateResponse!.data[investedTypeList[i]][0]["annualRate"] * 100).toStringAsFixed(2),
+                                      BlocProvider.of<MoneyManagementCubit>(context).getRate(state.investedRateResponse!.data![investedTypeList[i]]),
                                         style: TextStyle(
                                             color: Color(0xff00b275),
                                             fontWeight: FontWeight.w600,

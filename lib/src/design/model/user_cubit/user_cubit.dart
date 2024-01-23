@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
+import 'package:yan_demo_fcm/src/config/app_config.dart';
 
 import '../../../../domain/response/member_page_response/security_setting_response.dart';
 import '../../../../get_it_service_locator.dart';
@@ -18,6 +19,7 @@ class UserCubit extends Cubit<UserState> {
 
   /// 初始化刷新使用者資料
   void init() async {
+    print("太早${AppConfig.scheme}");
     getBalance();
     updateUserData();
   }

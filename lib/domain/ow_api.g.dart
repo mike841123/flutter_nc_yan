@@ -670,6 +670,89 @@ class _OwApi implements OwApi {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<InvestedRecordResponse>> getInvestedRecord(
+    String token,
+    int? pageNo,
+    int? pageSize,
+    String? startTime,
+    String? endTime,
+    String? coinUnit,
+    String? optionType,
+    String? status, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<InvestedRecordResponse>>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/invested/getRecordPage?pageNo=${pageNo}&pageSize=${pageSize}${startTime}${endTime}${coinUnit}${optionType}${status}',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = InvestedRecordResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<NormalResponse>> investedRedeem(
+    String token,
+    int? id,
+    int? status, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    if (status != null) {
+      _data.fields.add(MapEntry(
+        'status',
+        status.toString(),
+      ));
+    }
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<NormalResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/uc/invested/redeem/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = NormalResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

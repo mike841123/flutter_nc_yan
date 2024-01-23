@@ -5,11 +5,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yan_demo_fcm/driven/util/widget_util.dart';
 import '../../../../driven/abstract/current_page_state.dart';
+import 'package:k_chart/chart_style.dart';
 import 'package:k_chart/chart_translations.dart';
 import 'package:k_chart/depth_chart.dart';
+import 'package:k_chart/entity/depth_entity.dart';
 import 'package:k_chart/entity/index.dart';
+import 'package:k_chart/entity/k_line_entity.dart';
 import 'package:k_chart/k_chart_widget.dart';
+import 'package:k_chart/renderer/base_chart_painter.dart';
+import 'package:k_chart/renderer/base_chart_renderer.dart';
 import 'package:k_chart/renderer/index.dart';
+import 'package:k_chart/renderer/main_renderer.dart';
 import 'package:k_chart/utils/data_util.dart';
 import 'package:k_chart/utils/index.dart';
 
@@ -42,6 +48,7 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
   @override
   void initState() {
     super.initState();
+    getData('1day');
     rootBundle.loadString('assets/depth.json').then((result) {
       final parseJson = json.decode(result);
       final tick = parseJson['tick'] as Map<String, dynamic>;
@@ -236,52 +243,36 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
                   tabBarBtn("1小时", false),
                   tabBarBtn("1天", false),
                   tabBarBtn("更多", false),
-                  InkWell(
-                    onTap: () {
-
-                    },
-                    child: tabBarBtn("指標", false),
-                  ),
+                  tabBarBtn("指標", false),
                 ],
               ),
             ),
-            Stack(
-              children: [
-                SizedBox(
-                  height: 320.h,
-                  width: double.infinity,
-                  child: KChartWidget(
-                    datas,
-                    chartStyle,
-                    chartColors,
-                    isLine: isLine,
-                    onSecondaryTap: () {
-                      print('Secondary Tap');
-                    },
-                    isTrendLine: _isTrendLine,
-                    mainState: _mainState,
-                    volHidden: _volHidden,
-                    secondaryState: _secondaryState,
-                    fixedLength: 2,
-                    timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                    translations: kChartTranslations,
-                    showNowPrice: _showNowPrice,
-                    //`isChinese` is Deprecated, Use `translations` instead.
-                    isChinese: isChinese,
-                    hideGrid: _hideGrid,
-                    isTapShowInfoDialog: false,
-                    verticalTextAlignment: _verticalTextAlignment,
-                    maDayList: [1, 100, 1000, 10000],
-                  ),
-                ),
-                // Positioned(
-                //   child: Container(
-                //     width: 390.w,
-                //     height: 20.h,
-                //     color: Colors.white,
-                //   ),
-                // )
-              ],
+            SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: KChartWidget(
+                datas,
+                chartStyle,
+                chartColors,
+                isLine: isLine,
+                onSecondaryTap: () {
+                  print('Secondary Tap');
+                },
+                isTrendLine: _isTrendLine,
+                mainState: _mainState,
+                volHidden: _volHidden,
+                secondaryState: _secondaryState,
+                fixedLength: 2,
+                timeFormat: TimeFormat.YEAR_MONTH_DAY,
+                translations: kChartTranslations,
+                showNowPrice: _showNowPrice,
+                //`isChinese` is Deprecated, Use `translations` instead.
+                isChinese: isChinese,
+                hideGrid: _hideGrid,
+                isTapShowInfoDialog: false,
+                verticalTextAlignment: _verticalTextAlignment,
+                maDayList: [1, 100, 1000, 10000],
+              ),
             ),
             if (showLoading) Container(width: double.infinity, height: 450, alignment: Alignment.center, child: const CircularProgressIndicator()),
             buildButtons(),
@@ -300,7 +291,7 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
   Widget buildButtons() {
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
-      children: [
+      children: <Widget>[
         button("Time Mode", onPressed: () => isLine = true),
         button("K Line Mode", onPressed: () => isLine = false),
         button("TrendLine", onPressed: () => _isTrendLine = !_isTrendLine),
@@ -353,12 +344,7 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
           child: Text(
             title,
             style: TextStyle(
-              color: const Color(0xff808080),
-              fontWeight: FontWeight.w400,
-              fontFamily: "HelveticaNeue",
-              fontStyle: FontStyle.normal,
-              fontSize: 14.sp,
-            ),
+                color: const Color(0xff808080), fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
           ),
         ),
         isSelected

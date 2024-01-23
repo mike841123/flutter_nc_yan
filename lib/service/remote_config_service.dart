@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easylogger/flutter_logger.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../get_it_service_locator.dart';
 import '../src/config/app_config.dart';
@@ -34,6 +36,7 @@ class RemoteConfigService {
     await setConfig();
     await remoteConfig.fetchAndActivate(); // 啟用服務獲取遠端配置
     schemeDomainEvent(remoteConfig);
+    // FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
     return remoteConfig;
   }
 
@@ -44,4 +47,17 @@ class RemoteConfigService {
     getIt<ApiService>().initDio(); // 設定請求封裝 dio 配置
   }
 
+  /// 獲取最新版本遠端配置
+  Future<void> onForceFetchedByVersion() async {
+    try {
+      await setConfig();
+      await remoteConfig.activate(); // 啟用服務
+      await remoteConfig.fetch(); // 獲取遠端配置
+      // versionEvent(remoteConfig);
+    } on PlatformException catch (e) {
+      fetchingErrorController.add("onForceFetchedByVersion: ${e.message}");
+    } catch (e) {
+      fetchingErrorController.add("onForceFetchedByVersion: ${e.toString()}");
+    }
+  }
 }

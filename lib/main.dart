@@ -44,8 +44,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   void runAppAfterInit() {
-    getIt<MessagingService>().initFCM(); // 初始化 firebase cloud messaging
-    FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
+    if (!AppConfig.runAppAfterSetup) {
+      getIt<MessagingService>().initFCM(); // 初始化 firebase cloud messaging
+      FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
+      AppConfig.runAppAfterSetup = true;
+    }
   }
 
   /// 主畫面

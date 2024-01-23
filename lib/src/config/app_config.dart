@@ -5,6 +5,8 @@ import 'package:yan_demo_fcm/src/config/shared_preferences_key.dart';
 import '../../service/api_service.dart';
 
 class AppConfig {
+  static bool runAppAfterSetup = false; // runApp後註冊函式是否已註冊
+
   static bool isTestEnv = true; // 是否為測試環境
 
   static String scheme = "https"; // 應用協定

@@ -9,7 +9,7 @@ import '../../domain/response/api_response.dart';
 import '../../src/config/app_config.dart';
 import '../../src/design/model/routes_cubit/routes_cubit.dart';
 import '../service/state_service.dart';
-
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 /// 金錢格式轉換擴充功能
 extension FormatNumber<T> on T {
   /// 錢幣格式轉換
@@ -110,6 +110,10 @@ extension RegisterComplete<T> on T {
       if (response.code == 0) {
         if (showSuccessDialog) {
           print("success");
+          SmartDialog.showToast(
+            response.message,
+            displayTime: const Duration(seconds: 2),
+          );
           // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.success, response.msg);
         }
       } else {

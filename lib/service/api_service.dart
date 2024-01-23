@@ -5,12 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
+import 'package:yan_demo_fcm/domain/request/money_management_record_page_request/invested_record_request.dart';
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
+import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
+import 'package:yan_demo_fcm/service/remote_config_service.dart';
 
 import '../domain/ow_api.dart';
 import '../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
@@ -42,7 +45,6 @@ class ApiService {
     dio.options.contentType = dioheaders.Headers.jsonContentType;
     dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.baseUrl = "${AppConfig.scheme}://${AppConfig.domain}";
-    // 測試環境繞過證書驗證
     // if (AppConfig.isTestEnv) {
     //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
     //     client.badCertificateCallback = (cert, host, port) {
@@ -51,7 +53,6 @@ class ApiService {
     //     return null;
     //   };
     // }
-    // api 的 AOP
     if (dio.interceptors.isNotEmpty) {
       dio.interceptors.clear();
     }
@@ -60,7 +61,7 @@ class ApiService {
         onRequest: (options, handler) {
           if (!AppConfig.isVersionNeedUpdate && remoteLock) {
             remoteLock = true; // 鎖住
-            // getIt<RemoteConfigService>().onForceFetchedByVersion(); // 不需要更新版本及沒鎖才成立，每次呼叫 api 時檢查最新版本
+            getIt<RemoteConfigService>().onForceFetchedByVersion(); // 不需要更新版本及沒鎖才成立，每次呼叫 api 時檢查最新版本
             Future.delayed(const Duration(seconds: 10), () {
               remoteLock = false; // 十秒後開啟
             });
@@ -194,18 +195,32 @@ class ApiService {
   }
 
   Future<AssetWalletResponse> getBalance() async {
+    print("wallet${AppConfig.domain}");
     final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getBalance(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 
-  Future<HistoryMsgResponse> getHistoryMessage(String? orderId,int? Page) async {
-    final HttpResponse<HistoryMsgResponse> response = await OwApi(dio).getHistoryMessage(AppConfig.token,orderId,Page);
+  Future<HistoryMsgResponse> getHistoryMessage(String? orderId, int? Page) async {
+    final HttpResponse<HistoryMsgResponse> response = await OwApi(dio).getHistoryMessage(AppConfig.token, orderId, Page);
     return response.data;
   }
 
   Future<ApiResponse> getInvestedRate() async {
     final HttpResponse<ApiResponse> response = await OwApi(dio).getInvestedRate(AppConfig.token);
+    return response.data;
+  }
+
+  Future<InvestedRecordResponse> getInvestedRecord(InvestedRecordRequest request) async {
+    final HttpResponse<InvestedRecordResponse> response = await OwApi(dio).getInvestedRecord(
+        AppConfig.token, request.pageNo, request.pageSize, request.startTime, request.endTime, request.coinUnit, request.optionType, request.status)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<NormalResponse> investedRedeem(int id, int status) async {
+    final HttpResponse<NormalResponse> response = await OwApi(dio).investedRedeem(AppConfig.token, id, status)
+      ..registerComplete();
     return response.data;
   }
 
