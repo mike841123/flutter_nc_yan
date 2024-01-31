@@ -8,6 +8,8 @@ import 'package:yan_demo_fcm/src/design/page/otc/otc_cubit.dart';
 
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../../../driven/util/widget_util.dart';
+import '../../../config/routes.dart';
+import '../../model/routes_cubit/routes_cubit.dart';
 
 class OtcPage extends StatefulWidget {
   const OtcPage({super.key});
@@ -285,7 +287,9 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                         ),
                                         child: ElevatedButton(
                                           style: transparentButtonStyle(textHeight: 0, borderRadius: 8.0),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            BlocProvider.of<RoutesCubit>(context).changePage(Routes.otcTrade, arguments: state.advertiseUnitList![index].advertiseId);
+                                          },
                                           child: Text(
                                             state.advertiseUnitList![index].advertiseType == 1 ? "購買" : "出售",
                                             style: TextStyle(

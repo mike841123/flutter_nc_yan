@@ -36,7 +36,7 @@ class RemoteConfigService {
     await setConfig();
     await remoteConfig.fetchAndActivate(); // 啟用服務獲取遠端配置
     schemeDomainEvent(remoteConfig);
-    // FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
+    FlutterNativeSplash.remove(); // 所有初始化完成後刪除第一幀
     return remoteConfig;
   }
 

@@ -26,6 +26,7 @@ import '../domain/response/member_page_response/promotion_response.dart';
 import '../domain/response/member_page_response/security_setting_response.dart';
 import '../domain/response/otc_page_response/advertise_unit_response.dart';
 import '../domain/response/otc_page_response/otc_coin_response.dart';
+import '../domain/response/otc_page_response/otc_order_pre_response.dart';
 import '../domain/response/public_response/normal_response.dart';
 import '../domain/response/public_response/upload_image_response.dart';
 import '../domain/response/public_response/upload_s3_image_response.dart';
@@ -198,7 +199,6 @@ class ApiService {
   }
 
   Future<AssetWalletResponse> getBalance() async {
-    print("wallet${AppConfig.domain}");
     final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getBalance(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
     return response.data;
@@ -237,6 +237,12 @@ class ApiService {
     final HttpResponse<AdvertiseUnitResponse> response =
         await OwApi(dio).getAdvertiseUnit(AppConfig.token, request.pageNo, request.pageSize, request.advertiseType, request.unit)
           ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<OtcOrderPreResponse> getOrderPre(int id) async {
+    final HttpResponse<OtcOrderPreResponse> response = await OwApi(dio).getOrderPre(AppConfig.token, id)
+      ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 

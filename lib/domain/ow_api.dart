@@ -18,12 +18,11 @@ import 'package:yan_demo_fcm/domain/response/money_management_response/invested_
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/advertise_unit_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_coin_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_pre_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_s3_image_response.dart';
-
-import '../src/config/app_config.dart';
 
 part 'ow_api.g.dart';
 
@@ -92,25 +91,30 @@ abstract class OwApi {
 
   /// 取得所有資產
   @POST("/chat/getHistoryMessage")
-  Future<HttpResponse<HistoryMsgResponse>> getHistoryMessage(@Header("X-Auth-Token") String token, @Part() String? orderId, @Part() int? Page, {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<HistoryMsgResponse>> getHistoryMessage(@Header("X-Auth-Token") String token, @Part() String? orderId, @Part() int? Page,
+      {@CancelRequest() CancelToken? cancelToken});
 
   @GET("/uc/invested/getRate")
   Future<HttpResponse<ApiResponse>> getInvestedRate(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 
   @GET("/uc/invested/getRecordPage?pageNo={pageNo}&pageSize={pageSize}{startTime}{endTime}{coinUnit}{optionType}{status}")
-  Future<HttpResponse<InvestedRecordResponse>> getInvestedRecord(@Header("X-Auth-Token") String token, @Path() int? pageNo, @Path() int? pageSize, @Path() String? startTime,
-      @Path() String? endTime, @Path() String? coinUnit, @Path() String? optionType, @Path() String? status,
+  Future<HttpResponse<InvestedRecordResponse>> getInvestedRecord(@Header("X-Auth-Token") String token, @Path() int? pageNo, @Path() int? pageSize,
+      @Path() String? startTime, @Path() String? endTime, @Path() String? coinUnit, @Path() String? optionType, @Path() String? status,
       {@CancelRequest() CancelToken? cancelToken});
 
   /// 贖回
   @POST("/uc/invested/redeem/{id}")
-  Future<HttpResponse<NormalResponse>> investedRedeem(@Header("X-Auth-Token") String token, @Path() int? id, @Part() int? status, {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<NormalResponse>> investedRedeem(@Header("X-Auth-Token") String token, @Path() int? id, @Part() int? status,
+      {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/coin/all")
   Future<HttpResponse<OtcCoinResponse>> getOtcCoin(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/advertise/page-by-unit")
-  Future<HttpResponse<AdvertiseUnitResponse>> getAdvertiseUnit(@Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() int? advertiseType,
-      @Part() String? unit,
+  Future<HttpResponse<AdvertiseUnitResponse>> getAdvertiseUnit(
+      @Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() int? advertiseType, @Part() String? unit,
       {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/pre")
+  Future<HttpResponse<OtcOrderPreResponse>> getOrderPre(@Header("X-Auth-Token") String token, @Part() int id, {@CancelRequest() CancelToken? cancelToken});
 }

@@ -134,3 +134,30 @@ ButtonStyle transparentButtonStyle({double textHeight = 1, double borderRadius =
     ),
   );
 }
+
+/// row space text item
+Widget rowTextItem(String title,String content) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        title,
+        style: TextStyle(
+            color: Color(0xff828ea1),
+            fontWeight: FontWeight.w700,
+            fontFamily: "HelveticaNeue",
+            fontStyle: FontStyle.normal,
+            fontSize: 14.sp),
+      ),
+      Text(
+        content,
+        style: TextStyle(
+            color: Color(0xff828ea1),
+            fontWeight: FontWeight.w700,
+            fontFamily: "HelveticaNeue",
+            fontStyle: FontStyle.normal,
+            fontSize: 14.sp),
+      ),
+    ],
+  );
+}

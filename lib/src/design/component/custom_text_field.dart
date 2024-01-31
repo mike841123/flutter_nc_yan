@@ -20,6 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.isInt = false,
     this.isCenter = false,
     this.hint = "",
+    this.rowTitle = false,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -33,6 +34,7 @@ class CustomTextField extends StatefulWidget {
   final bool isInt;
   final bool isCenter;
   final String hint;
+  final bool rowTitle;
 
   @override
   CurrentPageState<CustomTextField> createState() => _CustomTextFieldState();
@@ -50,8 +52,7 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320.w,
+    return Expanded(
       child: Column(
         crossAxisAlignment: widget.title.isEmpty ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
@@ -102,7 +103,7 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
                 borderSide: BorderSide(color: Color(0xffefefef), width: 1.w),
               ),
               isCollapsed: true,
-              contentPadding: EdgeInsets.only(top: 12.h, bottom: 12.h, left: 12.w, right: 12.w),
+              contentPadding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 12.w, right: 12.w),
               hintText: widget.hint,
               hintStyle:
                   TextStyle(color: Color(0xff999999), fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),

@@ -135,30 +135,34 @@ class MyApp extends StatelessWidget {
                   fontFamily: 'Inter',
                 ),
                 builder: FlutterSmartDialog.init(builder: (BuildContext context, Widget? widget) {
-                  return MultiBlocProvider(
-                    providers: [
-                      /// 此處通過 BlocProvider 創建全局的 Cubit
-                      BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
-                      BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
-                      BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
-                      // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
-                    ],
-                    child: GestureDetector(
-                      onTap: () {
-                        hideKeyboard(context);
-                      },
-                      child: Scaffold(
-                        key: getIt<StateService>().scaffoldKey,
-                        resizeToAvoidBottomInset: true,
-                        backgroundColor: Color(0xff000000),
-                        body: Stack(
-                          children: [
-                            getPageView(context, widget!), // 畫面
-                          ],
+                  if (snapshot.hasData) {
+                    return MultiBlocProvider(
+                      providers: [
+                        /// 此處通過 BlocProvider 創建全局的 Cubit
+                        BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
+                        BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
+                        BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
+                        // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
+                      ],
+                      child: GestureDetector(
+                        onTap: () {
+                          hideKeyboard(context);
+                        },
+                        child: Scaffold(
+                          key: getIt<StateService>().scaffoldKey,
+                          resizeToAvoidBottomInset: true,
+                          backgroundColor: Color(0xff000000),
+                          body: Stack(
+                            children: [
+                              getPageView(context, widget!), // 畫面
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    );
+                  } else {
+                    return Container(color: Colors.black);
+                  }
                 }),
                 routes: Routes.pages,
                 initialRoute: AppConfig.token.isEmpty ? Routes.login : Routes.home,
