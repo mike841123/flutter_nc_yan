@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:yan_demo_fcm/domain/request/otc_page_request/asset_flow_request.dart';
+import 'package:yan_demo_fcm/driven/util/custom_class.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/src/design/page/otc/otc_cubit.dart';
 
@@ -20,7 +21,7 @@ class OtcPage extends StatefulWidget {
 
 class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  List tabs = [];
+  List<String> tabs = [];
   int initIndex = 0;
 
   @override
@@ -288,7 +289,13 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                         child: ElevatedButton(
                                           style: transparentButtonStyle(textHeight: 0, borderRadius: 8.0),
                                           onPressed: () {
-                                            BlocProvider.of<RoutesCubit>(context).changePage(Routes.otcTrade, arguments: state.advertiseUnitList![index].advertiseId);
+                                            BlocProvider.of<RoutesCubit>(context).changePage(Routes.otcTrade,
+                                                arguments: OtcTradeArguments(
+                                                  type: state.advertiseUnitList![index].advertiseType == 1 ? OtcAdvertiseType.buy : OtcAdvertiseType.sell,
+                                                  id: state.advertiseUnitList![index].advertiseId,
+                                                  coinId: state.advertiseUnitList![index].coinId,
+                                                  unit: state.advertiseUnitList![index].unit,
+                                                ));
                                           },
                                           child: Text(
                                             state.advertiseUnitList![index].advertiseType == 1 ? "購買" : "出售",

@@ -109,7 +109,6 @@ extension RegisterComplete<T> on T {
     } else {
       if (response.code == 0) {
         if (showSuccessDialog) {
-          print("success");
           SmartDialog.showToast(
             response.message,
             displayTime: const Duration(seconds: 2),
@@ -128,7 +127,10 @@ extension RegisterComplete<T> on T {
             break;
           default:
             // 0 以外，未被特殊處理的 code 皆以錯誤彈窗提示處理
-            // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.warning, response.msg);
+            SmartDialog.showToast(
+              response.message,
+              displayTime: const Duration(seconds: 2),
+            );
             break;
         }
       }

@@ -45,6 +45,8 @@ class Context {
     this.maxLimit = 0,
     this.minLimit = 0,
     this.memberName = "",
+    this.coinId = 0,
+    this.unit = "",
   });
 
   int advType;
@@ -57,6 +59,8 @@ class Context {
   double maxLimit;
   double minLimit;
   String memberName;
+  int coinId;
+  String unit;
 
   factory Context.fromJson(Map<String, dynamic> json) => _$ContextFromJson(json);
 

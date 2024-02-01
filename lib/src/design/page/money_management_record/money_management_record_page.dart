@@ -136,7 +136,6 @@ class _MoneyManagementRecordPageState extends CurrentPageState<MoneyManagementRe
                                 return detailDialog(state.investedRecordList![index]);
                               },
                             );
-                            // attachDialog(context);
                           },
                           child: Container(
                             height: 110.h,

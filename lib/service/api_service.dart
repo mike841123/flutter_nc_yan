@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/domain/request/money_management_record_page_request/invested_record_request.dart';
+import 'package:yan_demo_fcm/domain/request/otc_page_request/otc_trade_request.dart';
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
@@ -243,6 +244,20 @@ class ApiService {
   Future<OtcOrderPreResponse> getOrderPre(int id) async {
     final HttpResponse<OtcOrderPreResponse> response = await OwApi(dio).getOrderPre(AppConfig.token, id)
       ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<NormalResponse> otcOrderSell(OtcTradeRequest request) async {
+    final HttpResponse<NormalResponse> response =
+        await OwApi(dio).otcOrderSell(AppConfig.token, request.id, request.coinId, request.price, request.money, request.amount)
+          ..registerComplete();
+    return response.data;
+  }
+
+  Future<NormalResponse> otcOrderBuy(OtcTradeRequest request) async {
+    final HttpResponse<NormalResponse> response =
+        await OwApi(dio).otcOrderBuy(AppConfig.token, request.id, request.coinId, request.price, request.money, request.amount)
+          ..registerComplete();
     return response.data;
   }
 

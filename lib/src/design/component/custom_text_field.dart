@@ -52,7 +52,8 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      width: widget.width ?? 320.w,
       child: Column(
         crossAxisAlignment: widget.title.isEmpty ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [

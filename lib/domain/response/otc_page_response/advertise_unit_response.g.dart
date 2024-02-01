@@ -55,6 +55,8 @@ Context _$ContextFromJson(Map<String, dynamic> json) => Context(
       maxLimit: (json['maxLimit'] as num?)?.toDouble() ?? 0,
       minLimit: (json['minLimit'] as num?)?.toDouble() ?? 0,
       memberName: json['memberName'] as String? ?? "",
+      coinId: json['coinId'] as int? ?? 0,
+      unit: json['unit'] as String? ?? "",
     );
 
 Map<String, dynamic> _$ContextToJson(Context instance) => <String, dynamic>{
@@ -68,4 +70,6 @@ Map<String, dynamic> _$ContextToJson(Context instance) => <String, dynamic>{
       'maxLimit': instance.maxLimit,
       'minLimit': instance.minLimit,
       'memberName': instance.memberName,
+      'coinId': instance.coinId,
+      'unit': instance.unit,
     };

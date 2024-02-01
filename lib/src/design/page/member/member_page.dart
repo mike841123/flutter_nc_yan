@@ -323,33 +323,38 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
                                   ),
                                 ),
                                 addHorizontalSpace(50.w),
-                                Container(
-                                  height: 44.h,
-                                  width: 120.w,
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xffE9E9F1),
-                                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        "assets/images/img_my_order.png",
-                                        width: 30.r,
-                                        height: 30.r,
-                                        fit: BoxFit.fill,
-                                      ),
-                                      addHorizontalSpace(6.w),
-                                      Text(
-                                        "我的訂單",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          color: Color(0xff000000),
-                                          fontSize: 16.sp,
+                                InkWell(
+                                  onTap: (){
+                                    BlocProvider.of<RoutesCubit>(context).changePage(Routes.otcList);
+                                  },
+                                  child: Container(
+                                    height: 44.h,
+                                    width: 120.w,
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xffE9E9F1),
+                                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          "assets/images/img_my_order.png",
+                                          width: 30.r,
+                                          height: 30.r,
+                                          fit: BoxFit.fill,
                                         ),
-                                      ),
-                                    ],
+                                        addHorizontalSpace(6.w),
+                                        Text(
+                                          "我的訂單",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            color: Color(0xff000000),
+                                            fontSize: 16.sp,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],

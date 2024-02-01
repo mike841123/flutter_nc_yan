@@ -117,4 +117,10 @@ abstract class OwApi {
 
   @POST("/otc/order/pre")
   Future<HttpResponse<OtcOrderPreResponse>> getOrderPre(@Header("X-Auth-Token") String token, @Part() int id, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/sell")
+  Future<HttpResponse<NormalResponse>> otcOrderSell(@Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/buy")
+  Future<HttpResponse<NormalResponse>> otcOrderBuy(@Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount, {@CancelRequest() CancelToken? cancelToken});
 }

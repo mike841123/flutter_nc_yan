@@ -2,19 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yan_demo_fcm/driven/util/custom_class.dart';
+import 'package:yan_demo_fcm/src/design/page/otc_details/otc_details_page.dart';
 import '../../model/routes_cubit/routes_cubit.dart';
-import 'otc_trade_cubit.dart';
-import 'otc_trade_page.dart';
+import 'otc_list_cubit.dart';
+import 'otc_list_page.dart';
 
-class OtcTradeProvider extends StatelessWidget {
-  const OtcTradeProvider({super.key});
+class OtcListProvider extends StatelessWidget {
+  const OtcListProvider({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final OtcTradeArguments arguments = (ModalRoute.of(context)?.settings.arguments as OtcTradeArguments);
     return BlocProvider(
-      create: (_) => OtcTradeCubit()..init(arguments.id),
+      create: (_) => OtcListCubit()..init(),
       child: Builder(builder: (context) {
         return Scaffold(
             backgroundColor: Colors.black,
@@ -28,7 +27,7 @@ class OtcTradeProvider extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              title: Text("${arguments.type.text}${arguments.unit}",
+              title: Text("我的訂單",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
@@ -39,9 +38,7 @@ class OtcTradeProvider extends StatelessWidget {
                   textAlign: TextAlign.center),
               backgroundColor: const Color(0xff2e2e2e),
             ),
-            body: OtcTradePage(
-              arguments: arguments,
-            ));
+            body: const OtcListPage());
       }),
     );
   }
