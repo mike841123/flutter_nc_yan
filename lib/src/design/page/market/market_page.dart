@@ -372,7 +372,6 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
       },
       child: Text(text),
       style: TextButton.styleFrom(
-        primary: Colors.white,
         minimumSize: const Size(88, 44),
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         shape: const RoundedRectangleBorder(
