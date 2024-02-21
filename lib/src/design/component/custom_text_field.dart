@@ -55,18 +55,24 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
     return SizedBox(
       width: widget.width ?? 320.w,
       child: Column(
-        crossAxisAlignment: widget.title.isEmpty ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           widget.title.isEmpty
               ? empty()
+              /// 輸入匡title
               : Padding(
                   padding: EdgeInsets.only(left: 12.w),
                   child: Text(
                     widget.title,
-                    style:
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
+                    style: TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "HelveticaNeue",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.sp,
+                    ),
                   ),
                 ),
+          /// 輸入匡
           TextField(
             controller: widget.controller,
             onChanged: widget.onChanged,
@@ -76,9 +82,9 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
             autofocus: false,
             obscureText: obscureText,
             cursorWidth: 1.w,
-            cursorColor: AppColor.color2,
+            cursorColor: AppColor.textColor1,
             readOnly: widget.readOnly,
-            style: TextStyle(fontSize: 14.sp, color: AppColor.color2),
+            style: TextStyle(fontSize: 14.sp, color: AppColor.textColor1),
             decoration: InputDecoration(
               suffixIconConstraints: BoxConstraints(maxHeight: 18.h),
               suffixIcon: widget.obscureText //輸入框尾端圖示
@@ -97,17 +103,19 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
                             });
                           }))
                   : null,
+              /// 輸入匡預設border
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xffefefef), width: 1.w),
+                borderSide: BorderSide(color: AppColor.bgColor3!, width: 1.w),
               ),
+              /// 輸入匡預設 focus border
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Color(0xffefefef), width: 1.w),
+                borderSide: BorderSide(color: AppColor.bgColor5!, width: 1.w),
               ),
               isCollapsed: true,
               contentPadding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 12.w, right: 12.w),
               hintText: widget.hint,
               hintStyle:
-                  TextStyle(color: Color(0xff999999), fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
+                  TextStyle(color: AppColor.textColor5, fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
             ),
           ),
         ],

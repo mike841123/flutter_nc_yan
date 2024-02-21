@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:yan_demo_fcm/driven/util/widget_util.dart';
+import 'package:yan_demo_fcm/src/design/component/custom_appbar.dart';
 
-import '../../model/routes_cubit/routes_cubit.dart';
+import '../../../config/app_color.dart';
 import 'otc_cubit.dart';
 import 'otc_page.dart';
 
@@ -17,38 +17,24 @@ class OtcProvider extends StatelessWidget {
       create: (_) => OtcCubit()..init(),
       child: Builder(builder: (context) {
         return Scaffold(
-            backgroundColor: Colors.black,
-            appBar: AppBar(
+            backgroundColor: AppColor.bgColor4,
+            appBar: CustomAppBar(
               actions: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.pets,
-                    color: Colors.white,
+                Padding(
+                  padding: EdgeInsets.only(right: 14.w),
+                  child: Text(
+                    "發佈廣告",
+                    style: TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "HelveticaNeue",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.sp,
+                    ),
                   ),
-                  onPressed: () {
-                    // BlocProvider.of<RoutesCubit>(context).changePage(Routes.moneyManagementRecord);
-                  },
-                )
-              ],
-              leading: IconButton(
-                onPressed: () {
-                  BlocProvider.of<RoutesCubit>(context).pop();
-                },
-                icon: const Icon(
-                  Icons.arrow_back_ios_outlined,
-                  color: Colors.white,
                 ),
-              ),
-              title: Text("理財",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: "HelveticaNeue",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 17.sp,
-                  ),
-                  textAlign: TextAlign.center),
-              backgroundColor: const Color(0xff2e2e2e),
+              ],
+              title: "法幣交易",
             ),
             body: BlocBuilder<OtcCubit, OtcState>(
               buildWhen: (previous, current) => previous.otcCoinResponse != current.otcCoinResponse,

@@ -86,9 +86,9 @@ Widget normalInputWidget(
           autofocus: false,
           obscureText: obscureText,
           cursorWidth: 1.w,
-          cursorColor: AppColor.color2,
+          cursorColor: AppColor.textColor1,
           readOnly: readOnly,
-          style: TextStyle(fontSize: 14.sp, color: AppColor.color2),
+          style: TextStyle(fontSize: 14.sp, color: AppColor.textColor1),
           decoration: InputDecoration(
             // suffixIcon: obscureText //輸入框尾端圖示
             //     ? Container(
@@ -143,7 +143,7 @@ Widget rowTextItem(String title,String content) {
       Text(
         title,
         style: TextStyle(
-            color: Color(0xff828ea1),
+            color: AppColor.textColor1,
             fontWeight: FontWeight.w700,
             fontFamily: "HelveticaNeue",
             fontStyle: FontStyle.normal,
@@ -152,7 +152,7 @@ Widget rowTextItem(String title,String content) {
       Text(
         content,
         style: TextStyle(
-            color: Color(0xff828ea1),
+            color: AppColor.textColor1,
             fontWeight: FontWeight.w700,
             fontFamily: "HelveticaNeue",
             fontStyle: FontStyle.normal,

@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:yan_demo_fcm/domain/response/api_special_response.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../domain/response/api_response.dart';
@@ -113,7 +112,6 @@ extension RegisterComplete<T> on T {
             response.message,
             displayTime: const Duration(seconds: 2),
           );
-          // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.success, response.msg);
         }
       } else {
         switch (response.code) {
@@ -131,43 +129,6 @@ extension RegisterComplete<T> on T {
               response.message,
               displayTime: const Duration(seconds: 2),
             );
-            break;
-        }
-      }
-    }
-  }
-}
-
-/// SpecialAPI 結束後調用函式
-/// [replaceFunc] 取代默認的彈窗函式
-/// [showSuccessDialog] code 為 0 成功返回時是否要彈出成功提示，默認為是
-extension RegisterSpecialComplete<T> on T {
-  void registerSpecialComplete({Function(HttpResponse<dynamic> res)? replaceFunc, bool showSuccessDialog = true}) {
-    HttpResponse<dynamic> httpResponse = (this as HttpResponse<dynamic>);
-    ApiSpecialResponse<dynamic> response = httpResponse.data as ApiSpecialResponse<dynamic>;
-    if (replaceFunc != null) {
-      replaceFunc(httpResponse); // 是否有取代默認的調用函式
-    } else {
-      if (response.code == 0) {
-        if (showSuccessDialog) {
-          print("success");
-          // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.success, response.msg);
-        }
-      } else {
-        switch (response.code) {
-          case 403:
-          // 403 為 token 過期
-          AppConfig.token = "";
-          // BlocProvider.of<UserCubit>(getIt<StateService>().scaffoldContext).clean();
-          BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.login);
-          // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.warning, response.msg);
-            break;
-          case 2000:
-          // 2000 為 api /insure/getSymbolRealTime 成功時返回的 code
-            break;
-          default:
-          // 0 以外，未被特殊處理的 code 皆以錯誤彈窗提示處理
-          // BlocProvider.of<DialogCubit>(getIt<StateService>().scaffoldContext).updateDialog(DialogType.warning, response.msg);
             break;
         }
       }

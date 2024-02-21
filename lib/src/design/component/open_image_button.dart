@@ -64,9 +64,7 @@ class _OpenImageButtonState extends State<OpenImageButton> {
               child: SizedBox(
                 height: 30.r,
                 width: 30.r,
-                child: const CircularProgressIndicator(
-                  color: Colors.blue,
-                ),
+                child: const CircularProgressIndicator(),
               ),
             ),
           )

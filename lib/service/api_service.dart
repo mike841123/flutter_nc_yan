@@ -141,7 +141,7 @@ class ApiService {
   /// 獲取上傳圖片
   Future<UploadImageResponse> getUploadImg(String fileName) async {
     final HttpResponse<UploadImageResponse> response = await OwApi(dio).getUploadImg(AppConfig.token, fileName)
-      ..registerSpecialComplete(showSuccessDialog: false);
+      ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 

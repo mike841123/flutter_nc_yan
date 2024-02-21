@@ -5,6 +5,7 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'package:yan_demo_fcm/domain/request/otc_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/driven/util/custom_class.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
+import 'package:yan_demo_fcm/src/config/app_color.dart';
 import 'package:yan_demo_fcm/src/design/page/otc/otc_cubit.dart';
 
 import '../../../../driven/abstract/current_page_state.dart';
@@ -64,38 +65,49 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
             ),
             Column(
               children: [
-                Text("法幣交易",
-                    style:
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 30.sp),
-                    textAlign: TextAlign.left),
+                Text(
+                  "法幣交易",
+                  style: TextStyle(
+                    color: AppColor.textColor1,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "HelveticaNeue",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 30.sp,
+                  ),
+                ),
                 addVerticalSpace(14.h),
                 Text("简单又安全。搜寻热门币种，立即赚取收益。",
-                    style:
-                        TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
+                    style: TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: "HelveticaNeue",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.sp,
+                    ),
                     textAlign: TextAlign.left),
               ],
             ),
           ],
         ),
         Container(
-          color: Color(0xff2e2e2e),
+          color: AppColor.bgColor1,
           child: Column(
             children: [
               addVerticalSpace(10.h),
               ToggleSwitch(
                 minWidth: 67.w,
                 minHeight: 26.h,
-                fontSize: 15.sp,
+                fontSize: 16.sp,
                 initialLabelIndex: 0,
-                activeBgColor: [Color(0xff00cfbe)],
-                activeFgColor: Colors.white,
-                inactiveBgColor: Colors.white,
-                inactiveFgColor: Color(0xff00cfbe),
+                activeBgColor: const [Color(0xff00cfbe)],
+                activeFgColor: AppColor.bgColor5,
+                inactiveBgColor: AppColor.bgColor5,
+                inactiveFgColor: AppColor.textColor2,
                 totalSwitches: 2,
-                borderColor: [Color(0xff00cfbe)],
+                borderColor: const [Color(0xff00cfbe)],
                 borderWidth: 1.w,
                 cornerRadius: 8,
-                labels: ['買入', '賣出'],
+                labels: const ['買入', '賣出'],
                 onToggle: (index) {
                   if (index == 0) {
                     BlocProvider.of<OtcCubit>(context).updateSwitchBtn(1, _tabController.index);
@@ -109,23 +121,27 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                 buildWhen: (previous, current) => previous.otcCoinResponse != current.otcCoinResponse,
                 builder: (context, state) {
                   return TabBar(
+                    tabAlignment: TabAlignment.center,
+                    // 不加的話左邊會有padding
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: EdgeInsets.zero,
                     isScrollable: true,
-                    indicatorColor: Color(0xff00cfbe),
+                    indicatorColor: AppColor.bgColor2,
                     controller: _tabController,
                     tabs: tabs
                         .map(
                           (e) => Container(
-                            width: MediaQuery.of(context).size.width / tabs.length,
+                            width: 60.w,
                             height: 50.h,
                             alignment: Alignment.center,
                             child: Text(
                               e,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: AppColor.textColor1,
                                 fontWeight: FontWeight.w500,
                                 fontFamily: "HelveticaNeue",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.sp,
+                                fontSize: 14.sp,
                               ),
                             ),
                           ),
@@ -180,7 +196,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                         return Column(
                           children: [
                             Container(
-                              color: Color(0xff2e2e2e),
+                              color: AppColor.bgColor1,
                               padding: EdgeInsets.only(right: 18.w, left: 20.w, top: 10.h, bottom: 10.h),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,33 +206,28 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                     children: [
                                       Row(
                                         children: [
-                                          Container(
-                                            width: 50.r,
-                                            height: 50.r,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: Colors.orange,
-                                              border: Border.all(
-                                                color: Colors.white,
-                                              ),
-                                            ),
+                                          Image.asset(
+                                            'assets/images/img_default_header.png',
+                                            width: 40.r,
+                                            height: 40.r,
+                                            fit: BoxFit.fill,
                                           ),
                                           addHorizontalSpace(14.w),
                                           Text(
                                             state.advertiseUnitList![index].memberName,
                                             style: TextStyle(
-                                                color: Colors.white,
+                                                color: AppColor.textColor1,
                                                 fontWeight: FontWeight.w500,
                                                 fontFamily: "HelveticaNeue",
                                                 fontStyle: FontStyle.normal,
-                                                fontSize: 17.sp),
+                                                fontSize: 18.sp),
                                           ),
                                         ],
                                       ),
                                       Text(
                                         state.advertiseUnitList![index].transactions.toPrecisionString(),
                                         style: TextStyle(
-                                            color: Colors.white,
+                                            color: AppColor.textColor1,
                                             fontWeight: FontWeight.w500,
                                             fontFamily: "HelveticaNeue",
                                             fontStyle: FontStyle.normal,
@@ -230,7 +241,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                     children: [
                                       Text("数量:${state.advertiseUnitList![index].remainAmount.toPrecisionString()}",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -238,7 +249,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                           textAlign: TextAlign.left),
                                       Text("單價",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -253,7 +264,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                       Text(
                                           "限額:${state.advertiseUnitList![index].minLimit.toPrecisionString()}~${state.advertiseUnitList![index].maxLimit.toPrecisionString()}CNY",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -262,7 +273,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                       Text(
                                         "${state.advertiseUnitList![index].price}CNY",
                                         style: TextStyle(
-                                            color: const Color(0xff00cfbe),
+                                            color: AppColor.textColor1,
                                             fontWeight: FontWeight.w500,
                                             fontFamily: "HelveticaNeue",
                                             fontStyle: FontStyle.normal,
@@ -284,7 +295,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                         height: 26.h,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(8.0),
-                                          color: state.advertiseUnitList![index].advertiseType == 1 ? Color(0xff00cfbe) : Color(0xfff15057),
+                                          color: state.advertiseUnitList![index].advertiseType == 1 ? AppColor.bgColor2 : AppColor.bgColor6,
                                         ),
                                         child: ElevatedButton(
                                           style: transparentButtonStyle(textHeight: 0, borderRadius: 8.0),
@@ -300,7 +311,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                           child: Text(
                                             state.advertiseUnitList![index].advertiseType == 1 ? "購買" : "出售",
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w700,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,

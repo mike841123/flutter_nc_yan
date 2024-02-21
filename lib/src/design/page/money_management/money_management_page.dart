@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:yan_demo_fcm/src/design/page/money_management/money_management_cubit.dart';
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../../../driven/util/widget_util.dart';
-import '../../../config/app_color.dart';
 import '../../../config/routes.dart';
 import '../../model/routes_cubit/routes_cubit.dart';
 
@@ -83,7 +82,6 @@ class _MoneyManagementPageState extends CurrentPageState<MoneyManagementPage> {
                                   "assets/images/img_network_error.svg",
                                   width: 100.r,
                                   height: 100.r,
-                                  color: AppColor.color3,
                                   fit: BoxFit.cover,
                                 ),
                               );

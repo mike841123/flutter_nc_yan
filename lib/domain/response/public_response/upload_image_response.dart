@@ -1,10 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../api_response.dart';
-import '../api_special_response.dart';
 part 'upload_image_response.g.dart';
 
 @JsonSerializable()
-class UploadImageResponse extends ApiSpecialResponse<UploadImageResult> {
+class UploadImageResponse extends ApiResponse<UploadImageResult> {
   UploadImageResponse({String message = "", int code = 1, String? data, dynamic extend})
       : super(message: message, code: code, data: data, extend: extend);
 

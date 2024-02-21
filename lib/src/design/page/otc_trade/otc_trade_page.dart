@@ -6,6 +6,7 @@ import 'package:yan_demo_fcm/domain/request/otc_page_request/otc_trade_request.d
 import 'package:yan_demo_fcm/driven/util/custom_class.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/driven/util/widget_util.dart';
+import 'package:yan_demo_fcm/src/config/app_color.dart';
 import '../../../../domain/response/otc_page_response/otc_order_pre_response.dart';
 import '../../../../driven/abstract/current_page_state.dart';
 import '../../component/custom_text_field.dart';
@@ -51,7 +52,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                             child: Column(
                               children: [
                                 Container(
-                                  color: Color(0xff2e2e2e),
+                                  color: AppColor.bgColor1,
                                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
                                   child: Column(
                                     children: [
@@ -60,12 +61,17 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                         children: [
                                           Row(
                                             children: [
-                                              const CircleAvatar(),
+                                              Image.asset(
+                                                'assets/images/img_default_header.png',
+                                                width: 40.r,
+                                                height: 40.r,
+                                                fit: BoxFit.fill,
+                                              ),
                                               addHorizontalSpace(4.w),
                                               Text(
                                                 result.username ?? "",
                                                 style: TextStyle(
-                                                    color: Color(0xff828ea1),
+                                                    color: AppColor.textColor1,
                                                     fontWeight: FontWeight.w700,
                                                     fontFamily: "HelveticaNeue",
                                                     fontStyle: FontStyle.normal,
@@ -93,7 +99,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                               Text(
                                                 result.transactions.toPrecisionString(),
                                                 style: TextStyle(
-                                                    color: Color(0xff828ea1),
+                                                    color: AppColor.textColor1,
                                                     fontWeight: FontWeight.w700,
                                                     fontFamily: "HelveticaNeue",
                                                     fontStyle: FontStyle.normal,
@@ -119,7 +125,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                         child: Text(
                                           "备注信息：谢谢亲的购买，请记得付款",
                                           style: TextStyle(
-                                              color: Color(0xff828ea1),
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w700,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -132,14 +138,14 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                 addVerticalSpace(8.h),
                                 Container(
                                   width: double.infinity,
-                                  color: Color(0xff2e2e2e),
+                                  color: AppColor.bgColor1,
                                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 18.h),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("需要出售多少?",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -150,7 +156,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                         children: [
                                           Text("CNY",
                                               style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: AppColor.textColor1,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: "HelveticaNeue",
                                                   fontStyle: FontStyle.normal,
@@ -181,7 +187,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                           addHorizontalSpace(6.w),
                                           Text(result.unit ?? "",
                                               style: TextStyle(
-                                                  color: Colors.white,
+                                                  color: AppColor.textColor1,
                                                   fontWeight: FontWeight.w500,
                                                   fontFamily: "HelveticaNeue",
                                                   fontStyle: FontStyle.normal,
@@ -200,14 +206,14 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                 addVerticalSpace(8.h),
                                 Container(
                                   width: double.infinity,
-                                  color: Color(0xff2e2e2e),
+                                  color: AppColor.bgColor1,
                                   padding: EdgeInsets.only(top: 10.h, bottom: 20.h, left: 14.w, right: 14.w),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text("交易提醒",
                                           style: TextStyle(
-                                              color: Colors.white,
+                                              color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
                                               fontFamily: "HelveticaNeue",
                                               fontStyle: FontStyle.normal,
@@ -227,7 +233,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                             width: 390.w,
                             height: 56.h,
                             decoration: BoxDecoration(
-                              color: Color(0xff00cfbe),
+                              color: AppColor.bgColor2,
                             ),
                             child: ElevatedButton(
                               style: transparentButtonStyle(textHeight: 0),
@@ -275,7 +281,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
   return SafeArea(
     child: Container(
       width: double.infinity,
-      color: Color(0xff2e2e2e),
+      color: AppColor.bgColor1,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 12.h),
         child: Column(
@@ -285,7 +291,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
               children: [
                 Text("確認${arguments?.type.text}",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: AppColor.textColor1,
                       fontWeight: FontWeight.w400,
                       fontFamily: "HelveticaNeue",
                       fontStyle: FontStyle.normal,
@@ -298,7 +304,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                   children: [
                     Text("價格",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -307,7 +313,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                         textAlign: TextAlign.center),
                     Text("$price CNY/$unit",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -322,7 +328,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                   children: [
                     Text("數量",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -331,7 +337,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                         textAlign: TextAlign.center),
                     Text("$count $unit",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -346,7 +352,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                   children: [
                     Text("總額",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -355,7 +361,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                         textAlign: TextAlign.center),
                     Text("$total CNY",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: AppColor.textColor1,
                           fontWeight: FontWeight.w400,
                           fontFamily: "HelveticaNeue",
                           fontStyle: FontStyle.normal,
@@ -370,7 +376,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                   height: 44.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
-                    color: Color(0xff00cfbe),
+                    color: AppColor.bgColor2,
                   ),
                   child: ElevatedButton(
                     style: transparentButtonStyle(textHeight: 0),
@@ -388,7 +394,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                     child: Text(
                       "確認${arguments?.type.text}",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColor.textColor1,
                         fontWeight: FontWeight.w700,
                         fontFamily: "HelveticaNeue",
                         fontStyle: FontStyle.normal,
@@ -412,13 +418,13 @@ Widget titleAndContent(String title, String content) {
     children: [
       Text(
         title,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
+        style: TextStyle(color: AppColor.textColor1, fontWeight: FontWeight.w500, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
         textAlign: TextAlign.left,
       ),
       Expanded(
         child: Text(
           content,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
+          style: TextStyle(color: AppColor.textColor1, fontWeight: FontWeight.w500, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
           textAlign: TextAlign.left,
         ),
       ),

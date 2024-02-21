@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
-import 'package:yan_demo_fcm/src/config/app_config.dart';
 import 'package:yan_demo_fcm/src/design/page/home/home_cubit.dart';
 
 import '../../../../domain/response/home_page_response/announcement_response.dart';
@@ -12,8 +11,6 @@ import '../../../../driven/util/widget_util.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../config/app_color.dart';
-import '../../../config/routes.dart';
-import '../../model/routes_cubit/routes_cubit.dart';
 import '../../model/user_cubit/user_cubit.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,50 +30,19 @@ class _HomePageState extends CurrentPageState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: AppBar(
-        elevation: 0,
-        leadingWidth: 120.w,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 20.w),
-          child: SvgPicture.asset(
-            "assets/images/img_chat.svg",
-            fit: BoxFit.contain,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 20.w),
-            child: InkWell(
-              onTap: (){
-                BlocProvider.of<RoutesCubit>(context).changePage(Routes.chatContent);
-              },
-              child: SvgPicture.asset(
-                "assets/images/img_icon.svg",
-                fit: BoxFit.contain,
-                width: 20.r,
-                height: 20.r,
-              ),
-            ),
-          ),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const Advisement(),
+          addVerticalSpace(10.h),
+          const MyAsset(),
+          addVerticalSpace(1.w),
+          const HelpAndNewsArea(),
+          addVerticalSpace(10.h),
+          const Symbol(),
+          addVerticalSpace(10.h),
+          const UpAndDown(),
         ],
-        backgroundColor: const Color(0xff2e2e2e),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const Advisement(),
-            addVerticalSpace(10.h),
-            const MyAsset(),
-            addVerticalSpace(1.w),
-            const HelpAndNewsArea(),
-            addVerticalSpace(10.h),
-            const Symbol(),
-            addVerticalSpace(10.h),
-            const UpAndDown(),
-          ],
-        ),
       ),
     );
   }
@@ -88,7 +54,7 @@ class Advisement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff2e2e2e),
+      color: AppColor.bgColor1,
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       child: Column(
         children: [
@@ -121,7 +87,6 @@ class Advisement extends StatelessWidget {
                                   "assets/images/img_network_error.svg",
                                   width: 100.r,
                                   height: 100.r,
-                                  color: AppColor.color3,
                                   fit: BoxFit.fill,
                                 ),
                               );
@@ -150,7 +115,7 @@ class Advisement extends StatelessWidget {
                     builder: (context, state) {
                       AnnouncementResult result = state.announcementResponse?.data ?? AnnouncementResult();
                       return SizedBox(
-                        height: 20.h,
+                        height: 24.h,
                         width: 250.w,
                         child: CarouselSlider(
                           options: CarouselOptions(
@@ -171,11 +136,11 @@ class Advisement extends StatelessWidget {
                                   item.title,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    height: 1.1.h,
-                                    color: Colors.white,
+                                    height: 1.h,
+                                    color: AppColor.textColor1,
                                     fontWeight: FontWeight.w400,
                                     fontFamily: "Inter",
-                                    fontSize: 12.sp,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                               );
@@ -190,10 +155,10 @@ class Advisement extends StatelessWidget {
               Text(
                 "更多",
                 style: TextStyle(
-                  color: Color(0xff1199fa),
+                  color: AppColor.textColor2,
                   fontWeight: FontWeight.w400,
                   fontFamily: "Inter",
-                  fontSize: 12.sp,
+                  fontSize: 14.sp,
                 ),
               )
             ],
@@ -211,7 +176,7 @@ class MyAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(0xff2e2e2e),
+      color: AppColor.bgColor1,
       child: Padding(
         padding: EdgeInsets.only(top: 20.h, bottom: 14.h, left: 20.w, right: 30.w),
         child: Row(
@@ -223,7 +188,7 @@ class MyAsset extends StatelessWidget {
                 Text(
                   "我的資產",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColor.textColor1,
                     fontWeight: FontWeight.w400,
                     fontFamily: "Inter",
                     fontSize: 16.sp,
@@ -234,44 +199,27 @@ class MyAsset extends StatelessWidget {
                   buildWhen: (previous, current) => previous.balance != current.balance,
                   builder: (context, state) {
                     return Text(
-                      AppConfig.token.isNotEmpty ? "總資產" : "登入後可查看",
+                      "總資產",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                       ),
                     );
                   },
                 ),
                 addVerticalSpace(6.h),
-                AppConfig.token.isEmpty ? Container(
-                  padding: EdgeInsets.symmetric(vertical: 2.h),
-                  width: 85.w,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                    border: Border.all(color: Color(0xffa6adb4), width: 1.w),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "註冊/登入",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Inter",
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ) : BlocBuilder<UserCubit, UserState>(
+                BlocBuilder<UserCubit, UserState>(
                   buildWhen: (previous, current) => previous.balance != current.balance,
                   builder: (context, state) {
                     return Text(
                       state.balance.toPrecisionString(),
                       style: TextStyle(
-                        color: Colors.white,
+                        color: AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
-                        fontSize: 12.sp,
+                        fontSize: 14.sp,
                       ),
                     );
                   },
@@ -301,7 +249,7 @@ class HelpAndNewsArea extends StatelessWidget {
         Container(
           height: 100.h,
           width: (MediaQuery.of(context).size.width) / 2 - 1.w,
-          color: Color(0xff2e2e2e),
+          color: AppColor.bgColor1,
           child: Padding(
             padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
             child: Row(
@@ -313,7 +261,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "幫助",
                       style: TextStyle(
-                        color: Colors.white,
+                        color:  AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 16.sp,
@@ -323,7 +271,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "問題/指南/資料",
                       style: TextStyle(
-                        color: Colors.white,
+                        color:  AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 12.sp,
@@ -345,7 +293,7 @@ class HelpAndNewsArea extends StatelessWidget {
         Container(
           height: 100.h,
           width: (MediaQuery.of(context).size.width) / 2 - 1.w,
-          color: Color(0xff2e2e2e),
+          color: AppColor.bgColor1,
           child: Padding(
             padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
             child: Row(
@@ -357,7 +305,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "幫助",
                       style: TextStyle(
-                        color: Colors.white,
+                        color:  AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 16.sp,
@@ -367,7 +315,7 @@ class HelpAndNewsArea extends StatelessWidget {
                     Text(
                       "問題/指南/資料",
                       style: TextStyle(
-                        color: Colors.white,
+                        color:  AppColor.textColor1,
                         fontWeight: FontWeight.w400,
                         fontFamily: "Inter",
                         fontSize: 12.sp,
@@ -376,7 +324,7 @@ class HelpAndNewsArea extends StatelessWidget {
                   ],
                 ),
                 Image.asset(
-                  "assets/images/img_home_ad.png",
+                  "assets/images/img_home_help.png",
                   fit: BoxFit.fill,
                   width: 40.r,
                   height: 40.r,
@@ -403,11 +351,11 @@ class Symbol extends StatelessWidget {
             return state.symbolList.isEmpty
                 ? empty()
                 : Container(
-                    color: Color(0xff2e2e2e),
+                    color: AppColor.bgColor1,
                     child: CarouselSlider.builder(
                       itemCount: state.symbolList.length,
-                      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => Container(
-                        height: 114.h,
+                      itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) => SizedBox(
+                        height: 130.h,
                         child: SizedBox(
                           width: (MediaQuery.of(context).size.width) / 3,
                           child: Column(
@@ -416,17 +364,27 @@ class Symbol extends StatelessWidget {
                               Text(
                                 state.symbolList[itemIndex].symbol,
                                 style: TextStyle(
-                                  color: Color(0xffD4D4D4),
+                                  color: AppColor.textColor1,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "Inter",
-                                  fontSize: 14.sp,
+                                  fontSize: 16.sp,
                                 ),
                               ),
                               addVerticalSpace(4.h),
                               Text(
                                 state.symbolList[itemIndex].usdRate.toPrecisionString(),
                                 style: TextStyle(
-                                  color: state.symbolList[itemIndex].chg > 0 ? Color(0xff39D7A1) : Color(0xffef8995),
+                                  color: AppColor.textColor5,
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Inter",
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                              addVerticalSpace(4.h),
+                              Text(
+                                "${(state.symbolList[itemIndex].chg.d() * 100.d()).toPrecisionString()}%",
+                                style: TextStyle(
+                                  color: state.symbolList[itemIndex].chg > 0 ? AppColor.textColor6 : AppColor.textColor7,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "Inter",
                                   fontSize: 14.sp,
@@ -434,22 +392,12 @@ class Symbol extends StatelessWidget {
                               ),
                               addVerticalSpace(4.h),
                               Text(
-                                "${(state.symbolList[itemIndex].chg.d() * 100.d()).toPrecisionString()}%",
-                                style: TextStyle(
-                                  color: state.symbolList[itemIndex].chg > 0 ? Color(0xff39D7A1) : Color(0xffef8995),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Inter",
-                                  fontSize: 12.sp,
-                                ),
-                              ),
-                              addVerticalSpace(4.h),
-                              Text(
                                 "=267150.73.CNY",
                                 style: TextStyle(
-                                  color: Color(0xffABABAB),
+                                  color: AppColor.textColor5,
                                   fontWeight: FontWeight.w400,
                                   fontFamily: "Inter",
-                                  fontSize: 12.sp,
+                                  fontSize: 14.sp,
                                 ),
                               ),
                             ],
@@ -460,7 +408,7 @@ class Symbol extends StatelessWidget {
                         initialPage: 1,
                         enableInfiniteScroll: true,
                         viewportFraction: 0.33333,
-                        height: 114.h,
+                        height: 130.h,
                         autoPlay: false,
                         onPageChanged: (index, reason) {
                           // BlocProvider.of<HomeCubit>(context).updateCarouselCurrentPage(index);
@@ -486,15 +434,15 @@ class UpAndDown extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           width: double.infinity,
-          color: Color(0xff2e2e2e),
+          color: AppColor.bgColor1,
           padding: EdgeInsets.symmetric(vertical: 10.h),
           child: Text(
             "漲幅榜",
             style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
+              color: AppColor.textColor1,
+              fontWeight: FontWeight.w700,
               fontFamily: "Inter",
-              fontSize: 14.sp,
+              fontSize: 16.sp,
             ),
           ),
         ),
@@ -508,7 +456,7 @@ class UpAndDown extends StatelessWidget {
                 ? empty()
                 : Container(
                     padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
-                    color: Color(0xff2e2e2e),
+                    color: AppColor.bgColor1,
                     child: Column(
                       children: [
                         for (int i = 0; i < state.symbolList.length; i++)
@@ -525,18 +473,18 @@ class UpAndDown extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.only(top: 4.h),
                                         child: Container(
-                                          width: 16.r,
-                                          height: 16.r,
+                                          width: 18.r,
+                                          height: 18.r,
                                           decoration: BoxDecoration(
-                                            color: state.symbolList[i].chg > 0 ? Color(0xff39D7A1) : Color(0xffef8995),
+                                            color: state.symbolList[i].chg > 0 ? AppColor.textColor6 : AppColor.textColor7,
                                           ),
                                           alignment: Alignment.center,
                                           child: Text(
                                             (i + 1).toString(),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              color: Color(0xffD4D4D4),
-                                              fontSize: 10.sp,
+                                              color: AppColor.textColor8,
+                                              fontSize: 14.sp,
                                             ),
                                           ),
                                         ),
@@ -548,17 +496,17 @@ class UpAndDown extends StatelessWidget {
                                           Text(
                                             state.symbolList[i].symbol,
                                             style: TextStyle(
-                                              color: Color(0xffD4D4D4),
-                                              fontWeight: FontWeight.w400,
+                                              color: AppColor.textColor1,
+                                              fontWeight: FontWeight.w600,
                                               fontFamily: "Inter",
-                                              fontSize: 14.sp,
+                                              fontSize: 16.sp,
                                             ),
                                           ),
                                           addVerticalSpace(6.h),
                                           Text(
                                             "24H量2714.1719",
                                             style: TextStyle(
-                                              color: Color(0xffD4D4D4),
+                                              color: AppColor.textColor5,
                                               fontWeight: FontWeight.w400,
                                               fontFamily: "Inter",
                                               fontSize: 12.sp,
@@ -580,7 +528,7 @@ class UpAndDown extends StatelessWidget {
                                           Text(
                                             "4.5",
                                             style: TextStyle(
-                                              color: state.symbolList[i].chg > 0 ? Color(0xff39D7A1) : Colors.white,
+                                              color: state.symbolList[i].chg > 0 ? AppColor.textColor6 : AppColor.textColor7,
                                               fontWeight: FontWeight.w400,
                                               fontFamily: "Inter",
                                               fontSize: 14.sp,
@@ -590,10 +538,10 @@ class UpAndDown extends StatelessWidget {
                                           Text(
                                             "=33.24CNY",
                                             style: TextStyle(
-                                              color: Color(0xffD4D4D4),
+                                              color: AppColor.textColor5,
                                               fontWeight: FontWeight.w400,
                                               fontFamily: "Inter",
-                                              fontSize: 12.sp,
+                                              fontSize: 14.sp,
                                             ),
                                           ),
                                         ],
@@ -602,17 +550,17 @@ class UpAndDown extends StatelessWidget {
                                         padding: EdgeInsets.symmetric(vertical: 2.h),
                                         width: 60.w,
                                         decoration: BoxDecoration(
-                                          color: state.symbolList[i].chg > 0 ? Color(0xff39D7A1) : Color(0xffef8995),
+                                          color: state.symbolList[i].chg > 0 ? AppColor.textColor6 : AppColor.textColor7,
                                           borderRadius: const BorderRadius.all(Radius.circular(4.0)),
                                         ),
                                         alignment: Alignment.center,
                                         child: Text(
                                           "${(state.symbolList[i].chg.d() * 100.d()).toPrecisionString()}%",
                                           style: TextStyle(
-                                            color: Colors.white,
+                                            color: AppColor.textColor1,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "Inter",
-                                            fontSize: 12.sp,
+                                            fontSize: 14.sp,
                                           ),
                                         ),
                                       )

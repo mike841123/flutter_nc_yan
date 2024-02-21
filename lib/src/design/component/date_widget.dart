@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../driven/util/widget_util.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 
+import '../../config/app_color.dart';
+
 /// 日期選擇器組件
 class DateWidget extends StatefulWidget {
   const DateWidget(
@@ -64,7 +66,7 @@ class _DateWidgetState extends State<DateWidget> {
     firstDate = widget.firstDate ?? DateTime(1900);
     lastDate = widget.lastDate ?? DateTime(2100);
     bgColor = widget.bgColor ?? Colors.transparent;
-    borderColor = (widget.borderColor ?? Color(0xff999db3));
+    borderColor = (widget.borderColor ?? Colors.transparent);
     contentPadding = widget.contentPadding ?? EdgeInsets.only(left: 10.w, right: 10.w);
     borderWidth = widget.borderWidth ?? 1.w;
     iconSize = widget.iconSize ?? 18.r;
@@ -104,6 +106,7 @@ class _DateWidgetState extends State<DateWidget> {
                 child: Icon(
                   Icons.calendar_today,
                   size: iconSize,
+                  color: AppColor.bgColor4,
                 ),
               ),
               Visibility(
@@ -114,7 +117,7 @@ class _DateWidgetState extends State<DateWidget> {
                 widget.controller.text.isNotEmpty ? widget.controller.text : hint,
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  color: widget.controller.text.isNotEmpty ? Colors.black : Colors.black,
+                  color: widget.controller.text.isNotEmpty ? AppColor.textColor8 : AppColor.textColor8, // 輸入匡字顏色
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   fontStyle: FontStyle.normal,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../driven/util/custom_class.dart';
 import '../../../config/app_color.dart';
@@ -49,13 +48,15 @@ class _LobbyPageState extends State<Lobby> {
             // 觸摸收起鍵盤
             FocusScope.of(context).requestFocus(FocusNode());
           },
-          child: Scaffold(
-            // appBar: CustomAppBar(
-            //   title: listBody[state.currentIndex].title,
-            // ),
-            body: listBody[state.currentIndex].widget,
-            backgroundColor: Colors.black,
-            bottomNavigationBar: _bottomNavigationBar(),
+          child: SafeArea(
+            child: Scaffold(
+              // appBar: CustomAppBar(
+              //   title: listBody[state.currentIndex].title,
+              // ),
+              body: listBody[state.currentIndex].widget,
+              backgroundColor: Colors.black,
+              bottomNavigationBar: _bottomNavigationBar(),
+            ),
           ),
         );
       },
@@ -78,7 +79,7 @@ class _LobbyPageState extends State<Lobby> {
           finalItems.add(BottomNavigationBarItem(
             icon: SvgPicture.asset(
               items[i].assetName,
-              color: state.currentIndex == i ? AppColor.color7 : AppColor.color8,
+              color: state.currentIndex == i ?  AppColor.textColor2 : AppColor.textColor5,
               fit: BoxFit.fill,
             ),
             label: items[i].label,
@@ -90,8 +91,8 @@ class _LobbyPageState extends State<Lobby> {
           iconSize: 30.r,
           selectedFontSize: 14.sp,
           unselectedFontSize: 14.sp,
-          selectedItemColor: AppColor.color7,
-          unselectedItemColor: AppColor.color8,
+          selectedItemColor: AppColor.textColor2,
+          unselectedItemColor: AppColor.textColor5,
           type: BottomNavigationBarType.fixed,
           onTap: (index) {
             if (state.currentIndex != index) {
