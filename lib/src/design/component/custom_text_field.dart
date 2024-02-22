@@ -55,6 +55,7 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
     return SizedBox(
       width: widget.width ?? 320.w,
       child: Column(
+        crossAxisAlignment: widget.title.isEmpty ? CrossAxisAlignment.center : CrossAxisAlignment.start,
         children: [
           widget.title.isEmpty
               ? empty()

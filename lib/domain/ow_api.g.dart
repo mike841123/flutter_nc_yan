@@ -133,7 +133,7 @@ class _OwApi implements OwApi {
   }
 
   @override
-  Future<HttpResponse<UploadImageResponse>> getUploadImg(
+  Future<HttpResponse<ApiResponse<String>>> getUploadImg(
     String token,
     String? fileName, {
     CancelToken? cancelToken,
@@ -151,7 +151,7 @@ class _OwApi implements OwApi {
       ));
     }
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<UploadImageResponse>>(Options(
+        _setStreamType<HttpResponse<ApiResponse<String>>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -168,7 +168,7 @@ class _OwApi implements OwApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = UploadImageResponse.fromJson(_result.data!);
+    final value = ApiResponse<String>.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
@@ -992,6 +992,133 @@ class _OwApi implements OwApi {
             .compose(
               _dio.options,
               '/otc/order/buy',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = NormalResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<OtcOrderResponse>> getOtcOrder(
+    String token,
+    int status,
+    int pageNo,
+    int pageSize, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'status',
+      status.toString(),
+    ));
+    _data.fields.add(MapEntry(
+      'pageNo',
+      pageNo.toString(),
+    ));
+    _data.fields.add(MapEntry(
+      'pageSize',
+      pageSize.toString(),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<OtcOrderResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/order/self',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OtcOrderResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<OtcOrderDetailResponse>> getOctOrderDetail(
+    String token,
+    int orderSn, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'orderSn',
+      orderSn.toString(),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<OtcOrderDetailResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/order/detail',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OtcOrderDetailResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<NormalResponse>> otcOrderCancel(
+    String token,
+    int orderSn, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'orderSn',
+      orderSn.toString(),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<NormalResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/order/cancel',
               queryParameters: queryParameters,
               data: _data,
               cancelToken: cancelToken,

@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
 import 'package:yan_demo_fcm/src/config/app_config.dart';
 
+import '../../../../domain/response/api_response.dart';
 import '../../../../domain/response/member_page_response/promotion_response.dart';
 import '../../../../domain/response/member_page_response/security_setting_response.dart';
 import '../../../../domain/response/public_response/upload_s3_image_response.dart';
@@ -28,7 +28,7 @@ class MemberCubit extends Cubit<MemberState> {
   /// 獲取個人資料
   void getSecuritySetting() async {
     SecuritySettingResponse response = await getIt<ApiService>().getUserInfo();
-    UploadImageResponse uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.avatar ?? "");
+    ApiResponse<String> uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.avatar ?? "");
     emit(state.copyWith(
       securitySettingResponse: response,
       uploadImageResponse: uploadImageResponse,
@@ -45,7 +45,7 @@ class MemberCubit extends Cubit<MemberState> {
     UploadS3ImageResponse response = await getIt<ApiService>().uploadImg(
       file,
     );
-    UploadImageResponse uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.filename ?? "");
+    ApiResponse<String> uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.filename ?? "");
     await getIt<ApiService>().changeAvatar(response.data?.filename ?? "");
     emit(state.copyWith(
       uploadImageResponse: uploadImageResponse,

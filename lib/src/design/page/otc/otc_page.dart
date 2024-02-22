@@ -160,6 +160,7 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
             return BlocBuilder<OtcCubit, OtcState>(
               buildWhen: (previous, current) => previous.advertiseUnitList != current.advertiseUnitList,
               builder: (context, state) {
+                print(state.status);
                 switch (state.status) {
                   // api未回傳前顯示loading
                   case OtcStatus.initial:

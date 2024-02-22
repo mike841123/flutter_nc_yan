@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 
 import '../../../../domain/response/member_page_response/security_setting_response.dart';
@@ -37,6 +38,12 @@ class UserCubit extends Cubit<UserState> {
   /// 獲取使用者資料
   SecuritySettingResult? getUser() {
     return state.userData;
+  }
+
+  /// 獲取S3圖片
+  Future<String> getS3ImgUrl(String fileName) async {
+    ApiResponse<String> uploadImageResponse = await getIt<ApiService>().getUploadImg(fileName);
+    return uploadImageResponse.code == 0 ? uploadImageResponse.data ?? "" : "";
   }
 
   /// 清除資料

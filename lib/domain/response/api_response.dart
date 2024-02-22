@@ -4,7 +4,7 @@ class ApiResponse<T> {
 
   String message;
   int code;
-  dynamic data;
+  T? data;
   dynamic extend;
 
   factory ApiResponse.fromJson(dynamic json) {

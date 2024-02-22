@@ -9,12 +9,12 @@ class MemberState extends Equatable {
 
   final SecuritySettingResponse? securitySettingResponse;
   final PromotionResponse? promotionResponse;
-  final UploadImageResponse? uploadImageResponse;
+  final ApiResponse<String>? uploadImageResponse;
 
   MemberState copyWith({
     SecuritySettingResponse? securitySettingResponse,
     PromotionResponse? promotionResponse,
-    UploadImageResponse? uploadImageResponse,
+    ApiResponse<String>? uploadImageResponse,
   }) {
     return MemberState(
       securitySettingResponse: securitySettingResponse ?? this.securitySettingResponse,
@@ -27,6 +27,6 @@ class MemberState extends Equatable {
   List<Object> get props => [
         securitySettingResponse ?? SecuritySettingResponse(),
         promotionResponse ?? PromotionResponse(),
-        uploadImageResponse ?? UploadImageResponse(),
+        uploadImageResponse ?? ApiResponse<String>(),
       ];
 }

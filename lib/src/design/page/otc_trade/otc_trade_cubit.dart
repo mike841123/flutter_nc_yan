@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yan_demo_fcm/domain/request/otc_page_request/otc_trade_request.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_pre_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
+import 'package:yan_demo_fcm/src/config/routes.dart';
+import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 import 'package:yan_demo_fcm/src/design/page/otc/otc_cubit.dart';
+import '../../../../driven/service/state_service.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
 
@@ -35,8 +38,11 @@ class OtcTradeCubit extends Cubit<OtcTradeState> {
     }
     if(otcTradeResponse.code == 0) {
       print(otcTradeResponse.data);
-      print("跳轉otc detail");
+      if (getIt<StateService>().scaffoldContext.mounted) {
+        BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.otcDetails,arguments: 816361505015599104);
+      }
     }
+
     emit(state.copyWith(
       otcTradeResponse: otcTradeResponse,
     ));

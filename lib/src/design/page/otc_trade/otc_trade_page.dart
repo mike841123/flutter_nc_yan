@@ -389,7 +389,6 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                         money: total,
                         amount: count,
                       ));
-
                     },
                     child: Text(
                       "確認${arguments?.type.text}",

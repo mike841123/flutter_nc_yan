@@ -18,10 +18,11 @@ import 'package:yan_demo_fcm/domain/response/money_management_response/invested_
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/advertise_unit_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_coin_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_pre_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
-import 'package:yan_demo_fcm/domain/response/public_response/upload_image_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/upload_s3_image_response.dart';
 
 part 'ow_api.g.dart';
@@ -44,7 +45,7 @@ abstract class OwApi {
 
   /// 獲取上傳圖片
   @POST("/uc/getUploadImg")
-  Future<HttpResponse<UploadImageResponse>> getUploadImg(@Header("X-Auth-Token") String token, @Part() String? fileName,
+  Future<HttpResponse<ApiResponse<String>>> getUploadImg(@Header("X-Auth-Token") String token, @Part() String? fileName,
       {@CancelRequest() CancelToken? cancelToken});
 
   /// 上傳圖片
@@ -119,8 +120,24 @@ abstract class OwApi {
   Future<HttpResponse<OtcOrderPreResponse>> getOrderPre(@Header("X-Auth-Token") String token, @Part() int id, {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/order/sell")
-  Future<HttpResponse<NormalResponse>> otcOrderSell(@Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount, {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<NormalResponse>> otcOrderSell(
+      @Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount,
+      {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/order/buy")
-  Future<HttpResponse<NormalResponse>> otcOrderBuy(@Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount, {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<NormalResponse>> otcOrderBuy(
+      @Header("X-Auth-Token") String token, @Part() int id, @Part() int coinId, @Part() double price, @Part() double money, @Part() double amount,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/self")
+  Future<HttpResponse<OtcOrderResponse>> getOtcOrder(@Header("X-Auth-Token") String token, @Part() int status, @Part() int pageNo, @Part() int pageSize,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/detail")
+  Future<HttpResponse<OtcOrderDetailResponse>> getOctOrderDetail(@Header("X-Auth-Token") String token, @Part() int orderSn,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/cancel")
+  Future<HttpResponse<NormalResponse>> otcOrderCancel(@Header("X-Auth-Token") String token, @Part() int orderSn,
+      {@CancelRequest() CancelToken? cancelToken});
 }

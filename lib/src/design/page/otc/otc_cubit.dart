@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
-
 import '../../../../domain/request/otc_page_request/asset_flow_request.dart';
 import '../../../../domain/response/otc_page_response/advertise_unit_response.dart';
 import '../../../../domain/response/otc_page_response/otc_coin_response.dart';

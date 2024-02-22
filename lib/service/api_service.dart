@@ -12,12 +12,14 @@ import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
 import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/service/remote_config_service.dart';
 
 import '../domain/ow_api.dart';
 import '../domain/request/otc_page_request/asset_flow_request.dart';
+import '../domain/request/otc_page_request/otc_order_request.dart';
 import '../domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import '../domain/response/home_page_response/advertise_response.dart';
 import '../domain/response/home_page_response/announcement_response.dart';
@@ -28,8 +30,8 @@ import '../domain/response/member_page_response/security_setting_response.dart';
 import '../domain/response/otc_page_response/advertise_unit_response.dart';
 import '../domain/response/otc_page_response/otc_coin_response.dart';
 import '../domain/response/otc_page_response/otc_order_pre_response.dart';
+import '../domain/response/otc_page_response/otc_order_response.dart';
 import '../domain/response/public_response/normal_response.dart';
-import '../domain/response/public_response/upload_image_response.dart';
 import '../domain/response/public_response/upload_s3_image_response.dart';
 import '../driven/service/state_service.dart';
 import '../get_it_service_locator.dart';
@@ -139,8 +141,8 @@ class ApiService {
   }
 
   /// 獲取上傳圖片
-  Future<UploadImageResponse> getUploadImg(String fileName) async {
-    final HttpResponse<UploadImageResponse> response = await OwApi(dio).getUploadImg(AppConfig.token, fileName)
+  Future<ApiResponse<String>> getUploadImg(String fileName) async {
+    final HttpResponse<ApiResponse<String>> response = await OwApi(dio).getUploadImg(AppConfig.token, fileName)
       ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
@@ -258,6 +260,24 @@ class ApiService {
     final HttpResponse<NormalResponse> response =
         await OwApi(dio).otcOrderBuy(AppConfig.token, request.id, request.coinId, request.price, request.money, request.amount)
           ..registerComplete();
+    return response.data;
+  }
+
+  Future<OtcOrderResponse> getOtcOrder(OtcOrderRequest request) async {
+    final HttpResponse<OtcOrderResponse> response = await OwApi(dio).getOtcOrder(AppConfig.token, request.status, request.pageNo, request.pageSize)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<OtcOrderDetailResponse> getOctOrderDetail(int orderSn) async {
+    final HttpResponse<OtcOrderDetailResponse> response = await OwApi(dio).getOctOrderDetail(AppConfig.token, orderSn)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<NormalResponse> otcOrderCancel(int orderSn) async {
+    final HttpResponse<NormalResponse> response = await OwApi(dio).otcOrderCancel(AppConfig.token, orderSn)
+      ..registerComplete();
     return response.data;
   }
 

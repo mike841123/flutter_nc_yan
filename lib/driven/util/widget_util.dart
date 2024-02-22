@@ -103,10 +103,10 @@ Widget normalInputWidget(
             //         }))
             //     : null,
             enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffefefef),width: 1.w),
+              borderSide: BorderSide(color: Color(0xffefefef), width: 1.w),
             ),
             focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xffefefef),width: 1.w),
+              borderSide: BorderSide(color: Color(0xffefefef), width: 1.w),
             ),
             isCollapsed: true,
             contentPadding: EdgeInsets.only(top: 12.h, bottom: 12.h, left: 12.w, right: 12.w),
@@ -128,7 +128,8 @@ ButtonStyle transparentButtonStyle({double textHeight = 1, double borderRadius =
     backgroundColor: Colors.transparent,
     shadowColor: Colors.transparent,
     padding: EdgeInsets.zero,
-    textStyle: TextStyle(height: textHeight), //避免文字被切
+    textStyle: TextStyle(height: textHeight),
+    //避免文字被切
     shape: RoundedRectangleBorder(
       borderRadius: borderRadiusGeometry ?? BorderRadius.circular(borderRadius),
     ),
@@ -136,28 +137,26 @@ ButtonStyle transparentButtonStyle({double textHeight = 1, double borderRadius =
 }
 
 /// row space text item
-Widget rowTextItem(String title,String content) {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+Widget rowTextItem(String title, String content, {TextStyle? titleStyle, TextStyle? contentStyle}) {
+  return Column(
     children: [
-      Text(
-        title,
-        style: TextStyle(
-            color: AppColor.textColor1,
-            fontWeight: FontWeight.w700,
-            fontFamily: "HelveticaNeue",
-            fontStyle: FontStyle.normal,
-            fontSize: 14.sp),
+      addVerticalSpace(10.h),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: titleStyle ??
+                TextStyle(color: AppColor.textColor1, fontWeight: FontWeight.w700, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
+          ),
+          Text(
+            content,
+            style: contentStyle ??
+                TextStyle(color: AppColor.textColor1, fontWeight: FontWeight.w700, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 14.sp),
+          ),
+        ],
       ),
-      Text(
-        content,
-        style: TextStyle(
-            color: AppColor.textColor1,
-            fontWeight: FontWeight.w700,
-            fontFamily: "HelveticaNeue",
-            fontStyle: FontStyle.normal,
-            fontSize: 14.sp),
-      ),
+      addVerticalSpace(10.h),
     ],
   );
 }

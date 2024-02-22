@@ -2,21 +2,21 @@ part of 'otc_details_cubit.dart';
 
 class OtcDetailsState extends Equatable {
   const OtcDetailsState({
-    this.otcOrderPreResponse,
+    this.otcOrderDetailResult,
   });
 
-  final OtcOrderPreResponse? otcOrderPreResponse;
+  final OtcOrderDetailResult? otcOrderDetailResult;
 
   OtcDetailsState copyWith({
-    OtcOrderPreResponse? otcOrderPreResponse,
+    OtcOrderDetailResult? otcOrderDetailResult,
   }) {
     return OtcDetailsState(
-      otcOrderPreResponse: otcOrderPreResponse ?? this.otcOrderPreResponse,
+      otcOrderDetailResult: otcOrderDetailResult ?? this.otcOrderDetailResult,
     );
   }
 
   @override
   List<Object> get props => [
-        otcOrderPreResponse ?? OtcOrderPreResponse(),
+        otcOrderDetailResult ?? OtcOrderDetailResult(),
       ];
 }
