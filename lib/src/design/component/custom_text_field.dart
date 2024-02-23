@@ -59,6 +59,7 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
         children: [
           widget.title.isEmpty
               ? empty()
+
               /// 輸入匡title
               : Padding(
                   padding: EdgeInsets.only(left: 12.w),
@@ -73,6 +74,7 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
                     ),
                   ),
                 ),
+
           /// 輸入匡
           TextField(
             controller: widget.controller,
@@ -104,10 +106,12 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
                             });
                           }))
                   : null,
+
               /// 輸入匡預設border
               enabledBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppColor.bgColor3!, width: 1.w),
               ),
+
               /// 輸入匡預設 focus border
               focusedBorder: UnderlineInputBorder(
                 borderSide: BorderSide(color: AppColor.bgColor5!, width: 1.w),

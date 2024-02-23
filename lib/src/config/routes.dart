@@ -3,6 +3,7 @@ import 'package:yan_demo_fcm/src/design/page/asset_flow/asset_flow_provider.dart
 import 'package:yan_demo_fcm/src/design/page/my_advertisement/my_advertisement_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_details/otc_details_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_trade/otc_trade_provider.dart';
+import '../design/page/advertise_ad/advertise_ad_provider.dart';
 import '../design/page/chat_content_page/chat_content_provider.dart';
 import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
@@ -24,7 +25,8 @@ class Routes {
       moneyManagementRecord = '/moneyManagementRecord',
       otcTrade = '/otcTrade',
       otcDetails = '/otcDetails',
-      otcList = '/otcList';
+      otcList = '/otcList',
+      advertiseAd = '/advertiseAd';
 
   static List<String> roots = [
     Routes.login,
@@ -46,5 +48,6 @@ class Routes {
     Routes.otcTrade: (BuildContext context) => const OtcTradeProvider(),
     Routes.otcDetails: (BuildContext context) => const OtcDetailsProvider(),
     Routes.otcList: (BuildContext context) => const OtcListProvider(),
+    Routes.advertiseAd: (BuildContext context) => const AdvertiseAdProvider(),
   };
 }

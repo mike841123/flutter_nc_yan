@@ -13,11 +13,27 @@ class MyAdvertisementCubit extends Cubit<MyAdvertisementState> {
     getOtcAdvertise(1);
   }
 
-  void getOtcAdvertise(int pageNo) async {
-    OtcAdvertiseResponse response = await getIt<ApiService>().getOtcAdvertise(pageNo, 10);
-    emit(state.copyWith(
-      otcAdvertiseResponse: response,
-    ));
+  void getOtcAdvertise(int pageNo, {bool isInit = true}) async {
+    if (isInit) {
+      emit(state.copyWith(
+        status: MyAdvertisementStatus.initial,
+        total: 0,
+        page: 1,
+      ));
+      OtcAdvertiseResponse response = await getIt<ApiService>().getOtcAdvertise(pageNo, 10);
+      emit(state.copyWith(
+        otcAdvertiseList: response.data!.content,
+        page: 1,
+        total: response.data?.totalElements,
+        status: MyAdvertisementStatus.success,
+      ));
+    } else {
+      OtcAdvertiseResponse response = await getIt<ApiService>().getOtcAdvertise(pageNo, 10);
+      emit(state.copyWith(
+        otcAdvertiseList: List.of(state.otcAdvertiseList as Iterable<Content>)..addAll(response.data!.content),
+        page: state.page + 1,
+        total: response.data?.totalElements,
+      ));
+    }
   }
-
 }

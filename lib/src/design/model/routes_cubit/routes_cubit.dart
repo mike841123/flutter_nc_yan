@@ -36,7 +36,6 @@ class RoutesCubit extends Cubit<RoutesState> {
   /// 更新當前路由，並檢查是否顯示導航欄
   /// [page] 路由名稱
   void updateCurrentRoutes(String? page) {
-    print(page);
     emit(state.copyWith(currentPage: page));
   }
 

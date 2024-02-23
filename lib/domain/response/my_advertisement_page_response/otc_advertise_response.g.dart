@@ -32,11 +32,15 @@ OtcAdvertiseResult _$OtcAdvertiseResultFromJson(Map<String, dynamic> json) =>
               ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      totalElements: json['totalElements'] as int? ?? 0,
+      totalPages: json['totalPages'] as int? ?? 0,
     );
 
 Map<String, dynamic> _$OtcAdvertiseResultToJson(OtcAdvertiseResult instance) =>
     <String, dynamic>{
       'content': instance.content,
+      'totalElements': instance.totalElements,
+      'totalPages': instance.totalPages,
     };
 
 Content _$ContentFromJson(Map<String, dynamic> json) => Content(
@@ -49,6 +53,10 @@ Content _$ContentFromJson(Map<String, dynamic> json) => Content(
       maxLimit: (json['maxLimit'] as num?)?.toDouble() ?? 0,
       minLimit: (json['minLimit'] as num?)?.toDouble() ?? 0,
       remainAmount: (json['remainAmount'] as num?)?.toDouble() ?? 0,
+      coin: json['coin'] == null
+          ? null
+          : Coin.fromJson(json['coin'] as Map<String, dynamic>),
+      status: json['status'] as int?,
     );
 
 Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
@@ -59,6 +67,8 @@ Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
       'maxLimit': instance.maxLimit,
       'remainAmount': instance.remainAmount,
       'member': instance.member,
+      'coin': instance.coin,
+      'status': instance.status,
     };
 
 Member _$MemberFromJson(Map<String, dynamic> json) => Member(
@@ -67,4 +77,12 @@ Member _$MemberFromJson(Map<String, dynamic> json) => Member(
 
 Map<String, dynamic> _$MemberToJson(Member instance) => <String, dynamic>{
       'email': instance.email,
+    };
+
+Coin _$CoinFromJson(Map<String, dynamic> json) => Coin(
+      name: json['name'] as String? ?? "",
+    );
+
+Map<String, dynamic> _$CoinToJson(Coin instance) => <String, dynamic>{
+      'name': instance.name,
     };
