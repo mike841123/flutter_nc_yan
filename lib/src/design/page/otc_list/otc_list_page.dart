@@ -90,40 +90,54 @@ class _OtcListPageState extends CurrentPageState<OtcListPage> with SingleTickerP
                     return const Center(child: CircularProgressIndicator());
                   // api回傳成功
                   case OtcListStatus.success:
-                    return ListView.separated(
-                      padding: EdgeInsets.only(top: 16.h, bottom: 16.h),
-                      itemCount: state.otcOrderList!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index == state.otcOrderList!.length - 1) {
-                          /// 當未到達最後一筆就繼續取10筆
-                          if (state.otcOrderList!.length < state.total) {
-                            //获取数据
-                            BlocProvider.of<OtcListCubit>(context).getOtcOrder(
-                                OtcOrderRequest(
-                                  pageNo: state.page + 1,
-                                  pageSize: 10,
-                                  status: _getSelectedStatus(_tabController.index),
-                                ),
-                                isInit: false);
-                            //加载时显示loading
-                            return Container(
-                              alignment: Alignment.center,
-                              child: const SizedBox(
-                                width: 24.0,
-                                height: 24.0,
-                                child: CircularProgressIndicator(strokeWidth: 2.0),
+                    return state.otcOrderList!.isEmpty
+                        ? Center(
+                            child: Text(
+                              "暫無紀錄",
+                              style: TextStyle(
+                                color: AppColor.textColor1,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: "HelveticaNeue",
+                                fontStyle: FontStyle.normal,
+                                fontSize: 16.sp,
                               ),
-                            );
-                          }
-                        }
-                        return _orderItem(state.otcOrderList![index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          height: 16.h,
-                        );
-                      },
-                    );
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        : ListView.separated(
+                            padding: EdgeInsets.only(top: 16.h, bottom: 16.h),
+                            itemCount: state.otcOrderList!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index == state.otcOrderList!.length - 1) {
+                                /// 當未到達最後一筆就繼續取10筆
+                                if (state.otcOrderList!.length < state.total) {
+                                  //获取数据
+                                  BlocProvider.of<OtcListCubit>(context).getOtcOrder(
+                                      OtcOrderRequest(
+                                        pageNo: state.page + 1,
+                                        pageSize: 10,
+                                        status: _getSelectedStatus(_tabController.index),
+                                      ),
+                                      isInit: false);
+                                  //加载时显示loading
+                                  return Container(
+                                    alignment: Alignment.center,
+                                    child: const SizedBox(
+                                      width: 24.0,
+                                      height: 24.0,
+                                      child: CircularProgressIndicator(strokeWidth: 2.0),
+                                    ),
+                                  );
+                                }
+                              }
+                              return _orderItem(state.otcOrderList![index]);
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 16.h,
+                              );
+                            },
+                          );
                   default:
                     return const Center(child: CircularProgressIndicator());
                 }

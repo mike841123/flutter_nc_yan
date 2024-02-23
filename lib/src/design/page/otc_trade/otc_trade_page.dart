@@ -118,7 +118,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                       addVerticalSpace(8.h),
                                       rowTextItem("所在地", result.country ?? ""),
                                       addVerticalSpace(8.h),
-                                      rowTextItem("價格", "${result.timeLimit}分鐘"),
+                                      rowTextItem("交易期限", "${result.timeLimit}分鐘"),
                                       addVerticalSpace(16.h),
                                       Container(
                                         alignment: Alignment.centerLeft,
@@ -143,7 +143,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("需要出售多少?",
+                                      Text("需要${BlocProvider.of<OtcTradeCubit>(context).getOtcAdvertiseTypeText(widget.arguments.type)}多少?",
                                           style: TextStyle(
                                               color: AppColor.textColor1,
                                               fontWeight: FontWeight.w500,
@@ -176,13 +176,6 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                                 }
                                               }
                                             },
-                                          ),
-                                          addHorizontalSpace(6.w),
-                                          Image.asset(
-                                            "assets/images/img_change.png",
-                                            fit: BoxFit.fill,
-                                            width: 20.r,
-                                            height: 20.r,
                                           ),
                                           addHorizontalSpace(6.w),
                                           Text(result.unit ?? "",
@@ -255,7 +248,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
                                 }
                               },
                               child: Text(
-                                "出售",
+                                BlocProvider.of<OtcTradeCubit>(context).getOtcAdvertiseTypeText(widget.arguments.type),
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700,
@@ -277,7 +270,7 @@ class _OtcTradePageState extends CurrentPageState<OtcTradePage> {
   }
 }
 
-Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double price = 0, double count = 0, double total = 0, String unit = ""}) {
+Widget detailDialog(BuildContext context, {OtcTradeArguments? arguments, double price = 0, double count = 0, double total = 0, String unit = ""}) {
   return SafeArea(
     child: Container(
       width: double.infinity,
@@ -289,7 +282,7 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
           children: [
             Column(
               children: [
-                Text("確認${arguments?.type.text}",
+                Text("確認${BlocProvider.of<OtcTradeCubit>(context).getOtcAdvertiseTypeText(arguments!.type)}",
                     style: TextStyle(
                       color: AppColor.textColor1,
                       fontWeight: FontWeight.w400,
@@ -372,36 +365,37 @@ Widget detailDialog(BuildContext context,{OtcTradeArguments? arguments,double pr
                 ),
                 addVerticalSpace(8.h),
                 Container(
-                  width: 166.w,
-                  height: 44.h,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: AppColor.bgColor2,
-                  ),
-                  child: ElevatedButton(
-                    style: transparentButtonStyle(textHeight: 0),
-                    onPressed: () {
-                      SmartDialog.dismiss();
-                      BlocProvider.of<OtcTradeCubit>(context).otcTrade(arguments!.type, OtcTradeRequest(
-                        id: arguments.id,
-                        coinId: arguments.coinId,
-                        price: price,
-                        money: total,
-                        amount: count,
-                      ));
-                    },
-                    child: Text(
-                      "確認${arguments?.type.text}",
-                      style: TextStyle(
-                        color: AppColor.textColor1,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "HelveticaNeue",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 16.sp,
-                      ),
+                    width: 166.w,
+                    height: 44.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                      color: AppColor.bgColor2,
                     ),
-                  )
-                )
+                    child: ElevatedButton(
+                      style: transparentButtonStyle(textHeight: 0),
+                      onPressed: () {
+                        SmartDialog.dismiss();
+                        BlocProvider.of<OtcTradeCubit>(context).otcTrade(
+                            arguments.type,
+                            OtcTradeRequest(
+                              id: arguments.id,
+                              coinId: arguments.coinId,
+                              price: price,
+                              money: total,
+                              amount: count,
+                            ));
+                      },
+                      child: Text(
+                        "確認${BlocProvider.of<OtcTradeCubit>(context).getOtcAdvertiseTypeText(arguments.type)}",
+                        style: TextStyle(
+                          color: AppColor.textColor1,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "HelveticaNeue",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ))
               ],
             ),
           ],

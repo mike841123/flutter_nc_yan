@@ -29,6 +29,7 @@ import '../domain/response/member_page_response/promotion_response.dart';
 import '../domain/response/member_page_response/security_setting_response.dart';
 import '../domain/response/otc_page_response/advertise_unit_response.dart';
 import '../domain/response/otc_page_response/otc_coin_response.dart';
+import '../domain/response/otc_page_response/otc_order_pay_response.dart';
 import '../domain/response/otc_page_response/otc_order_pre_response.dart';
 import '../domain/response/otc_page_response/otc_order_response.dart';
 import '../domain/response/public_response/normal_response.dart';
@@ -277,6 +278,12 @@ class ApiService {
 
   Future<NormalResponse> otcOrderCancel(int orderSn) async {
     final HttpResponse<NormalResponse> response = await OwApi(dio).otcOrderCancel(AppConfig.token, orderSn)
+      ..registerComplete();
+    return response.data;
+  }
+
+  Future<OtcOrderPayResponse> otcOrderPay(int orderSn) async {
+    final HttpResponse<OtcOrderPayResponse> response = await OwApi(dio).otcOrderPay(AppConfig.token, orderSn)
       ..registerComplete();
     return response.data;
   }

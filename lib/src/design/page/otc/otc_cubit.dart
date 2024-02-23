@@ -60,4 +60,23 @@ class OtcCubit extends Cubit<OtcState> {
       otcCoinResponse: response,
     ));
   }
+
+  List<String> getPayModeList(String payModeReturn) {
+    String payMode = payModeReturn;
+    List<String> list = payMode.split(",");
+    return list;
+  }
+
+  String getPayModeImageSrc(String payMode) {
+    switch (payMode) {
+      case "微信":
+        return "wechat";
+      case "支付宝":
+        return "alipay";
+      case "银联":
+        return "bank";
+      default:
+        return "";
+    }
+  }
 }

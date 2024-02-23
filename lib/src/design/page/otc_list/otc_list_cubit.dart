@@ -13,7 +13,7 @@ class OtcListCubit extends Cubit<OtcListState> {
 
   void init() {
     getOtcOrder(OtcOrderRequest(
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 10,
       status: OrderStatus.unpaid.value,
     ));

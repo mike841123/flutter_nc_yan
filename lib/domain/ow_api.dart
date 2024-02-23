@@ -19,6 +19,7 @@ import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_
 import 'package:yan_demo_fcm/domain/response/otc_page_response/advertise_unit_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_coin_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
+import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_pay_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_pre_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
@@ -139,5 +140,9 @@ abstract class OwApi {
 
   @POST("/otc/order/cancel")
   Future<HttpResponse<NormalResponse>> otcOrderCancel(@Header("X-Auth-Token") String token, @Part() int orderSn,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/otc/order/pay")
+  Future<HttpResponse<OtcOrderPayResponse>> otcOrderPay(@Header("X-Auth-Token") String token, @Part() int orderSn,
       {@CancelRequest() CancelToken? cancelToken});
 }

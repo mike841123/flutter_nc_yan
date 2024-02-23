@@ -19,7 +19,7 @@ class OtcTradeProvider extends StatelessWidget {
         return Scaffold(
             backgroundColor: AppColor.bgColor1,
             appBar: CustomAppBar(
-              title: "${arguments.type.text}${arguments.unit}",
+              title: "${BlocProvider.of<OtcTradeCubit>(context).getOtcAdvertiseTypeText(arguments.type)}${arguments.unit}",
             ),
             body: OtcTradePage(
               arguments: arguments,

@@ -1,13 +1,12 @@
 part of 'otc_cubit.dart';
 
 enum OtcAdvertiseType {
-  buy(0, "買入"),
-  sell(1, "賣出");
+  buy(0),
+  sell(1);
 
-  const OtcAdvertiseType(this.value, this.text);
+  const OtcAdvertiseType(this.value);
 
   final int value;
-  final String text;
 }
 
 class OtcState extends Equatable {

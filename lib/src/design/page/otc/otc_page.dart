@@ -160,7 +160,6 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
             return BlocBuilder<OtcCubit, OtcState>(
               buildWhen: (previous, current) => previous.advertiseUnitList != current.advertiseUnitList,
               builder: (context, state) {
-                print(state.status);
                 switch (state.status) {
                   // api未回傳前顯示loading
                   case OtcStatus.initial:
@@ -286,10 +285,21 @@ class _OtcPageState extends CurrentPageState<OtcPage> with SingleTickerProviderS
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Container(
-                                        width: 14.r,
-                                        height: 14.r,
-                                        color: Colors.cyan,
+                                      Row(
+                                        children: [
+                                          for (int i = 0;
+                                              i < BlocProvider.of<OtcCubit>(context).getPayModeList(state.advertiseUnitList![index].payMode!).length;
+                                              i++)
+                                            Padding(
+                                              padding: EdgeInsets.only(right: 4.w),
+                                              child: Image.asset(
+                                                "assets/images/img_paymode_${BlocProvider.of<OtcCubit>(context).getPayModeImageSrc(BlocProvider.of<OtcCubit>(context).getPayModeList(state.advertiseUnitList![index].payMode!)[i])}.png",
+                                                fit: BoxFit.fill,
+                                                width: 20.r,
+                                                height: 20.r,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                       Container(
                                         width: 76.w,

@@ -105,9 +105,12 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
                             ),
                           ),
                         ),
-                        state.otcOrderDetailResult?.status == OrderStatus.unpaid.value ||
-                                state.otcOrderDetailResult?.status == OrderStatus.paid.value ||
-                                state.otcOrderDetailResult?.status == OrderStatus.appeal.value
+
+                        /// type = 0才需顯示付款或取消訂單區塊
+                        state.otcOrderDetailResult?.type == 0 &&
+                                (state.otcOrderDetailResult?.status == OrderStatus.unpaid.value ||
+                                    state.otcOrderDetailResult?.status == OrderStatus.paid.value ||
+                                    state.otcOrderDetailResult?.status == OrderStatus.appeal.value)
                             ? Row(
                                 children: [
                                   Expanded(
@@ -140,12 +143,12 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
                                         onPressed: () {
                                           SmartDialog.show(
                                             builder: (_) {
-                                              return promptDialog(state.otcOrderDetailResult?.orderSn ?? "");
+                                              return promptDialog(state.otcOrderDetailResult?.orderSn ?? "", state.otcOrderDetailResult?.status);
                                             },
                                           );
                                         },
                                         child: Text(
-                                          "取消交易",
+                                          _getOrderStatus(state.otcOrderDetailResult?.status ?? -1),
                                           style: TextStyle(
                                               color: AppColor.bgColor4,
                                               fontWeight: FontWeight.w700,
@@ -233,7 +236,11 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
     );
   }
 
-  Widget promptDialog(String id) {
+  Widget promptDialog(
+    String id,
+    int? status,
+  ) {
+    int statusType = status ?? -1;
     return Container(
       width: 300.w,
       decoration: BoxDecoration(
@@ -259,7 +266,7 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
           Container(
             padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 14.w),
             child: Text(
-              "已付款向並不退還！您確定取消訂單嗎？",
+              _getPromptDialogText(statusType),
               style:
                   TextStyle(color: AppColor.textColor1, fontWeight: FontWeight.w700, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
             ),
@@ -305,9 +312,16 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
                   child: ElevatedButton(
                     style: transparentButtonStyle(textHeight: 0, borderRadius: 0),
                     onPressed: () {
-                      BlocProvider.of<OtcDetailsCubit>(context).otcOrderCancel(id, () {
-                        SmartDialog.dismiss();
-                      });
+                      if (statusType == OrderStatus.unpaid.value) {
+                        BlocProvider.of<OtcDetailsCubit>(context).otcOrderPay(id, () {
+                          SmartDialog.dismiss();
+                        });
+                      }
+                      if (statusType == OrderStatus.paid.value) {
+                        BlocProvider.of<OtcDetailsCubit>(context).otcOrderCancel(id, () {
+                          SmartDialog.dismiss();
+                        });
+                      }
                     },
                     child: Text(
                       "確定",
@@ -369,5 +383,27 @@ class _OtcDetailsPageState extends CurrentPageState<OtcDetailsPage> {
         ),
       ),
     );
+  }
+
+  String _getOrderStatus(int status) {
+    switch (status) {
+      case 1:
+        return "付款完成";
+      case 2:
+        return "取消付款";
+      default:
+        return "";
+    }
+  }
+
+  String _getPromptDialogText(int status) {
+    switch (status) {
+      case 1:
+        return "您確定已經付款完成嗎";
+      case 2:
+        return "已付款向並不退還！您確定取消訂單嗎？";
+      default:
+        return "";
+    }
   }
 }

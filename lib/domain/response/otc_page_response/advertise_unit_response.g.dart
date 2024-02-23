@@ -57,6 +57,7 @@ Context _$ContextFromJson(Map<String, dynamic> json) => Context(
       memberName: json['memberName'] as String? ?? "",
       coinId: json['coinId'] as int? ?? 0,
       unit: json['unit'] as String? ?? "",
+      payMode: json['payMode'] as String? ?? "",
     );
 
 Map<String, dynamic> _$ContextToJson(Context instance) => <String, dynamic>{
@@ -72,4 +73,5 @@ Map<String, dynamic> _$ContextToJson(Context instance) => <String, dynamic>{
       'memberName': instance.memberName,
       'coinId': instance.coinId,
       'unit': instance.unit,
+      'payMode': instance.payMode,
     };

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/normal_response.dart';
+import '../../../../domain/response/otc_page_response/otc_order_pay_response.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
 
@@ -21,8 +22,16 @@ class OtcDetailsCubit extends Cubit<OtcDetailsState> {
     ));
   }
 
-  void otcOrderCancel(String id,Function completedFunc) async {
+  void otcOrderCancel(String id, Function completedFunc) async {
     NormalResponse response = await getIt<ApiService>().otcOrderCancel(int.parse(id));
+    if (response.code == 0) {
+      completedFunc();
+      getOtcOrderDetails(id);
+    }
+  }
+
+  void otcOrderPay(String id, Function completedFunc) async {
+    OtcOrderPayResponse response = await getIt<ApiService>().otcOrderPay(int.parse(id));
     if (response.code == 0) {
       completedFunc();
       getOtcOrderDetails(id);

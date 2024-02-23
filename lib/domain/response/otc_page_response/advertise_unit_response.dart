@@ -47,6 +47,7 @@ class Context {
     this.memberName = "",
     this.coinId = 0,
     this.unit = "",
+    this.payMode = "",
   });
 
   int advType;
@@ -61,6 +62,7 @@ class Context {
   String memberName;
   int coinId;
   String unit;
+  String? payMode;
 
   factory Context.fromJson(Map<String, dynamic> json) => _$ContextFromJson(json);
 

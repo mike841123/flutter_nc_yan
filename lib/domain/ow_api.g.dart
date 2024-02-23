@@ -1133,6 +1133,45 @@ class _OwApi implements OwApi {
     return httpResponse;
   }
 
+  @override
+  Future<HttpResponse<OtcOrderPayResponse>> otcOrderPay(
+    String token,
+    int orderSn, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'orderSn',
+      orderSn.toString(),
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<OtcOrderPayResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/otc/order/pay',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OtcOrderPayResponse.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
         !(requestOptions.responseType == ResponseType.bytes ||

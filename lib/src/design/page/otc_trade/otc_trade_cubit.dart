@@ -36,10 +36,9 @@ class OtcTradeCubit extends Cubit<OtcTradeState> {
         otcTradeResponse = await getIt<ApiService>().otcOrderSell(request);
         break;
     }
-    if(otcTradeResponse.code == 0) {
-      print(otcTradeResponse.data);
+    if (otcTradeResponse.code == 0) {
       if (getIt<StateService>().scaffoldContext.mounted) {
-        BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.otcDetails,arguments: 816361505015599104);
+        BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).changePage(Routes.otcDetails, arguments: otcTradeResponse.data);
       }
     }
 
@@ -64,6 +63,15 @@ class OtcTradeCubit extends Cubit<OtcTradeState> {
         return "bank";
       default:
         return "";
+    }
+  }
+
+  String getOtcAdvertiseTypeText(OtcAdvertiseType type) {
+    switch (type) {
+      case OtcAdvertiseType.buy:
+        return "買入";
+      case OtcAdvertiseType.sell:
+        return "賣出";
     }
   }
 }
