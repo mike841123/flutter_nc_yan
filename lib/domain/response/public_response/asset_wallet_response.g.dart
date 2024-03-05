@@ -47,8 +47,12 @@ Map<String, dynamic> _$AssetWalletResultToJson(AssetWalletResult instance) =>
 
 Coin _$CoinFromJson(Map<String, dynamic> json) => Coin(
       unit: json['unit'] as String? ?? "",
+      usdRate: (json['usdRate'] as num?)?.toDouble() ?? 0,
+      cnyRate: (json['cnyRate'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$CoinToJson(Coin instance) => <String, dynamic>{
       'unit': instance.unit,
+      'cnyRate': instance.cnyRate,
+      'usdRate': instance.usdRate,
     };

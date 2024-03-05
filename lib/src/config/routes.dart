@@ -4,6 +4,7 @@ import 'package:yan_demo_fcm/src/design/page/help_center/help_center_provider.da
 import 'package:yan_demo_fcm/src/design/page/my_advertisement/my_advertisement_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_details/otc_details_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_trade/otc_trade_provider.dart';
+import 'package:yan_demo_fcm/src/design/page/recharge/recharge_page.dart';
 import '../design/page/advertise_ad/advertise_ad_provider.dart';
 import '../design/page/announcement/announcement_provider.dart';
 import '../design/page/chat_content_page/chat_content_provider.dart';
@@ -34,7 +35,8 @@ class Routes {
       helpCenter = '/helpCenter',
       details = '/details',
       announcement = '/announcement',
-      myAsset = '/myAsset';
+      myAsset = '/myAsset',
+      recharge = '/recharge';
 
   static List<String> roots = [
     Routes.login,
@@ -61,5 +63,6 @@ class Routes {
     Routes.details: (BuildContext context) => const DetailsProvider(),
     Routes.announcement: (BuildContext context) => const AnnouncementProvider(),
     Routes.myAsset: (BuildContext context) => const MyAssetProvider(),
+    Routes.recharge: (BuildContext context) => const RechargePage(),
   };
 }

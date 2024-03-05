@@ -21,4 +21,34 @@ class MyAssetsCubit extends Cubit<MyAssetsState> {
       status: response.code == 0 ? MyAssetsStatus.success : MyAssetsStatus.failure,
     ));
   }
+
+  double getTotalUsdtAsset() {
+    double total = 0;
+    for (int i = 0; i < state.assetWalletResponse!.data!.length; i++) {
+      total +=
+          (state.assetWalletResponse!.data![i].balance + state.assetWalletResponse!.data![i].frozenBalance) * state.assetWalletResponse!.data![i].coin!.usdRate;
+    }
+    return total;
+  }
+
+  double getTotalCnyAsset() {
+    double total = 0;
+    for (int i = 0; i < state.assetWalletResponse!.data!.length; i++) {
+      total +=
+          (state.assetWalletResponse!.data![i].balance + state.assetWalletResponse!.data![i].frozenBalance) * state.assetWalletResponse!.data![i].coin!.cnyRate;
+    }
+    return total;
+  }
+
+  void updateIsHideAsset() {
+    emit(state.copyWith(isHideAsset: !state.isHideAsset));
+  }
+
+  void updateIsHideZeroAsset(bool value) {
+    emit(state.copyWith(isHideZeroAsset: value));
+  }
+
+  void updateSearchText(String text) {
+    emit(state.copyWith(searchText: text));
+  }
 }

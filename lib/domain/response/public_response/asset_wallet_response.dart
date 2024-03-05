@@ -39,9 +39,13 @@ class AssetWalletResult {
 class Coin {
   Coin({
     this.unit = "",
+    this.usdRate = 0,
+    this.cnyRate = 0,
   });
 
   String unit;
+  double cnyRate;
+  double usdRate;
 
   factory Coin.fromJson(Map<String, dynamic> json) => _$CoinFromJson(json);
 
