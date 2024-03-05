@@ -20,7 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.isInt = false,
     this.isCenter = false,
     this.hint = "",
-    this.rowTitle = false,
+    this.isShowBorder = true,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -34,7 +34,7 @@ class CustomTextField extends StatefulWidget {
   final bool isInt;
   final bool isCenter;
   final String hint;
-  final bool rowTitle;
+  final bool isShowBorder;
 
   @override
   CurrentPageState<CustomTextField> createState() => _CustomTextFieldState();
@@ -109,12 +109,12 @@ class _CustomTextFieldState extends CurrentPageState<CustomTextField> {
 
               /// 輸入匡預設border
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: AppColor.bgColor3!, width: 1.w),
+                borderSide: BorderSide(color: widget.isShowBorder ? AppColor.bgColor3! : Colors.transparent, width: 1.w),
               ),
 
               /// 輸入匡預設 focus border
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: AppColor.bgColor5!, width: 1.w),
+                borderSide: BorderSide(color: widget.isShowBorder ? AppColor.bgColor5! : Colors.transparent, width: 1.w),
               ),
               isCollapsed: true,
               contentPadding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 12.w, right: 12.w),

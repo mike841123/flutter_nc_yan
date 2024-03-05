@@ -73,8 +73,7 @@ abstract class OwApi {
 
   /// 公告詳情
   @POST("/uc/announcement/more")
-  Future<HttpResponse<AnnouncementDetailsResponse>> getAnnouncementMore(
-      @Header("X-Auth-Token") String token, @Part() int id, @Part() String lang,
+  Future<HttpResponse<AnnouncementDetailsResponse>> getAnnouncementMore(@Header("X-Auth-Token") String token, @Part() int id, @Part() String lang,
       {@CancelRequest() CancelToken? cancelToken});
 
   /// 取得發佈廣告
@@ -159,4 +158,7 @@ abstract class OwApi {
   @POST("/uc/ancillary/more/help/detail")
   Future<HttpResponse<DetailsResponse>> getHelpDetails(@Header("X-Auth-Token") String token, @Part() String? lang, @Part() int id,
       {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/uc/asset/wallet")
+  Future<HttpResponse<AssetWalletResponse>> getAssetsWallet(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 }

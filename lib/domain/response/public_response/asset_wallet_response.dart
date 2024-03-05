@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../api_response.dart';
+
 part 'asset_wallet_response.g.dart';
 
 @JsonSerializable()
@@ -15,11 +16,34 @@ class AssetWalletResponse extends ApiResponse<List<AssetWalletResult>> {
 
 @JsonSerializable()
 class AssetWalletResult {
-  AssetWalletResult({this.balance = 0});
+  AssetWalletResult({
+    this.id = 0,
+    this.balance = 0,
+    this.frozenBalance = 0,
+    this.toReleased = 0,
+    this.coin,
+  });
 
+  int id;
   double balance;
+  double frozenBalance;
+  double toReleased;
+  Coin? coin;
 
   factory AssetWalletResult.fromJson(Map<String, dynamic> json) => _$AssetWalletResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$AssetWalletResultToJson(this);
+}
+
+@JsonSerializable()
+class Coin {
+  Coin({
+    this.unit = "",
+  });
+
+  String unit;
+
+  factory Coin.fromJson(Map<String, dynamic> json) => _$CoinFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CoinToJson(this);
 }

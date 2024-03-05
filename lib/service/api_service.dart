@@ -309,6 +309,12 @@ class ApiService {
     return response.data;
   }
 
+  Future<AssetWalletResponse> getAssetsWallet() async {
+    final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getAssetsWallet(AppConfig.token)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
   /// 產生隨機亂數
   String getRandomStr() {
     String randomStr = "";

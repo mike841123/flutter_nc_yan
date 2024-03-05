@@ -27,10 +27,28 @@ Map<String, dynamic> _$AssetWalletResponseToJson(
 
 AssetWalletResult _$AssetWalletResultFromJson(Map<String, dynamic> json) =>
     AssetWalletResult(
+      id: json['id'] as int? ?? 0,
       balance: (json['balance'] as num?)?.toDouble() ?? 0,
+      frozenBalance: (json['frozenBalance'] as num?)?.toDouble() ?? 0,
+      toReleased: (json['toReleased'] as num?)?.toDouble() ?? 0,
+      coin: json['coin'] == null
+          ? null
+          : Coin.fromJson(json['coin'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AssetWalletResultToJson(AssetWalletResult instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'balance': instance.balance,
+      'frozenBalance': instance.frozenBalance,
+      'toReleased': instance.toReleased,
+      'coin': instance.coin,
+    };
+
+Coin _$CoinFromJson(Map<String, dynamic> json) => Coin(
+      unit: json['unit'] as String? ?? "",
+    );
+
+Map<String, dynamic> _$CoinToJson(Coin instance) => <String, dynamic>{
+      'unit': instance.unit,
     };

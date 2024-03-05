@@ -183,64 +183,69 @@ class MyAsset extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColor.bgColor1,
-      child: Padding(
-        padding: EdgeInsets.only(top: 20.h, bottom: 14.h, left: 20.w, right: 30.w),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "我的資產",
-                  style: TextStyle(
-                    color: AppColor.textColor1,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Inter",
-                    fontSize: 16.sp,
+    return InkWell(
+      onTap: (){
+        BlocProvider.of<RoutesCubit>(context).changePage(Routes.myAsset);
+      },
+      child: Container(
+        color: AppColor.bgColor1,
+        child: Padding(
+          padding: EdgeInsets.only(top: 20.h, bottom: 14.h, left: 20.w, right: 30.w),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "我的資產",
+                    style: TextStyle(
+                      color: AppColor.textColor1,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Inter",
+                      fontSize: 16.sp,
+                    ),
                   ),
-                ),
-                addVerticalSpace(4.h),
-                BlocBuilder<UserCubit, UserState>(
-                  buildWhen: (previous, current) => previous.balance != current.balance,
-                  builder: (context, state) {
-                    return Text(
-                      "總資產",
-                      style: TextStyle(
-                        color: AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 14.sp,
-                      ),
-                    );
-                  },
-                ),
-                addVerticalSpace(6.h),
-                BlocBuilder<UserCubit, UserState>(
-                  buildWhen: (previous, current) => previous.balance != current.balance,
-                  builder: (context, state) {
-                    return Text(
-                      state.balance.toPrecisionString(),
-                      style: TextStyle(
-                        color: AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 14.sp,
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-            Image.asset(
-              "assets/images/img_home_asset.png",
-              fit: BoxFit.fill,
-              width: 110.w,
-              height: 100.h,
-            ),
-          ],
+                  addVerticalSpace(4.h),
+                  BlocBuilder<UserCubit, UserState>(
+                    buildWhen: (previous, current) => previous.balance != current.balance,
+                    builder: (context, state) {
+                      return Text(
+                        "總資產",
+                        style: TextStyle(
+                          color: AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    },
+                  ),
+                  addVerticalSpace(6.h),
+                  BlocBuilder<UserCubit, UserState>(
+                    buildWhen: (previous, current) => previous.balance != current.balance,
+                    builder: (context, state) {
+                      return Text(
+                        state.balance.toPrecisionString(),
+                        style: TextStyle(
+                          color: AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 14.sp,
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ),
+              Image.asset(
+                "assets/images/img_home_asset.png",
+                fit: BoxFit.fill,
+                width: 110.w,
+                height: 100.h,
+              ),
+            ],
+          ),
         ),
       ),
     );

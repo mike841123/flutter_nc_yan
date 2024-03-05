@@ -12,6 +12,7 @@ import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
 import '../design/page/money_management/money_management_provider.dart';
 import '../design/page/money_management_record/money_management_record_provider.dart';
+import '../design/page/my_assets/my_assets_provider.dart';
 import '../design/page/otc_list/otc_list_provider.dart';
 
 class Routes {
@@ -32,7 +33,8 @@ class Routes {
       advertiseAd = '/advertiseAd',
       helpCenter = '/helpCenter',
       details = '/details',
-      announcement = '/announcement';
+      announcement = '/announcement',
+      myAsset = '/myAsset';
 
   static List<String> roots = [
     Routes.login,
@@ -58,5 +60,6 @@ class Routes {
     Routes.helpCenter: (BuildContext context) => const HelpCenterProvider(),
     Routes.details: (BuildContext context) => const DetailsProvider(),
     Routes.announcement: (BuildContext context) => const AnnouncementProvider(),
+    Routes.myAsset: (BuildContext context) => const MyAssetProvider(),
   };
 }
