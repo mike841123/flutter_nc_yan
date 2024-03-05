@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:yan_demo_fcm/domain/response/list_result.dart';
-
 import '../api_response.dart';
 
 part 'announcement_response.g.dart';
@@ -30,16 +28,16 @@ class AnnouncementResult {
 @JsonSerializable()
 class Content {
   Content({
-    this.totalElements = 0,
     this.id = 0,
     this.title = "",
     this.content = "",
+    this.createTime = "",
   });
 
-  int totalElements;
   int id;
   String title;
   String content;
+  String createTime;
 
   factory Content.fromJson(Map<String, dynamic> json) => _$ContentFromJson(json);
 

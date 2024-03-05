@@ -103,7 +103,7 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
         child: Column(
           children: [
             Container(
-              height: 90.h,
+              height: 120.h,
               width: double.infinity,
               color: Colors.black,
               child: Row(
@@ -267,7 +267,6 @@ class _MarketPageState extends CurrentPageState<MarketPage> {
                 translations: kChartTranslations,
                 showNowPrice: _showNowPrice,
                 //`isChinese` is Deprecated, Use `translations` instead.
-                isChinese: isChinese,
                 hideGrid: _hideGrid,
                 isTapShowInfoDialog: false,
                 verticalTextAlignment: _verticalTextAlignment,

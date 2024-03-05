@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yan_demo_fcm/src/design/page/asset_flow/asset_flow_provider.dart';
+import 'package:yan_demo_fcm/src/design/page/help_center/help_center_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/my_advertisement/my_advertisement_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_details/otc_details_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_trade/otc_trade_provider.dart';
 import '../design/page/advertise_ad/advertise_ad_provider.dart';
+import '../design/page/announcement/announcement_provider.dart';
 import '../design/page/chat_content_page/chat_content_provider.dart';
+import '../design/page/details/details_provider.dart';
 import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
 import '../design/page/money_management/money_management_provider.dart';
@@ -26,7 +29,10 @@ class Routes {
       otcTrade = '/otcTrade',
       otcDetails = '/otcDetails',
       otcList = '/otcList',
-      advertiseAd = '/advertiseAd';
+      advertiseAd = '/advertiseAd',
+      helpCenter = '/helpCenter',
+      details = '/details',
+      announcement = '/announcement';
 
   static List<String> roots = [
     Routes.login,
@@ -49,5 +55,8 @@ class Routes {
     Routes.otcDetails: (BuildContext context) => const OtcDetailsProvider(),
     Routes.otcList: (BuildContext context) => const OtcListProvider(),
     Routes.advertiseAd: (BuildContext context) => const AdvertiseAdProvider(),
+    Routes.helpCenter: (BuildContext context) => const HelpCenterProvider(),
+    Routes.details: (BuildContext context) => const DetailsProvider(),
+    Routes.announcement: (BuildContext context) => const AnnouncementProvider(),
   };
 }

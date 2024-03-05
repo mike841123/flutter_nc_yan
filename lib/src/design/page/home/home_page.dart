@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
+import 'package:yan_demo_fcm/driven/util/custom_class.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
+import 'package:yan_demo_fcm/src/config/routes.dart';
+import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 import 'package:yan_demo_fcm/src/design/page/home/home_cubit.dart';
 
 import '../../../../domain/response/home_page_response/announcement_response.dart';
@@ -127,10 +130,10 @@ class Advisement extends StatelessWidget {
                             (item) {
                               return InkWell(
                                 onTap: () {
-                                  // BlocProvider.of<RoutesCubit>(context).changePage(
-                                  //   Routes.newsContent,
-                                  //   arguments: NewsContentArguments(NewsType.news, item.newsId!),
-                                  // );
+                                  BlocProvider.of<RoutesCubit>(context).changePage(
+                                    Routes.details,
+                                    arguments: DetailsArguments(id: item.id, type: DetailsType.announcement),
+                                  );
                                 },
                                 child: Text(
                                   item.title,
@@ -152,13 +155,18 @@ class Advisement extends StatelessWidget {
                   ),
                 ],
               ),
-              Text(
-                "更多",
-                style: TextStyle(
-                  color: AppColor.textColor2,
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Inter",
-                  fontSize: 14.sp,
+              InkWell(
+                onTap: (){
+                  BlocProvider.of<RoutesCubit>(context).changePage(Routes.announcement);
+                },
+                child: Text(
+                  "更多",
+                  style: TextStyle(
+                    color: AppColor.textColor2,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Inter",
+                    fontSize: 14.sp,
+                  ),
                 ),
               )
             ],
@@ -246,90 +254,100 @@ class HelpAndNewsArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          height: 100.h,
-          width: (MediaQuery.of(context).size.width) / 2 - 1.w,
-          color: AppColor.bgColor1,
-          child: Padding(
-            padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "幫助",
-                      style: TextStyle(
-                        color:  AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 16.sp,
+        InkWell(
+          onTap: (){
+            BlocProvider.of<RoutesCubit>(context).changePage(Routes.helpCenter);
+          },
+          child: Container(
+            height: 100.h,
+            width: (MediaQuery.of(context).size.width) / 2 - 1.w,
+            color: AppColor.bgColor1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "幫助",
+                        style: TextStyle(
+                          color:  AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 16.sp,
+                        ),
                       ),
-                    ),
-                    addVerticalSpace(10.h),
-                    Text(
-                      "問題/指南/資料",
-                      style: TextStyle(
-                        color:  AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 12.sp,
+                      addVerticalSpace(10.h),
+                      Text(
+                        "問題/指南/資料",
+                        style: TextStyle(
+                          color:  AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  "assets/images/img_home_help.png",
-                  fit: BoxFit.fill,
-                  width: 40.r,
-                  height: 40.r,
-                ),
-              ],
+                    ],
+                  ),
+                  Image.asset(
+                    "assets/images/img_home_help.png",
+                    fit: BoxFit.fill,
+                    width: 40.r,
+                    height: 40.r,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
         addHorizontalSpace(1.w),
-        Container(
-          height: 100.h,
-          width: (MediaQuery.of(context).size.width) / 2 - 1.w,
-          color: AppColor.bgColor1,
-          child: Padding(
-            padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "幫助",
-                      style: TextStyle(
-                        color:  AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 16.sp,
+        InkWell(
+          onTap: (){
+            BlocProvider.of<RoutesCubit>(context).changePage(Routes.announcement);
+          },
+          child: Container(
+            height: 100.h,
+            width: (MediaQuery.of(context).size.width) / 2 - 1.w,
+            color: AppColor.bgColor1,
+            child: Padding(
+              padding: EdgeInsets.only(top: 20.h, bottom: 10.h, left: 20.w, right: 30.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "公告",
+                        style: TextStyle(
+                          color:  AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 16.sp,
+                        ),
                       ),
-                    ),
-                    addVerticalSpace(10.h),
-                    Text(
-                      "問題/指南/資料",
-                      style: TextStyle(
-                        color:  AppColor.textColor1,
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Inter",
-                        fontSize: 12.sp,
+                      addVerticalSpace(10.h),
+                      Text(
+                        "新聞/活動/資訊",
+                        style: TextStyle(
+                          color:  AppColor.textColor1,
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Inter",
+                          fontSize: 12.sp,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Image.asset(
-                  "assets/images/img_home_help.png",
-                  fit: BoxFit.fill,
-                  width: 40.r,
-                  height: 40.r,
-                ),
-              ],
+                    ],
+                  ),
+                  Image.asset(
+                    "assets/images/img_home_help.png",
+                    fit: BoxFit.fill,
+                    width: 40.r,
+                    height: 40.r,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

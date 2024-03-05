@@ -79,6 +79,10 @@ dependencies:
   intl: ^0.18.1
   # switch btn
   toggle_switch: ^2.1.0
+  # html 轉 widget 擴充
+  flutter_widget_from_html_core: ^0.10.5
+  # html 編碼轉換 擴充
+  html_unescape: ^2.0.0
 
 
 dev_dependencies:

@@ -10,6 +10,9 @@ import 'package:yan_demo_fcm/domain/request/otc_page_request/otc_trade_request.d
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_details_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/details_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/help_response.dart';
 import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
@@ -285,6 +288,24 @@ class ApiService {
   Future<OtcOrderPayResponse> otcOrderPay(int orderSn) async {
     final HttpResponse<OtcOrderPayResponse> response = await OwApi(dio).otcOrderPay(AppConfig.token, orderSn)
       ..registerComplete();
+    return response.data;
+  }
+
+  Future<HelpResponse> getHelp(String lang) async {
+    final HttpResponse<HelpResponse> response = await OwApi(dio).getHelp(AppConfig.token, lang)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<DetailsResponse> getDetails(String lang, int id) async {
+    final HttpResponse<DetailsResponse> response = await OwApi(dio).getHelpDetails(AppConfig.token, lang, id)
+      ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<AnnouncementDetailsResponse> getAnnouncementMore(int id, String lang) async {
+    final HttpResponse<AnnouncementDetailsResponse> response = await OwApi(dio).getAnnouncementMore(AppConfig.token, id, lang)
+      ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 

@@ -27,3 +27,21 @@ class OtcTradeArguments {
     required this.unit,
   });
 }
+
+/// 消息詳情頁傳入參數類
+class DetailsArguments {
+  final DetailsType type;
+  final int id;
+
+  DetailsArguments({
+    required this.type,
+    required this.id,
+  });
+}
+
+enum DetailsType {
+  announcement,
+  help;
+
+  const DetailsType();
+}

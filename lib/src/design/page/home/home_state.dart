@@ -1,15 +1,15 @@
 part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
+  final AdvertiseResponse? advertiseResponse;
+  final AnnouncementResponse? announcementResponse;
+  final List<SymbolResponse> symbolList;
+
   const HomeState({
     this.advertiseResponse,
     this.announcementResponse,
     this.symbolList = const [],
   });
-
-  final AdvertiseResponse? advertiseResponse;
-  final AnnouncementResponse? announcementResponse;
-  final List<SymbolResponse> symbolList;
 
   HomeState copyWith({
     AdvertiseResponse? advertiseResponse,

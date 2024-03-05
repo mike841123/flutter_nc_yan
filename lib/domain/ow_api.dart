@@ -9,7 +9,10 @@ import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/withdraw_coin_response.dart';
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/advertise_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_details_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/details_response.dart';
+import 'package:yan_demo_fcm/domain/response/home_page_response/help_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/symbol_response.dart';
 import 'package:yan_demo_fcm/domain/response/login_page_response/login_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_response.dart';
@@ -66,6 +69,12 @@ abstract class OwApi {
   @POST("/uc/announcement/page")
   Future<HttpResponse<AnnouncementResponse>> getAnnouncement(
       @Header("X-Auth-Token") String token, @Part() int? pageNo, @Part() int? pageSize, @Part() String? lang,
+      {@CancelRequest() CancelToken? cancelToken});
+
+  /// 公告詳情
+  @POST("/uc/announcement/more")
+  Future<HttpResponse<AnnouncementDetailsResponse>> getAnnouncementMore(
+      @Header("X-Auth-Token") String token, @Part() int id, @Part() String lang,
       {@CancelRequest() CancelToken? cancelToken});
 
   /// 取得發佈廣告
@@ -139,10 +148,15 @@ abstract class OwApi {
       {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/order/cancel")
-  Future<HttpResponse<NormalResponse>> otcOrderCancel(@Header("X-Auth-Token") String token, @Part() int orderSn,
-      {@CancelRequest() CancelToken? cancelToken});
+  Future<HttpResponse<NormalResponse>> otcOrderCancel(@Header("X-Auth-Token") String token, @Part() int orderSn, {@CancelRequest() CancelToken? cancelToken});
 
   @POST("/otc/order/pay")
-  Future<HttpResponse<OtcOrderPayResponse>> otcOrderPay(@Header("X-Auth-Token") String token, @Part() int orderSn,
+  Future<HttpResponse<OtcOrderPayResponse>> otcOrderPay(@Header("X-Auth-Token") String token, @Part() int orderSn, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/uc/ancillary/more/help")
+  Future<HttpResponse<HelpResponse>> getHelp(@Header("X-Auth-Token") String token, @Part() String? lang, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/uc/ancillary/more/help/detail")
+  Future<HttpResponse<DetailsResponse>> getHelpDetails(@Header("X-Auth-Token") String token, @Part() String? lang, @Part() int id,
       {@CancelRequest() CancelToken? cancelToken});
 }
