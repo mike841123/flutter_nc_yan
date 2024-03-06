@@ -14,6 +14,7 @@ class DarkColor {
     AppColor.bgColor5 = const Color(0xffffffff);
     AppColor.bgColor6 = const Color(0xfff15057);
     AppColor.bgColor7 = const Color(0xffd9d9d9);
+    AppColor.bgColor8 = const Color(0xff00b676);
 
     AppColor.textColor1 = const Color(0xffffffff);
     AppColor.textColor2 = const Color(0xff00cfbe);

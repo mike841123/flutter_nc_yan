@@ -12,6 +12,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:yan_demo_fcm/src/config/app_color.dart';
 import 'package:yan_demo_fcm/src/config/app_config.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
+import 'package:yan_demo_fcm/src/design/model/market_cubit/market_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/socket_cubit/socket_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/timer_cubit/timer_cubit.dart';
@@ -82,6 +83,7 @@ class MyApp extends StatelessWidget {
                         BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
                         BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
                         BlocProvider<TimerCubit>(create: (BuildContext context) => TimerCubit()),
+                        BlocProvider<MarketCubit>(create: (BuildContext context) => MarketCubit()),
                         // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                       ],
                       child: GestureDetector(
@@ -89,7 +91,6 @@ class MyApp extends StatelessWidget {
                           hideKeyboard(context);
                         },
                         child: Scaffold(
-                          key: getIt<StateService>().scaffoldKey,
                           resizeToAvoidBottomInset: true,
                           backgroundColor: AppColor.bgColor4,
                           body: Stack(

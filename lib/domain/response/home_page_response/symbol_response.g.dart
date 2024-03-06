@@ -11,6 +11,7 @@ SymbolResponse _$SymbolResponseFromJson(Map<String, dynamic> json) =>
       symbol: json['symbol'] as String? ?? "",
       usdRate: (json['usdRate'] as num?)?.toDouble() ?? 0,
       chg: (json['chg'] as num?)?.toDouble() ?? 0,
+      volume: (json['volume'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$SymbolResponseToJson(SymbolResponse instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$SymbolResponseToJson(SymbolResponse instance) =>
       'symbol': instance.symbol,
       'usdRate': instance.usdRate,
       'chg': instance.chg,
+      'volume': instance.volume,
     };

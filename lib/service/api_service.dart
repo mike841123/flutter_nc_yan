@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/domain/request/money_management_record_page_request/invested_record_request.dart';
@@ -68,6 +69,14 @@ class ApiService {
     if (dio.interceptors.isNotEmpty) {
       dio.interceptors.clear();
     }
+    dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: false,
+        maxWidth: 200));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -331,6 +340,12 @@ class ApiService {
       request.code,
     )
       ..registerComplete();
+    return response.data;
+  }
+
+  Future<ApiResponse<double>> getUsdtCnyRate() async {
+    final HttpResponse<ApiResponse<double>> response = await OwApi(dio).getUsdtCnyRate(AppConfig.token)
+      ..registerComplete(showSuccessDialog: false);
     return response.data;
   }
 

@@ -169,4 +169,7 @@ abstract class OwApi {
   Future<HttpResponse<NormalResponse>> updatePassword(
       @Header("X-Auth-Token") String token, @Part() String oldPassword, @Part() String newPassword, @Part() String confirm_newPassword, @Part() String code,
       {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/market/exchange-rate/usd-cny")
+  Future<HttpResponse<ApiResponse<double>>> getUsdtCnyRate(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
 }

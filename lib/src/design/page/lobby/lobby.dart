@@ -56,6 +56,31 @@ class _LobbyPageState extends State<Lobby> {
               body: listBody[state.currentIndex].widget,
               backgroundColor: Colors.black,
               bottomNavigationBar: _bottomNavigationBar(),
+              drawer: Drawer(
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  children: <Widget>[
+                    const DrawerHeader(
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                      ),
+                      child: Text('抽屉菜单'),
+                    ),
+                    ListTile(
+                      title: Text('菜单项1'),
+                      onTap: () {
+                        // 处理菜单项1点击事件
+                      },
+                    ),
+                    ListTile(
+                      title: Text('菜单项2'),
+                      onTap: () {
+                        // 处理菜单项2点击事件
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         );
