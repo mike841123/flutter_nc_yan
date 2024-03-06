@@ -5,12 +5,14 @@ import 'package:yan_demo_fcm/src/design/page/my_advertisement/my_advertisement_p
 import 'package:yan_demo_fcm/src/design/page/otc_details/otc_details_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/otc_trade/otc_trade_provider.dart';
 import 'package:yan_demo_fcm/src/design/page/recharge/recharge_page.dart';
+import 'package:yan_demo_fcm/src/design/page/safe_setting/safe_setting_provider.dart';
 import '../design/page/advertise_ad/advertise_ad_provider.dart';
 import '../design/page/announcement/announcement_provider.dart';
 import '../design/page/chat_content_page/chat_content_provider.dart';
 import '../design/page/details/details_provider.dart';
 import '../design/page/lobby/lobby.dart';
 import '../design/page/login/login_provider.dart';
+import '../design/page/login_pwd/login_pwd_provider.dart';
 import '../design/page/money_management/money_management_provider.dart';
 import '../design/page/money_management_record/money_management_record_provider.dart';
 import '../design/page/my_assets/my_assets_provider.dart';
@@ -36,7 +38,9 @@ class Routes {
       details = '/details',
       announcement = '/announcement',
       myAsset = '/myAsset',
-      recharge = '/recharge';
+      recharge = '/recharge',
+      safeSetting = '/safeSetting',
+      loginPwd = '/loginPwd';
 
   static List<String> roots = [
     Routes.login,
@@ -64,5 +68,7 @@ class Routes {
     Routes.announcement: (BuildContext context) => const AnnouncementProvider(),
     Routes.myAsset: (BuildContext context) => const MyAssetProvider(),
     Routes.recharge: (BuildContext context) => const RechargePage(),
+    Routes.safeSetting: (BuildContext context) => const SafeSettingProvider(),
+    Routes.loginPwd: (BuildContext context) => const LoginPwdProvider(),
   };
 }

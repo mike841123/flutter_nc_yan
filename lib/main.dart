@@ -14,6 +14,7 @@ import 'package:yan_demo_fcm/src/config/app_config.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
 import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/socket_cubit/socket_cubit.dart';
+import 'package:yan_demo_fcm/src/design/model/timer_cubit/timer_cubit.dart';
 import 'package:yan_demo_fcm/src/design/model/user_cubit/user_cubit.dart';
 import 'package:yan_demo_fcm/src/design/page/home/home_page.dart';
 import 'package:yan_demo_fcm/src/design/page/login/login_page.dart';
@@ -80,6 +81,7 @@ class MyApp extends StatelessWidget {
                         BlocProvider<RoutesCubit>(create: (BuildContext context) => RoutesCubit(currentPage: Routes.home)),
                         BlocProvider<SocketCubit>(create: (BuildContext context) => SocketCubit()),
                         BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
+                        BlocProvider<TimerCubit>(create: (BuildContext context) => TimerCubit()),
                         // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                       ],
                       child: GestureDetector(

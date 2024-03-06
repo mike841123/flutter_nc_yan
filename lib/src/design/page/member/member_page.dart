@@ -34,7 +34,7 @@ class _MemberPageState extends CurrentPageState<MemberPage> {
                 if (AppConfig.token.isEmpty) {
                   BlocProvider.of<RoutesCubit>(context).changePage(Routes.login);
                 } else {
-                  print("進入個人中心");
+                  BlocProvider.of<RoutesCubit>(context).changePage(Routes.safeSetting);
                 }
               },
               child: Container(

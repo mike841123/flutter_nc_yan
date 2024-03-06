@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/public_response/asset_wallet_response.dart';
 
 import '../../../../domain/response/member_page_response/security_setting_response.dart';
+import '../../../../domain/response/public_response/upload_s3_image_response.dart';
 import '../../../../get_it_service_locator.dart';
 import '../../../../service/api_service.dart';
 
@@ -32,7 +35,23 @@ class UserCubit extends Cubit<UserState> {
 
   void updateUserData() async {
     SecuritySettingResponse response = await getIt<ApiService>().getUserInfo();
-    emit(state.copyWith(userData: response.data as SecuritySettingResult));
+    ApiResponse<String> uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.avatar ?? "");
+    emit(state.copyWith(
+      userData: response.data as SecuritySettingResult,
+      uploadImageResponse: uploadImageResponse,
+    ));
+  }
+
+  Future<String> uploadImg(File file) async {
+    UploadS3ImageResponse response = await getIt<ApiService>().uploadImg(
+      file,
+    );
+    ApiResponse<String> uploadImageResponse = await getIt<ApiService>().getUploadImg(response.data?.filename ?? "");
+    await getIt<ApiService>().changeAvatar(response.data?.filename ?? "");
+    emit(state.copyWith(
+      uploadImageResponse: uploadImageResponse,
+    ));
+    return uploadImageResponse.code == 0 ? uploadImageResponse.data ?? "" : "";
   }
 
   /// 獲取使用者資料

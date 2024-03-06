@@ -9,46 +9,23 @@ part 'timer_state.dart';
 class TimerCubit extends Cubit<TimerState> {
   TimerCubit() : super(const TimerState());
 
-  void forgetTradeCountDown() {
-    emit(state.copyWith(forgetTradeCount: state.forgetTradeCount - 1));
+  void changeLoginPwdSmsCountDown() {
+    emit(state.copyWith(changeLoginPwdSmsCount: state.changeLoginPwdSmsCount - 1));
   }
 
-  int getForgetTradeCount() {
-    return state.forgetTradeCount;
+  int getChangeLoginPwdSmsCount() {
+    return state.changeLoginPwdSmsCount;
   }
 
-  void setForgetTradeCount(int count) {
-    emit(state.copyWith(forgetTradeCount: count));
+  void setChangeLoginPwdSmsCount(int count) {
+    emit(state.copyWith(changeLoginPwdSmsCount: count));
   }
 
-  void forgetPasswordCountDown() {
-    emit(state.copyWith(forgetPasswordCount: state.forgetPasswordCount - 1));
-  }
-
-  int getForgetPasswordCount() {
-    return state.forgetPasswordCount;
-  }
-
-  void setForgetPasswordCount(int count) {
-    emit(state.copyWith(forgetPasswordCount: count));
-  }
-
-  // 倒數忘記交易密碼送出驗證碼
-  void forgetTradeCountTimer() {
+  // 倒數密碼送出驗證碼
+  void changeLoginPwdSmsCountTimer() {
     Timer.periodic(const Duration(seconds: 1), (timer) async {
-      if (state.forgetTradeCount >= 1) {
-        forgetTradeCountDown();
-      } else {
-        timer.cancel();
-      }
-    });
-  }
-
-  // 倒數忘記密碼送出驗證碼
-  void forgetPasswordCountTimer() {
-    Timer.periodic(const Duration(seconds: 1), (timer) async {
-      if (state.forgetPasswordCount >= 1) {
-        forgetPasswordCountDown();
+      if (state.changeLoginPwdSmsCount >= 1) {
+        changeLoginPwdSmsCountDown();
       } else {
         timer.cancel();
       }

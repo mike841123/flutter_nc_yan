@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,10 @@ class Input extends StatefulWidget {
     this.isCenter = false,
     this.hint = "",
     this.rowTitle = false,
+    this.isShowBorder = false,
+    this.isButton = false,
+    this.opBtnFunc,
+    this.countDown = 0,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -35,6 +41,10 @@ class Input extends StatefulWidget {
   final bool isCenter;
   final String hint;
   final bool rowTitle;
+  final bool isShowBorder;
+  final bool isButton;
+  final Function()? opBtnFunc;
+  final int countDown;
 
   @override
   State<Input> createState() => _InputState();
@@ -55,20 +65,13 @@ class _InputState extends State<Input> {
     return Container(
       height: 50.h,
       width: 390.w,
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: AppColor.bgColor5!,
-            width: 1.w,
-          ),
-        ),
-      ),
+      decoration: BoxDecoration(color: AppColor.bgColor1),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
         child: Row(
           children: [
             SizedBox(
-              width: 60.w,
+              width: 80.w,
               child: Text(
                 widget.title,
                 style: TextStyle(
@@ -76,11 +79,12 @@ class _InputState extends State<Input> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "HelveticaNeue",
                   fontStyle: FontStyle.normal,
-                  fontSize: 16.sp,
+                  fontSize: 15.sp,
                 ),
               ),
             ),
-            addHorizontalSpace(16.w),
+            addHorizontalSpace(8.w),
+
             /// 輸入匡
             Expanded(
               child: TextField(
@@ -94,35 +98,75 @@ class _InputState extends State<Input> {
                 cursorWidth: 1.w,
                 cursorColor: AppColor.textColor1,
                 readOnly: widget.readOnly,
-                style: TextStyle(fontSize: 14.sp, color: AppColor.textColor1),
+                style: TextStyle(fontSize: 15.sp, color: AppColor.textColor1),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  suffixIconConstraints: BoxConstraints(maxHeight: 18.h),
-                  suffixIcon: widget.obscureText //輸入框尾端圖示
-                      ? Container(
-                          margin: EdgeInsets.only(right: 10.w),
-                          child: InkWell(
-                              child: Image.asset(
-                                obscureText ? 'assets/images/img_eye_close.png' : 'assets/images/img_eye_open.png',
-                                width: 24.r,
-                                height: 24.r,
-                                fit: BoxFit.fill,
-                              ),
-                              onTap: () {
-                                setState(() {
-                                  obscureText = !obscureText;
-                                });
-                              }))
+                  suffixIconConstraints: BoxConstraints(maxHeight: 30.h),
+                  suffixIcon: widget.obscureText || widget.isButton //輸入框尾端圖示
+                      ? widget.obscureText
+                          ? _obscure()
+                          : widget.isButton
+                              ? _opButton()
+                              : null
                       : null,
                   isCollapsed: true,
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: widget.isShowBorder ? AppColor.bgColor3! : Colors.transparent, width: 1.w),
+                  ),
+
+                  /// 輸入匡預設 focus border
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: widget.isShowBorder ? AppColor.bgColor5! : Colors.transparent, width: 1.w),
+                  ),
                   contentPadding: EdgeInsets.only(top: 8.h, bottom: 8.h, left: 12.w, right: 12.w),
                   hintText: widget.hint,
                   hintStyle: TextStyle(
-                      color: AppColor.textColor5, fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 16.sp),
+                      color: AppColor.textColor5, fontWeight: FontWeight.w400, fontFamily: "HelveticaNeue", fontStyle: FontStyle.normal, fontSize: 15.sp),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _obscure() {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          obscureText = !obscureText;
+        });
+      },
+      child: Container(
+          margin: EdgeInsets.only(right: 10.w),
+          child: Image.asset(
+            obscureText ? 'assets/images/img_eye_close.png' : 'assets/images/img_eye_open.png',
+            width: 20.r,
+            height: 14.r,
+            fit: BoxFit.fill,
+          )),
+    );
+  }
+
+  Widget _opButton() {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: AppColor.bgColor2!),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      height: 30.h,
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
+      constraints: BoxConstraints(
+        maxWidth: 100.w,
+      ),
+      child: ElevatedButton(
+        style: transparentButtonStyle(),
+        onPressed: widget.countDown == 0 ? widget.opBtnFunc : null,
+        child: Text(
+          widget.countDown != 0 ? widget.countDown.toString() : "發送驗證碼",
+          style: TextStyle(color: AppColor.textColor2),
+          textAlign: TextAlign.center,
         ),
       ),
     );

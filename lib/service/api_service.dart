@@ -7,6 +7,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/domain/request/money_management_record_page_request/invested_record_request.dart';
 import 'package:yan_demo_fcm/domain/request/otc_page_request/otc_trade_request.dart';
+import 'package:yan_demo_fcm/domain/request/update_pwd_request/update_pwd_request.dart';
 import 'package:yan_demo_fcm/domain/response/api_response.dart';
 import 'package:yan_demo_fcm/domain/response/asset_flow_page_response/asset_flow_response.dart';
 import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_response.dart';
@@ -312,6 +313,24 @@ class ApiService {
   Future<AssetWalletResponse> getAssetsWallet() async {
     final HttpResponse<AssetWalletResponse> response = await OwApi(dio).getAssetsWallet(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<NormalResponse> getUpdatePwdCode() async {
+    final HttpResponse<NormalResponse> response = await OwApi(dio).getUpdatePwdCode(AppConfig.token)
+      ..registerComplete();
+    return response.data;
+  }
+
+  Future<NormalResponse> updatePassword(UpdatePwdRequest request) async {
+    final HttpResponse<NormalResponse> response = await OwApi(dio).updatePassword(
+      AppConfig.token,
+      request.oldPassword,
+      request.newPassword,
+      request.confirm_newPassword,
+      request.code,
+    )
+      ..registerComplete();
     return response.data;
   }
 

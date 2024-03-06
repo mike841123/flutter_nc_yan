@@ -2,26 +2,21 @@ part of 'timer_cubit.dart';
 
 class TimerState extends Equatable {
   const TimerState({
-    this.forgetTradeCount = 0, // 忘記交易密碼的倒數
-    this.forgetPasswordCount = 0, // 修改密碼的倒數
+    this.changeLoginPwdSmsCount = 0, // 修改密碼的驗證碼倒數
   });
 
-  final int forgetTradeCount;
-  final int forgetPasswordCount;
+  final int changeLoginPwdSmsCount;
 
   TimerState copyWith({
-    int? forgetTradeCount,
-    int? forgetPasswordCount,
+    int? changeLoginPwdSmsCount,
   }) {
     return TimerState(
-      forgetTradeCount: forgetTradeCount ?? this.forgetTradeCount,
-      forgetPasswordCount: forgetPasswordCount ?? this.forgetPasswordCount,
+      changeLoginPwdSmsCount: changeLoginPwdSmsCount ?? this.changeLoginPwdSmsCount,
     );
   }
 
   @override
   List<Object> get props => [
-        forgetTradeCount,
-        forgetPasswordCount,
+        changeLoginPwdSmsCount,
       ];
 }

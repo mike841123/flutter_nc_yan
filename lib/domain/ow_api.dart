@@ -161,4 +161,12 @@ abstract class OwApi {
 
   @POST("/uc/asset/wallet")
   Future<HttpResponse<AssetWalletResponse>> getAssetsWallet(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/uc/mobile/update/password/code")
+  Future<HttpResponse<NormalResponse>> getUpdatePwdCode(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/uc/approve/update/password")
+  Future<HttpResponse<NormalResponse>> updatePassword(
+      @Header("X-Auth-Token") String token, @Part() String oldPassword, @Part() String newPassword, @Part() String confirm_newPassword, @Part() String code,
+      {@CancelRequest() CancelToken? cancelToken});
 }
