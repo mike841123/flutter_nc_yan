@@ -83,6 +83,8 @@ dependencies:
   flutter_widget_from_html_core: ^0.10.5
   # html 編碼轉換 擴充
   html_unescape: ^2.0.0
+  # QR 封裝
+  qr_flutter: ^4.1.0
 
 
 dev_dependencies:

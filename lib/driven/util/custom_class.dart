@@ -45,3 +45,18 @@ enum DetailsType {
 
   const DetailsType();
 }
+
+/// 充幣頁傳入參數類
+class RechargeArguments {
+  final String unit;
+  final String qrImg;
+  final double minAmount;
+  final String address;
+
+  RechargeArguments({
+    required this.unit,
+    required this.qrImg,
+    required this.minAmount,
+    required this.address,
+  });
+}

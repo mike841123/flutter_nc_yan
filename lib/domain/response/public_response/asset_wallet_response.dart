@@ -22,6 +22,7 @@ class AssetWalletResult {
     this.frozenBalance = 0,
     this.toReleased = 0,
     this.coin,
+    this.address = "",
   });
 
   int id;
@@ -29,6 +30,7 @@ class AssetWalletResult {
   double frozenBalance;
   double toReleased;
   Coin? coin;
+  String address;
 
   factory AssetWalletResult.fromJson(Map<String, dynamic> json) => _$AssetWalletResultFromJson(json);
 
@@ -41,11 +43,15 @@ class Coin {
     this.unit = "",
     this.usdRate = 0,
     this.cnyRate = 0,
+    this.infolink = "",
+    this.minRechargeAmount = 0,
   });
 
   String unit;
   double cnyRate;
   double usdRate;
+  String infolink;
+  double minRechargeAmount;
 
   factory Coin.fromJson(Map<String, dynamic> json) => _$CoinFromJson(json);
 

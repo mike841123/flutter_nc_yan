@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:yan_demo_fcm/driven/util/custom_class.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/src/config/routes.dart';
 import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
@@ -151,12 +152,9 @@ class _MyAssetsPageState extends CurrentPageState<MyAssetsPage> {
                               builder: (_) {
                                 return SafeArea(
                                   child: Container(
-                                    decoration:  BoxDecoration(
+                                    decoration: BoxDecoration(
                                       color: AppColor.bgColor1,
-                                      borderRadius: const BorderRadius.only(
-                                        topLeft: Radius.circular(16),
-                                        topRight: Radius.circular(16)
-                                      ),
+                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
                                     ),
                                     width: double.infinity,
                                     child: Column(
@@ -167,7 +165,12 @@ class _MyAssetsPageState extends CurrentPageState<MyAssetsPage> {
                                             InkWell(
                                               onTap: () {
                                                 SmartDialog.dismiss();
-                                                BlocProvider.of<RoutesCubit>(context).changePage(Routes.recharge);
+                                                BlocProvider.of<RoutesCubit>(context).changePage(Routes.recharge,
+                                                    arguments: RechargeArguments(
+                                                        unit: assetList[index].coin?.unit ?? "",
+                                                        qrImg: assetList[index].coin?.infolink ?? "",
+                                                        minAmount: assetList[index].coin?.minRechargeAmount ?? 0,
+                                                        address: assetList[index].address ?? ""));
                                               },
                                               child: Container(
                                                 width: double.infinity,
