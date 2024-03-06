@@ -27,6 +27,13 @@ class _MyAssetsPageState extends CurrentPageState<MyAssetsPage> {
   TextEditingController nameController = TextEditingController();
   CheckController isCheck = CheckController();
 
+  /// 監聽返回
+  @override
+  void didPopNext() {
+    BlocProvider.of<MyAssetsCubit>(context).init(); // 返回刷新錢包
+    super.didPopNext();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MyAssetsCubit, MyAssetsState>(
