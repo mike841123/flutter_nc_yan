@@ -84,13 +84,13 @@ class MyApp extends StatelessWidget {
                         BlocProvider<UserCubit>(create: (BuildContext context) => UserCubit()),
                         BlocProvider<TimerCubit>(create: (BuildContext context) => TimerCubit()),
                         BlocProvider<MarketCubit>(create: (BuildContext context) => MarketCubit()),
-                        // BlocProvider<DialogCubit>(create: (BuildContext context) => DialogCubit()),
                       ],
                       child: GestureDetector(
                         onTap: () {
                           hideKeyboard(context);
                         },
                         child: Scaffold(
+                          key: getIt<StateService>().scaffoldKey,
                           resizeToAvoidBottomInset: true,
                           backgroundColor: AppColor.bgColor4,
                           body: Stack(

@@ -4,22 +4,43 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:yan_demo_fcm/driven/util/widget_util.dart';
-
-import '../../../../driven/service/state_service.dart';
-import '../../../../get_it_service_locator.dart';
+import 'package:yan_demo_fcm/src/design/page/transaction/component/drawer.dart';
 import '../../../config/app_color.dart';
+import '../../model/market_cubit/market_cubit.dart';
 import 'transaction_cubit.dart';
 import 'transaction_page.dart';
 
-class TransactionProvider extends StatelessWidget {
-  const TransactionProvider({super.key});
+class TransactionProvider extends StatefulWidget {
+  const TransactionProvider({Key? key}) : super(key: key);
+
+  @override
+  State<TransactionProvider> createState() => _TransactionProviderState();
+}
+
+class _TransactionProviderState extends State<TransactionProvider> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  List<String> tabs = ["自選", "USDT"];
+
+  @override
+  void initState() {
+    BlocProvider.of<MarketCubit>(context).getUsdtCnyRate();
+    BlocProvider.of<MarketCubit>(context).getMarketSymbolList();
+    _tabController = TabController(
+      length: tabs.length,
+      vsync: this,
+      initialIndex: 1,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> key = GlobalKey(); // drawer的key
     return BlocProvider(
       create: (_) => TransactionCubit(),
       child: Builder(builder: (context) {
         return Scaffold(
+          key: key,
           backgroundColor: AppColor.bgColor4,
           appBar: AppBar(
             backgroundColor: AppColor.bgColor1,
@@ -29,8 +50,8 @@ class TransactionProvider extends StatelessWidget {
               child: Row(
                 children: [
                   InkWell(
-                    onTap: (){
-                      getIt<StateService>().scaffoldState.openDrawer();
+                    onTap: () {
+                      key.currentState!.openDrawer(); // 這樣才能打開這頁的drawer
                     },
                     child: SvgPicture.asset(
                       "assets/images/img_drawer.svg",
@@ -48,31 +69,7 @@ class TransactionProvider extends StatelessWidget {
               ),
             ),
           ),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: <Widget>[
-                const DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Text('抽屉菜单'),
-                ),
-                ListTile(
-                  title: Text('菜单项1'),
-                  onTap: () {
-                    // 处理菜单项1点击事件
-                  },
-                ),
-                ListTile(
-                  title: Text('菜单项2'),
-                  onTap: () {
-                    // 处理菜单项2点击事件
-                  },
-                ),
-              ],
-            ),
-          ),
+          drawer: CustomDrawer(tabs: tabs,tabController: _tabController,),
           body: TransactionPage(),
         );
       }),

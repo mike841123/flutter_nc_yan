@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:yan_demo_fcm/domain/request/asset_flow_page_request/asset_flow_request.dart';
 import 'package:yan_demo_fcm/domain/request/money_management_record_page_request/invested_record_request.dart';
@@ -43,7 +42,6 @@ import '../driven/service/state_service.dart';
 import '../get_it_service_locator.dart';
 import '../src/config/app_config.dart';
 import '../src/design/model/routes_cubit/routes_cubit.dart';
-import 'package:dio/src/headers.dart' as dioheaders;
 
 /// Api 的服務
 /// 存放 Fetch Api 方法及 Api 相關函式
@@ -55,28 +53,16 @@ class ApiService {
 
   initDio() {
     // 請求設定
-    dio.options.contentType = dioheaders.Headers.jsonContentType;
     dio.options.connectTimeout = const Duration(seconds: 10);
     dio.options.baseUrl = "${AppConfig.scheme}://${AppConfig.domain}";
-    // if (AppConfig.isTestEnv) {
-    //   (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate = (client) {
-    //     client.badCertificateCallback = (cert, host, port) {
-    //       return true;
-    //     };
-    //     return null;
-    //   };
-    // }
-    if (dio.interceptors.isNotEmpty) {
-      dio.interceptors.clear();
-    }
-    dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: false,
-        maxWidth: 200));
+    // dio.interceptors.add(PrettyDioLogger(
+    //     requestHeader: true,
+    //     requestBody: true,
+    //     responseBody: true,
+    //     responseHeader: false,
+    //     error: true,
+    //     compact: false,
+    //     maxWidth: 200));
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -102,6 +88,7 @@ class ApiService {
         onResponse: (response, handler) {
           String apiPath = response.realUri.path.split("?").first;
           String currentView = BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).getCurrentPage();
+          print(currentView);
           AppConfig.apiStatusMap[apiPath]?.status = ApiStatus.hasResponse; // 更新api狀態
           // 返回時若不與請求同一個view則取消請求
           if (AppConfig.apiStatusMap[apiPath]?.view != currentView) {

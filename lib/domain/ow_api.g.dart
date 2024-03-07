@@ -12,7 +12,9 @@ class _OwApi implements OwApi {
   _OwApi(
     this._dio, {
     this.baseUrl,
-  });
+  }) {
+    baseUrl ??= 'https://java-front-qa.ncpro.io';
+  }
 
   final Dio _dio;
 
