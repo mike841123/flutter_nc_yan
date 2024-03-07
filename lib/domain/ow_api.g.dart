@@ -12,9 +12,7 @@ class _OwApi implements OwApi {
   _OwApi(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'https://java-front-qa.ncpro.io';
-  }
+  });
 
   final Dio _dio;
 
@@ -1457,6 +1455,45 @@ class _OwApi implements OwApi {
               baseUrl,
             ))));
     final value = ApiResponse<double>.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<DepthResponse>> getDepthData(
+    String token,
+    String symbol, {
+    CancelToken? cancelToken,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{r'X-Auth-Token': token};
+    _headers.removeWhere((k, v) => v == null);
+    final _data = FormData();
+    _data.fields.add(MapEntry(
+      'symbol',
+      symbol,
+    ));
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<DepthResponse>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/market/exchange-plate-mini',
+              queryParameters: queryParameters,
+              data: _data,
+              cancelToken: cancelToken,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = DepthResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

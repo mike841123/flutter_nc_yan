@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yan_demo_fcm/driven/abstract/current_page_state.dart';
 import 'package:yan_demo_fcm/driven/util/widget_util.dart';
 import 'package:yan_demo_fcm/src/config/app_color.dart';
+import 'package:yan_demo_fcm/src/design/model/market_cubit/market_cubit.dart';
+import 'package:yan_demo_fcm/src/design/page/transaction/component/depth_item.dart';
 
 import '../../component/border_input.dart';
 
@@ -20,12 +24,21 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
   double _currentSliderValue = 20;
 
   @override
+  void initState() {
+    BlocProvider.of<MarketCubit>(context).getDepthData("BTC/USDT");
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
-      child: Column(
-        children: [
-          Row(
+    print((MediaQuery.of(context).size.width));
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 6.w),
+          color: AppColor.bgColor1,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: 220.w,
@@ -42,9 +55,9 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
                             width: 110.w,
                             child: Center(
                                 child: Text(
-                              "買入",
-                              style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp),
-                            )),
+                                  "買入",
+                                  style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp),
+                                )),
                           ),
                         ),
                         ClipPath(
@@ -106,7 +119,6 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
                         max: 100,
                         label: _currentSliderValue.round().toString(),
                         onChanged: (double value) {
-                          print(value);
                           setState(() {
                             _currentSliderValue = value;
                           });
@@ -122,9 +134,7 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
                     Container(
                       width: 220.w,
                       height: 40.h,
-                      decoration: BoxDecoration(
-                        color: AppColor.bgColor8
-                      ),
+                      decoration: BoxDecoration(color: AppColor.bgColor8),
                       child: ElevatedButton(
                         style: transparentButtonStyle(textHeight: 0, borderRadius: 0),
                         onPressed: () {},
@@ -137,11 +147,38 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
                   ],
                 ),
               ),
-              Expanded(child: Container(color: Colors.red,height: 110,)),
+              addHorizontalSpace(6.h),
+              Expanded(
+                child: Column(
+                  children: [
+                    DefaultTextStyle(
+                      style: TextStyle(color: AppColor.textColor1),
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("價格\n(USDT)"),
+                          Text("數量\n(BTC)"),
+                        ],
+                      ),
+                    ),
+                    addVerticalSpace(4.h),
+                    BlocBuilder<MarketCubit, MarketState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            for(int i = 0; i < state.askList.length; i++)
+                              DepthItem(price: state.askList[i].price, count: state.askList[i].amount,isBuy: true,)
+                          ],
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

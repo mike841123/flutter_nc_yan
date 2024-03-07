@@ -15,6 +15,7 @@ import 'package:yan_demo_fcm/domain/response/home_page_response/details_response
 import 'package:yan_demo_fcm/domain/response/home_page_response/help_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/symbol_response.dart';
 import 'package:yan_demo_fcm/domain/response/login_page_response/login_response.dart';
+import 'package:yan_demo_fcm/domain/response/market_response/depth_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/promotion_response.dart';
 import 'package:yan_demo_fcm/domain/response/member_page_response/security_setting_response.dart';
 import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
@@ -172,4 +173,8 @@ abstract class OwApi {
 
   @POST("/market/exchange-rate/usd-cny")
   Future<HttpResponse<ApiResponse<double>>> getUsdtCnyRate(@Header("X-Auth-Token") String token, {@CancelRequest() CancelToken? cancelToken});
+
+  @POST("/market/exchange-plate-mini")
+  Future<HttpResponse<DepthResponse>> getDepthData(@Header("X-Auth-Token") String token, @Part() String symbol,
+      {@CancelRequest() CancelToken? cancelToken});
 }

@@ -17,6 +17,7 @@ import '../design/page/money_management/money_management_provider.dart';
 import '../design/page/money_management_record/money_management_record_provider.dart';
 import '../design/page/my_assets/my_assets_provider.dart';
 import '../design/page/otc_list/otc_list_provider.dart';
+import '../design/page/trade/trade_provider.dart';
 
 class Routes {
   static String home = '/home',
@@ -40,7 +41,8 @@ class Routes {
       myAsset = '/myAsset',
       recharge = '/recharge',
       safeSetting = '/safeSetting',
-      loginPwd = '/loginPwd';
+      loginPwd = '/loginPwd',
+      trade = '/trade';
 
   static List<String> roots = [
     Routes.login,
@@ -70,5 +72,6 @@ class Routes {
     Routes.recharge: (BuildContext context) => const RechargePage(),
     Routes.safeSetting: (BuildContext context) => const SafeSettingProvider(),
     Routes.loginPwd: (BuildContext context) => const LoginPwdProvider(),
+    Routes.trade: (BuildContext context) => const TradeProvider(),
   };
 }

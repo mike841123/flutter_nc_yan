@@ -47,7 +47,6 @@ class _SafeSettingPageState extends CurrentPageState<SafeSettingPage> {
           titleText: "實名認證",
           contentText: (userCubit.state.userData?.realVerified ?? 0) == 1 ? "修改" : "未設置",
           onTap: () {
-            print("haha");
           },
         ),
         addVerticalSpace(2.h),
@@ -55,7 +54,6 @@ class _SafeSettingPageState extends CurrentPageState<SafeSettingPage> {
           titleText: "手機",
           contentText: (userCubit.state.userData?.phoneVerified ?? 0) == 1 ? "已設置" : "未綁定",
           onTap: () {
-            print("haha");
           },
         ),
         addVerticalSpace(2.h),
@@ -71,7 +69,6 @@ class _SafeSettingPageState extends CurrentPageState<SafeSettingPage> {
           titleText: "資金密碼",
           contentText: (userCubit.state.userData?.fundsVerified ?? 0) == 1 ? "修改" : "未設置",
           onTap: () {
-            print("haha");
           },
         ),
       ],

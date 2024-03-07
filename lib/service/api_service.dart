@@ -14,6 +14,7 @@ import 'package:yan_demo_fcm/domain/response/chat_page_response/history_msg_resp
 import 'package:yan_demo_fcm/domain/response/home_page_response/announcement_details_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/details_response.dart';
 import 'package:yan_demo_fcm/domain/response/home_page_response/help_response.dart';
+import 'package:yan_demo_fcm/domain/response/market_response/depth_response.dart';
 import 'package:yan_demo_fcm/domain/response/money_management_response/invested_record_response.dart';
 import 'package:yan_demo_fcm/domain/response/my_advertisement_page_response/otc_advertise_response.dart';
 import 'package:yan_demo_fcm/domain/response/otc_page_response/otc_order_detail_response.dart';
@@ -88,7 +89,6 @@ class ApiService {
         onResponse: (response, handler) {
           String apiPath = response.realUri.path.split("?").first;
           String currentView = BlocProvider.of<RoutesCubit>(getIt<StateService>().scaffoldContext).getCurrentPage();
-          print(currentView);
           AppConfig.apiStatusMap[apiPath]?.status = ApiStatus.hasResponse; // 更新api狀態
           // 返回時若不與請求同一個view則取消請求
           if (AppConfig.apiStatusMap[apiPath]?.view != currentView) {
@@ -333,6 +333,11 @@ class ApiService {
   Future<ApiResponse<double>> getUsdtCnyRate() async {
     final HttpResponse<ApiResponse<double>> response = await OwApi(dio).getUsdtCnyRate(AppConfig.token)
       ..registerComplete(showSuccessDialog: false);
+    return response.data;
+  }
+
+  Future<DepthResponse> getDepthData(String symbol) async {
+    final HttpResponse<DepthResponse> response = await OwApi(dio).getDepthData(AppConfig.token, symbol);
     return response.data;
   }
 

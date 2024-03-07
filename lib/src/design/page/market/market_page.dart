@@ -7,8 +7,10 @@ import 'package:yan_demo_fcm/driven/abstract/current_page_state.dart';
 import 'package:yan_demo_fcm/driven/util/extension.dart';
 import 'package:yan_demo_fcm/driven/util/widget_util.dart';
 import 'package:yan_demo_fcm/src/design/model/market_cubit/market_cubit.dart';
+import 'package:yan_demo_fcm/src/design/model/routes_cubit/routes_cubit.dart';
 
 import '../../../config/app_color.dart';
+import '../../../config/routes.dart';
 
 class MarketPage extends StatefulWidget {
   const MarketPage({Key? key}) : super(key: key);
@@ -86,60 +88,65 @@ class _MarketPageState extends CurrentPageState<MarketPage> with SingleTickerPro
                     : ListView.separated(
                         itemCount: state.symbolList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 14.w),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.symbolList[index].symbol,
-                                        style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.h),
-                                      ),
-                                      addVerticalSpace(10.h),
-                                      Text(
-                                        "24H量${state.symbolList[index].volume.toPrecisionString()}",
-                                        style: TextStyle(color: AppColor.textColor3, fontSize: 14.sp, height: 1.h),
-                                      ),
-                                    ],
+                          return InkWell(
+                            onTap: () {
+                              BlocProvider.of<RoutesCubit>(context).changePage(Routes.trade);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 18.h, horizontal: 14.w),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          state.symbolList[index].symbol,
+                                          style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp, fontWeight: FontWeight.w600, height: 1.h),
+                                        ),
+                                        addVerticalSpace(10.h),
+                                        Text(
+                                          "24H量${state.symbolList[index].volume.toPrecisionString()}",
+                                          style: TextStyle(color: AppColor.textColor3, fontSize: 14.sp, height: 1.h),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        state.symbolList[index].usdRate.toPrecisionString(),
-                                        style: TextStyle(color: AppColor.textColor6, fontSize: 14.sp, height: 1.h),
-                                      ),
-                                      addVerticalSpace(10.h),
-                                      Text(
-                                        "≈${(state.symbolList[index].usdRate.d() * state.usdtCnyRate.d()).toPrecisionString()}",
-                                        style: TextStyle(color: AppColor.textColor3, fontSize: 14.sp, height: 1.h),
-                                      ),
-                                    ],
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          state.symbolList[index].usdRate.toPrecisionString(),
+                                          style: TextStyle(color: AppColor.textColor6, fontSize: 14.sp, height: 1.h),
+                                        ),
+                                        addVerticalSpace(10.h),
+                                        Text(
+                                          "≈${(state.symbolList[index].usdRate.d() * state.usdtCnyRate.d()).toPrecisionString()}",
+                                          style: TextStyle(color: AppColor.textColor3, fontSize: 14.sp, height: 1.h),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  height: 24.h,
-                                  width: 60.w,
-                                  decoration: BoxDecoration(
-                                      borderRadius: const BorderRadius.all(Radius.circular(4)),
-                                      color: state.symbolList[index].chg < 0 ? AppColor.bgColor6 : AppColor.bgColor8),
-                                  child: Text(
-                                    "${(state.symbolList[index].chg.d() * 100.d()).toPrecisionString()}%",
-                                    style: TextStyle(color: AppColor.textColor1),
-                                    textAlign: TextAlign.center,
+                                  Container(
+                                    height: 24.h,
+                                    width: 60.w,
+                                    decoration: BoxDecoration(
+                                        borderRadius: const BorderRadius.all(Radius.circular(4)),
+                                        color: state.symbolList[index].chg < 0 ? AppColor.bgColor6 : AppColor.bgColor8),
+                                    child: Text(
+                                      "${(state.symbolList[index].chg.d() * 100.d()).toPrecisionString()}%",
+                                      style: TextStyle(color: AppColor.textColor1),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           );
                         },

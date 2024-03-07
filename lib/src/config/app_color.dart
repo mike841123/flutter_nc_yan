@@ -30,6 +30,8 @@ class AppColor {
   static Color? bgColor6;
   static Color? bgColor7;
   static Color? bgColor8;
+  static Color? bgColor9;
+  static Color? bgColor10;
   static Color? textColor1;
   static Color? textColor2;
   static Color? textColor3;
