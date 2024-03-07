@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yan_demo_fcm/driven/abstract/current_page_state.dart';
@@ -14,8 +15,9 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends CurrentPageState<TransactionPage> {
-  TextEditingController sellPrice = TextEditingController();
-  TextEditingController buyPrice = TextEditingController();
+  TextEditingController price = TextEditingController();
+  TextEditingController count = TextEditingController();
+  double _currentSliderValue = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -23,42 +25,121 @@ class _TransactionPageState extends CurrentPageState<TransactionPage> {
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
       child: Column(
         children: [
-          SizedBox(
-            width: 220.w,
-            child: Column(
-              children: [
-                Row(
+          Row(
+            children: [
+              SizedBox(
+                width: 220.w,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipPath(
-                      clipper: ParallelogramClipper(),
-                      child: Container(
-                        color: AppColor.bgColor2,
-                        height: 40.h,
-                        width: 110.w,
-                        child: Center(
-                            child: Text(
-                          "買入",
-                          style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp),
-                        )),
+                    Row(
+                      children: [
+                        ClipPath(
+                          clipper: ParallelogramClipper(),
+                          child: Container(
+                            color: AppColor.bgColor2,
+                            height: 40.h,
+                            width: 110.w,
+                            child: Center(
+                                child: Text(
+                              "買入",
+                              style: TextStyle(color: AppColor.textColor1, fontSize: 16.sp),
+                            )),
+                          ),
+                        ),
+                        ClipPath(
+                          clipper: ParallelogramClipper2(),
+                          child: Container(
+                            color: Colors.blue,
+                            height: 40.h,
+                            width: 110.w,
+                          ),
+                        ),
+                      ],
+                    ),
+                    addVerticalSpace(20.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BorderInput(
+                          price,
+                          suffixText: "USDT",
+                          hint: "請輸入價格",
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.h),
+                          child: Text(
+                            "0.00CNY",
+                            style: TextStyle(color: AppColor.textColor1, fontSize: 12.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    addVerticalSpace(14.h),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        BorderInput(
+                          count,
+                          suffixText: "BTC",
+                          hint: "數量",
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 8.h),
+                          child: Text(
+                            "可用：0.00CNY",
+                            style: TextStyle(color: AppColor.textColor1, fontSize: 12.sp),
+                          ),
+                        ),
+                      ],
+                    ),
+                    addVerticalSpace(14.h),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                        activeTrackColor: AppColor.bgColor8,
+                        inactiveTrackColor: AppColor.bgColor3,
+                        thumbColor: AppColor.bgColor8,
+                        overlayShape: SliderComponentShape.noOverlay,
+                      ),
+                      child: Slider(
+                        value: _currentSliderValue,
+                        max: 100,
+                        label: _currentSliderValue.round().toString(),
+                        onChanged: (double value) {
+                          print(value);
+                          setState(() {
+                            _currentSliderValue = value;
+                          });
+                        },
                       ),
                     ),
-                    ClipPath(
-                      clipper: ParallelogramClipper2(),
-                      child: Container(
-                        color: Colors.blue,
-                        height: 40.h,
-                        width: 110.w,
-                      ),
+                    addVerticalSpace(14.h),
+                    Text(
+                      "交易額：0.00CNY",
+                      style: TextStyle(color: AppColor.textColor1, fontSize: 12.sp),
                     ),
-
-
+                    addVerticalSpace(8.h),
+                    Container(
+                      width: 220.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        color: AppColor.bgColor8
+                      ),
+                      child: ElevatedButton(
+                        style: transparentButtonStyle(textHeight: 0, borderRadius: 0),
+                        onPressed: () {},
+                        child: Text(
+                          "買入(BTC)",
+                          style: TextStyle(color: AppColor.textColor1),
+                        ),
+                      ),
+                    )
                   ],
                 ),
-                addVerticalSpace(20.h),
-                BorderInput(buyPrice,),
-              ],
-            ),
-          )
+              ),
+              Expanded(child: Container(color: Colors.red,height: 110,)),
+            ],
+          ),
         ],
       ),
     );
